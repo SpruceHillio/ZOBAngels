@@ -6,13 +6,13 @@ This software is licensed under the MIT License. See LICENSE file for more detai
 
 ## Getting started
 
-You will need a *Facebook App* (https://developers.facebook.com)
+You will need a __Facebook App__ (https://developers.facebook.com)
 
-You will need a Parse App (https://parse.com)
+You will need a __Parse App__ (https://parse.com)
 
-You will need a key with the *Google Developer Console* (https://console.developers.google.com/flows/enableapi?apiid=maps_backend&keyType=CLIENT_SIDE&reusekey=true)
+You will need a key with the __Google Developer Console__ (https://console.developers.google.com/flows/enableapi?apiid=maps_backend&keyType=CLIENT_SIDE&reusekey=true)
 
-If you want to use AWS S3 for hosting, you will also need an account with *Amazon AWS* (https://aws.amazon.com)
+If you want to use AWS S3 for hosting, you will also need an account with __Amazon AWS__ (https://aws.amazon.com)
 
 Clone the project with `git clone https://github.com/SpruceHillio/ZOBAngels.git`
 
@@ -53,7 +53,7 @@ Create a `deploy-keys.json` file with the following content (if you want to use 
 }
 ```
 
-Create a Parse config value for `zobangels_type_angels` of type *Array* and add the Facebook IDs of all users that should see the special *angel* section of each day.
+Create a Parse config value for `zobangels_type_angels` of type __Array__ and add the Facebook IDs of all users that should see the special *angel* section of each day.
 
 Run `npm install` and `bower install`.
 
