@@ -1,0 +1,53 @@
+body {
+    padding-top: 70px;
+}
+
+img.button.enabled {
+    cursor: pointer;
+}
+
+img.button.disabled {
+    cursor: not-allowed;
+}
+
+div.row div.slot {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.panel-body {
+    padding-bottom: 0;
+}
+
+.navbar-inverse {
+    background-color: #94c11f;
+    border-color: #94c11f;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #ffffff;
+}
+
+.btn.btn-default.paging {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+div.row div.slot span.feedback {
+    position: absolute;
+    margin-left: -21px;
+    margin-top: -21px;
+    left: 50%;
+    top: 50%;
+    color: #363636;
+}
+
+div.row div.slot img.feedback {
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+}
+
+#map {
+    width: 100%;
+    min-height: 300px;
+}

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ZOB Angels</title>
+    <meta name="title" content="META_TITLE" />
+    <meta name="description" content="META_DESCRIPTION" />
+
+    <meta property="og:title" content="META_TITLE" />
+    <meta property="og:image" content="HOSTING_BASEassets/images/zobangels_share.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="ZOB Angels" />
+    <meta property="og:description" content="META_DESCRIPTION" />
+    <meta property="og:url" content="HOSTING_BASEindex.html" />
+    <meta property="fb:app_id" content="957477187659810" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@AngelsZob">
+    <meta name="twitter:title" content="META_TITLE">
+    <meta name="twitter:description" content="META_DESCRIPTION">
+    <meta name="twitter:image" content="HOSTING_BASEassets/images/zobangels_share.png">
+
+    <meta itemprop="name" content="META_TITLE">
+    <meta itemprop="description" content="META_DESCRIPTION">
+    <meta itemprop="image" content="HOSTING_BASEassets/images/zobangels_share.png">
+
+    <link rel="stylesheet" href="assets/css/app.css" />
+</head>
+<body ng-controller="ZOBAngels.controllers.Controller">
+<nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="ZOBAngels.controllers.Navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">ZOB Angels</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-click="logout()"><img class="img-rounded" style="max-height: 30px; margin-top: 10px;" ng-src="{{image()}}" title="{{name()}}" /></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<div class="container" ng-show="!loggedIn() && canLogin()" style="display: none;">
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
+            <div class="form-group">
+                <p class="text-center">Du kannst Dich einfach</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
+            <div class="btn btn-primary btn-block" ng-click="login()" ng-disabled="!canLogin()">Mit Facebook anmelden</div>
+        </div>
+    </div>
+    <div ng-if="nofb">
+        <div class="row">
+            <br />
+            <br />
+            <br />
+            <div class="col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
+                <div class="form-group">
+                    <p class="text-center">Oder hier</p>
+                </div>
+            </div>
+            <br />
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
+                <div class="form-group">
+                    <input class="form-control" type="text" ng-model="user.name" placeholder="Dein Name" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
+                <div class="form-group">
+                    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default" ng-model="user.gender" uib-btn-radio="'female'"><i class="fa fa-female"></i></button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default" ng-model="user.gender" uib-btn-radio="'male'"><i class="fa fa-male"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
+                <div class="btn btn-default btn-block" ng-click="loginWithoutFacebook()" ng-disabled="!canLoginWithoutFacebook()">Anmelden</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" ng-show="loggedIn()" style="display: none;">
+    <div class="row" ng-show="whereWeAre">
+        <div class="col-lg-6 col-lg-offset-3 col-xs-10 col-xs-offset-1">
+            <div id="map"></div>
+        </div>
+    </div>
+    <div class="row" ng-show="!whereWeAre">
+        <div class="col-lg-4 col-lg-offset-4 col-xs-12">
+            <div class="row">
+                <div class="col-lg-12 col-xs-12">
+                    <div class="alert alert-info alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>So funktioniert's: </strong>Klicke ein leeres Icon an, daraufhin erscheint dort Dein Bild mit einem Haken drüber - das war's auch schon und Deine Anmeldung ist gespeichert. Du kannst dann das Fenster also einfach wieder schließen.
+                        <br /><br />
+                        Wir freuen uns auf Dich.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 col-xs-3">
+                    <div class="btn btn-default paging" ng-disabled="0 >= currentDay" ng-click="previousDay()" ng-show="0 < currentDay">
+                        <i class="fa fa-chevron-left"></i>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-xs-6">
+                    <h3 class="text-center" ng-bind="days[currentDay].date">Today</h3>
+                </div>
+                <div class="col-lg-2 col-xs-3">
+                    <div class="btn btn-default paging pull-right" ng-disabled="1 >= days.length - currentDay" ng-click="nextDay()" ng-show="1 < days.length - currentDay">
+                        <i class="fa fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+            <div ng-repeat="section in days[currentDay].sections">
+                <div class="panel panel-default">
+                    <div class="panel-heading" ng-bind="section.title">
+                        Header
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-3 col-xs-4 slot" ng-repeat="slot in section.slots">
+                                <img class="img img-responsive img-rounded button" title="{{slot.name()}}" ng-src="{{slot.image()}}"  ng-show="slot.taken() && !slot.mine()" uib-popover-html="popoverContent(slot)" popover-title="{{slot.popoverTitle()}}" />
+                                <img class="img img-responsive img-rounded button" ng-class="{'feedback': slot.feedback, 'disabled': !disabled(slot,section), 'enabled': disabled(slot,section)}" ng-src="{{slot.image()}}" ng-show="slot.taken() && slot.mine()" ng-click="release(section,slot)" />
+                                <img class="img img-responsive img-rounded button" ng-class="{'disabled': disabled(slot,section), 'enabled': !disabled(slot,section)}" src="HOSTING_BASEassets/images/default.png" ng-show="!slot.taken()" ng-click="take(section,slot)" ng-disabled="disabled(slot,section)" />
+                                <span class="feedback" ng-show="slot.feedback"><i class="fa fa-check fa-3x"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <span class="small" ng-bind="section.description">Footer</span>
+                    </div>
+                </div>
+                <div class="alert alert-success" role="alert" ng-show="section.feedback">Vielen Dank dass Du in dieser Schicht dabei bist - ist auch schon alles gespeichert.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_APPLICATION_KEY&callback=initMap"></script>
+<script type="text/javascript" src="assets/js/app.js"></script>
+<script type="text/javascript">
+    function initMap() {
+        // Create a map object and specify the DOM element for display.
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: -34.397, lng: 150.644},
+            scrollwheel: false,
+            zoom: 8
+        });
+    }
+    (function(doc, script) {
+        var js,
+                fjs = doc.getElementsByTagName(script)[0],
+                add = function(url, id) {
+                    if (doc.getElementById(id)) {return;}
+                    js = doc.createElement(script);
+                    js.src = url;
+                    id && (js.id = id);
+                    fjs.parentNode.insertBefore(js, fjs);
+                };
+        add('//connect.facebook.net/en_US/all.js', 'facebook-jssdk');
+    }(document, 'script'));
+    var fbDeferred = $.Deferred();
+    window.fbPromise = fbDeferred.promise();
+    window.fbAsyncInit = function() {
+        fbDeferred.resolve();
+    };
+    moment.locale(window.navigator.userLanguage || window.navigator.language);
+
+    angular.element(document).ready(function() {
+        $('.container').css('display','block');
+        angular.bootstrap(document, ['ZOBAngels']);
+    });
+</script>
+</body>
+</html>

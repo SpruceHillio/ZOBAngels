@@ -1,0 +1,8 @@
+.parse.local
+.parse.project
+deploy-keys.json
+config.json
+libs
+dist
+node_modules
+.idea
