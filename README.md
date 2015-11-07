@@ -41,7 +41,8 @@ Create a `config.json` file on the project root with the following content:
       "bucket" : "AWS_S3_BUCKET"
     }
   }
-}```
+}
+```
  
 Create a `deploy-keys.json` file with the following content (if you want to use AWS S3):
 ```
@@ -53,5 +54,7 @@ Create a `deploy-keys.json` file with the following content (if you want to use 
 ```
 
 Create a Parse config value for `zobangels_type_angels` of type *Array* and add the Facebook IDs of all users that should see the special *angel* section of each day.
+
+Run `npm install` and `bower install`.
 
 And that's it - you're good to go.
