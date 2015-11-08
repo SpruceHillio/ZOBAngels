@@ -33,6 +33,12 @@ module.exports = function(grunt) {
             dest: 'tmp/'
           },
           {
+            expand: true,
+            cwd: 'app',
+            src: 'templates/*.html',
+            dest: 'tmp/'
+          },
+          {
             src: 'index.html',
             dest: 'dist/'
           }
@@ -73,6 +79,14 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      'checklist-model': {
+        files: {
+          'tmp/checklist-model.min.js': [ 'libs/checklist-model/checklist-model.js' ]
+        },
+        options: {
+          mangle: false
+        }
+      },
       'parse-angular': {
         files: {
           'tmp/parse-angular.min.js': [ 'libs/parse-angular-patch/src/parse-angular.js' ]
@@ -92,8 +106,11 @@ module.exports = function(grunt) {
     },
 
     html2js: {
+      options: {
+        base: 'tmp'
+      },
       dist: {
-        src: [ 'app/templates/*.html' ],
+        src: [ 'tmp/templates/*.html' ],
         dest: 'tmp/templates.js'
       }
     },
@@ -160,12 +177,16 @@ module.exports = function(grunt) {
           'libs/lodash/lodash.min.js',
           'libs/angular/angular.min.js','' +
           'libs/angular-bootstrap/ui-bootstrap-tpls.min.js',
+          'libs/ngmap/build/scripts/ng-map.min.js',
+          'libs/angular-ui-router/release/angular-ui-router.min.js',
+          'libs/angular-ui-router/release/angular-ui-router.min.js',
+          'tmp/checklist-model.min.js',
           'libs/parse/parse.min.js',
           'tmp/parse-angular.min.js',
           'libs/bootstrap/dist/js/bootstrap.min.js',
           'libs/moment/min/moment-with-locales.min.js',
-          'tmp/app.js',
-          'tmp/templates.js' ],
+          'tmp/templates.js',
+          'tmp/app.js' ],
         dest: 'dist/assets/js/app.js'
       }
     },
@@ -185,15 +206,15 @@ module.exports = function(grunt) {
 
     watch: {
       dev: {
-        files: [ 'config.json', 'Gruntfile.js', 'app/*.js', '*.html' ],
-        tasks: [ 'jshint', 'uglify:parse-angular', 'string-replace:dist', 'html2js:dist', 'concat:css', 'concat:app', 'concat:dist', 'copy:dist', 'clean:temp' ],
+        files: [ 'config.json', 'Gruntfile.js', 'app/*.js', '*.html', 'app/templates/*.html', 'assets/css/*.css' ],
+        tasks: [ 'jshint', 'uglify:checklist-model', 'uglify:parse-angular', 'string-replace:dist', 'html2js:dist', 'concat:css', 'concat:app', 'concat:dist', 'copy:dist', 'clean:temp' ],
         options: {
           atBegin: true
         }
       },
       min: {
         files: [ 'config.json', 'Gruntfile.js', 'app/*.js', '*.html' ],
-        tasks: [ 'jshint', 'uglify:parse-angular', 'string-replace:dist', 'html2js:dist', 'concat:css', 'concat:app', 'uglify:dist', 'concat:dist', 'copy:dist', 'clean:temp' ],
+        tasks: [ 'jshint', 'uglify:checklist-model', 'uglify:parse-angular', 'string-replace:dist', 'html2js:dist', 'concat:css', 'concat:app', 'uglify:dist', 'concat:dist', 'copy:dist', 'clean:temp' ],
         options: {
           atBegin: true
         }
@@ -241,12 +262,12 @@ module.exports = function(grunt) {
 
   // Run the dev server
   grunt.registerTask('dev', [
-    'bower',
+    //'bower', // We're not running bower at the moment as we patched the parse-angular library
     'connect:server',
     'watch:dev' ]);
   // Run the dev server with minified own JavaScript
   grunt.registerTask('minified', [
-    'bower',
+    //'bower', // We're not running bower at the moment as we patched the parse-angular library
     'connect:server',
     'watch:min' ]);
   // Build the distribution
@@ -254,6 +275,7 @@ module.exports = function(grunt) {
     //'bower', // We're not running bower at the moment as we patched the parse-angular library
     'jshint',
     'clean:dist',
+    'uglify:checklist-model',
     'uglify:parse-angular',
     'string-replace:dist',
     'html2js:dist',

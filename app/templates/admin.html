@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col-lg-8">
+        Source: {{selection.source.getName()}}
+        <br />
+        Users: <span ng-repeat="user in selection.targetUsers" ng-bind="user.get('name')"></span>
+        <br />
+        Roles: <span ng-repeat="role in selection.targetRoles" ng-bind="role.getName()"></span>
+        <br />
+    </div>
+    <div class="col-lg-4">
+        <button class="btn btn-primary" ng-disabled="!selection.source || (0 === selection.targetUsers.length && 0 === selection.targetRoles.length && 0 === selection.removeUsers.length && 0 === selection.removeRoles.length)" ng-click="update()">Ändern</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4">
+        <div class="radio" ng-repeat="roleContainer in roles">
+            <label>
+                <input type="radio" ng-model="selection.source" ng-value="roleContainer"> {{roleContainer.role.getName()}}
+            </label>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="checkbox" ng-repeat="user in users">
+            <label>
+                <input type="checkbox" checklist-model="selection.targetUsers" checklist-value="user" ng-show="!alreadyMemberUser(user)" ng-disabled="alreadyMemberUser(user)"><i class="fa fa-check" ng-show="alreadyMemberUser(user) && !toRemoveUser(user)" ng-click="removeMemberUser(user)"></i><i class="fa fa-minus" ng-show="alreadyMemberUser(user) && toRemoveUser(user)" ng-click="notRemoveMemberUser(user)"></i> {{user.get('name')}}
+            </label>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="checkbox" ng-repeat="roleContainer in roles">
+            <label>
+                <input type="checkbox" checklist-model="selection.targetRoles" checklist-value="roleContainer.role" ng-show="!alreadyMemberRole(roleContainer.role)" ng-disabled="alreadyMemberRole(roleContainer.role)"><i class="fa fa-check" ng-show="alreadyMemberRole(roleContainer.role) && !toRemoveRole(roleContainer.role)" ng-click="removeMemberRole(roleContainer.role)"></i><i class="fa fa-minus" ng-show="alreadyMemberRole(roleContainer.role) && toRemoveRole(roleContainer.role)" ng-click="notRemoveMemberRole(roleContainer.role)"></i> {{roleContainer.role.getName()}}
+            </label>
+        </div>
+    </div>
+</div>

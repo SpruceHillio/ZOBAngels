@@ -1,0 +1,36 @@
+<div class="row" ng-show="post.show">
+    <div class="col-lg-6 col-lg-offset-3 col-xs-10 col-xs-offset-1">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Der aktuelle Spendenaufruf</strong>
+            </div>
+            <div class="panel-body" ng-bind-html="post.message"></div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-lg-offset-3 col-xs-10 col-xs-offset-1">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Die ZOB Angels</strong>
+            </div>
+            <div class="panel-body">
+                <p>Wir sind direkt am ZOB und haben drei Container die unter der Hackerbrücke stehen. Wenn Du mit der SBahn kommst, bei der Haltestelle Hackerbrücke aussteigen, Richtung ZOB laufen, die kleine Brücke zum ZOB Gebäude nehmen und bevor Du in den ZOB hineingehst rechts abbiegen und dort die Treppe rechts nach unten. Dann siehst du uns auch schon vor Dir.</p>
+                <div class="map" map-lazy-load="https://maps.googleapis.com/maps/api/js?key=GOOGLE_APPLICATION_KEY&callback=initMap">
+                    <map center="48.142496, 11.548538" zoom="17">
+                        <marker position="[48.142496, 11.548538]" title="ZOB Angels Container"></marker>
+                    </map>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div class="row">-->
+    <!--<div class="col-lg-6 col-lg-offset-3 col-xs-10 col-xs-offset-1">-->
+        <!--<div map-lazy-load="https://maps.googleapis.com/maps/api/js?key=GOOGLE_APPLICATION_KEY&callback=initMap">-->
+            <!--<map center="48.142496, 11.548538" zoom="17">-->
+                <!--<marker position="[48.142496, 11.548538]" title="ZOB Angels Container"></marker>-->
+            <!--</map>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->

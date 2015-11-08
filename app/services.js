@@ -15,26 +15,143 @@
             }
         };
 
+    services.factory('ZOBAngels.services.NavigationService',[
+        '$q',
+        'ZOBAngels.services.AccountService',
+        '$log',
+        function($q,AccountService,$log) {
+
+            var NavigationService = {
+
+                PAGE: {
+                    LOADING: 'loading',
+                    LOGIN: 'login',
+                    HOME: 'home',
+                    ABOUT: 'about',
+                    FAQ: 'faq',
+                    ADMIN: 'admin'
+                },
+
+                _page: null,
+
+                page: function(page) {
+                    if (page) {
+                        this._page = page;
+                    }
+                    if (!this._page) {
+                        return NavigationService.PAGE.HOME;
+                    }
+                    else {
+                        return this._page;
+                    }
+                }
+            };
+
+            return NavigationService;
+        }
+    ]);
+
     services.factory('ZOBAngels.services.AccountService',[
         '$rootScope',
+        '$location',
         '$q',
         '$log',
-        function($rootScope,$q,$log) {
+        function($rootScope,$location,$q,$log) {
 
             var AccountService = {
                 _fbReady: false,
 
                 _user: null,
+                _userContainer: null,
+                _rolesById: {},
+
+                _setUser: function(user) {
+                    var defer = $q.defer(),
+                        self = this,
+                        current,
+                        i,
+                        len,
+                        resolveRolesForRole = function(role) {
+                            return new Parse.Query(Parse.Role).equalTo('roles',role).find().then(function(roles) {
+                                return Parse.Promise.as({
+                                    role: role,
+                                    roleName: role.getName(),
+                                    roles: roles,
+                                    allRoles: []
+                                });
+                            });
+                        },
+                        collectRoles = function(roleContainer) {
+                            if (0 === roleContainer.roles.length) {
+                                return [roleContainer.role];
+                            }
+                            else {
+                                return roleContainer.roles.map(function(role) {
+                                    return collectRoles(self._rolesById[role.id]);
+                                }).reduce(function(a,b) {
+                                    Array.prototype.push.apply(a,b);
+                                    return a;
+                                },[roleContainer.role]);
+                            }
+                        };
+                    new Parse.Query(Parse.Role).find().then(function(roles) {
+                        return Parse.Promise.when(roles.map(function(role) {
+                            return resolveRolesForRole(role);
+                        }));
+                    }).then(function() {
+                        len = arguments.length;
+                        for (i=0; i<len; i+=1) {
+                            current = arguments[i];
+                            self._rolesById[current.role.id] = current;
+                        }
+                        for (i=0; i<len; i+=1) {
+                            current = arguments[i];
+                            Array.prototype.push.apply(current.allRoles,collectRoles(current));
+                        }
+                        return new Parse.Query(Parse.Role).equalTo('users',user).find();
+                    }).then(function(roles) {
+                        $log.debug('roles: ',roles);
+                        roles = roles.map(function(role) {
+                            var roles = [];
+                            Array.prototype.push.apply(roles,self._rolesById[role.id].allRoles);
+                            return roles;
+                        }).reduce(function(a,b) {
+                            Array.prototype.push.apply(a,b);
+                            return a;
+                        },[]);
+                        self._user = user;
+                        self._userContainer = {
+                            user: user,
+                            roles: roles,
+                            roleNames: roles.map(function(role) {
+                                return role.getName();
+                            })
+                        };
+                        $log.debug('userContainer:',self._userContainer);
+                        defer.resolve(self._userContainer);
+                        $rootScope.$broadcast('login',{
+                            user: user
+                        });
+                    },function(error) {
+                        handleParseError(error);
+                        defer.reject();
+                    });
+                    return defer.promise;
+                },
+
+                hasRole: function(role) {
+                    if (!this._userContainer) {
+                        return false;
+                    }
+                    //$log.debug(this._userContainer.roleNames);
+                    return -1 < this._userContainer.roleNames.indexOf(role);
+                },
 
                 canLogin: function() {
                     return this._fbReady;
                 },
 
                 login: function(userData) {
-                    if (!this._fbReady) {
-                        return;
-                    }
-
                     var uuid_v4 = function() {
                         var d = new Date().getTime();
                         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -47,12 +164,16 @@
                         self = this,
                         successCallback = function(user) {
                             self._user = user;
-                            defer.resolve(user);
-                            $rootScope.$broadcast('login',{
-                                user: user
+                            self._setUser(user).then(function(userContainer) {
+                                defer.resolve(userContainer.user);
+                            },function(error) {
+                                defer.reject(error);
                             });
                         };
 
+                    if (!this._fbReady) {
+                        defer.reject();
+                    }
 
                     if (userData) {
                         var user = Parse.User.current();
@@ -105,7 +226,7 @@
                     var defer = $q.defer(),
                         self = this;
                     this._user = null;
-                    Parse.User.logout().then(function() {
+                    Parse.User.logOut().then(function() {
                         defer.resolve();
                         $rootScope.$broadcast('logout',{});
                     },function(error) {
@@ -126,7 +247,7 @@
                 image: function() {
                     if (this._user) {
                         if (this._user.get('facebookId')) {
-                            return 'https://graph.facebook.com/' + this._user.get('facebookId') + '/picture?type=normal';
+                            return 'https://graph.facebook.com/' + this._user.get('facebookId') + '/picture?type=square';
                         }
                         else {
                             return 'HOSTING_BASEassets/images/' + this._user.get('gender') + '.png';
@@ -152,9 +273,8 @@
                     AccountService._fbReady = true;
                     var user = Parse.User.current();
                     if (user) {
-                        AccountService._user = user;
-                        $rootScope.$broadcast('login',{
-                            user: user
+                        AccountService._setUser(user).then(function() {
+                            $location.path('/home');
                         });
                     }
                 });
@@ -170,10 +290,30 @@
         '$log',
         function($q,AccountService,$log) {
 
-            var placeholder = function() {
+            var placeholder = function(type,roles) {
                 return {
                     taken: function() {
                         return false;
+                    },
+                    type: function() {
+                        return type;
+                    },
+                    roles: function() {
+                        return roles;
+                    },
+                    name: function() {
+                        if ('archangel' === type) {
+                            return 'Tagesengel';
+                        }
+                        else if('translator' === type) {
+                            return 'Übersetzerin / Übersetzer';
+                        }
+                        else if('medical' === type) {
+                            return 'Ärztin / Arzt';
+                        }
+                        else {
+                            return '';
+                        }
                     }
                 };
             };
@@ -194,6 +334,36 @@
                     len = count - result.length;
                     for (i=0; i<len; i+=1) {
                         result.push(placeholder());
+                    }
+                }
+                return result;
+            };
+
+            var extendedSlots = function(date,section,counts,results) {
+                var result = [],
+                    i,j,
+                    len1,len = counts.length,
+                    current,
+                    taken = {};
+                for (i=0; i<len; i+=1) {
+                    taken[counts[i].type] = 0;
+                }
+                len = results.length;
+                for (i=0; i<len; i+=1) {
+                    current = results[i];
+                    if (current.fits(date,section)) {
+                        taken[current.type()] += 1;
+                        result.push(current);
+                    }
+                }
+
+                len = counts.length;
+                for (i=0; i<len; i+=1) {
+                    if (counts[i].count > taken[counts[i].type]) {
+                        len1 = counts[i].count - taken[counts[i].type];
+                        for (j=0; j<len1; j+=1) {
+                            result.push(placeholder(counts[i].type,counts[i].roles));
+                        }
                     }
                 }
                 return result;
@@ -288,39 +458,87 @@
                                                 id: 'driver',
                                                 title: 'Fahrer (17:30 - 19:00 uhr)',
                                                 description: 'Aufgabe: Töpfe vom vorherigen Tag am ZOB abholen, in der Vokü befüllen lassen und wieder zurück zum ZOB bringen',
-                                                slots: slots(currentDate,'driver',1,results)
+                                                slots: slots(currentDate,'driver',1,results),
+                                                extendedSlots: extendedSlots(currentDate,'driver',[{
+                                                    count: 1,
+                                                    type: 'angel',
+                                                    roles: ['angel']
+                                                }],results)
                                             },
                                             {
                                                 id: 'one',
                                                 title: '18-20 Uhr',
                                                 description: 'Aufgabe: Kleider & Essensausgabe',
-                                                slots: slots(currentDate,'one',6,results)
+                                                slots: slots(currentDate,'one',6,results),
+                                                extendedSlots: extendedSlots(currentDate,'one',[{
+                                                    count: 6,
+                                                    type: 'angel',
+                                                    roles: ['angel']
+                                                },{
+                                                    count: AccountService.hasRole('archangel') ? 1 : 0,
+                                                    type: 'archangel',
+                                                    roles: ['archangel']
+                                                },{
+                                                    count: AccountService.hasRole('translator') ? 2 : 0,
+                                                    type: 'translator',
+                                                    roles: ['translator']
+                                                },{
+                                                    count: AccountService.hasRole('medical') ? 0 : 0,
+                                                    type: 'medical',
+                                                    roles: ['medical']
+                                                }],results)
                                             },
                                             {
                                                 id: 'two',
                                                 title: '20-22 Uhr',
                                                 description: 'Aufgabe: Kleider & Essensausgabe',
-                                                slots: slots(currentDate,'two',6,results)
+                                                slots: slots(currentDate,'two',6,results),
+                                                extendedSlots: extendedSlots(currentDate,'two',[{
+                                                    count: 6,
+                                                    type: 'angel',
+                                                    roles: ['angel']
+                                                },{
+                                                    count: AccountService.hasRole('archangel') ? 1 : 0,
+                                                    type: 'archangel',
+                                                    roles: ['archangel']
+                                                },{
+                                                    count: AccountService.hasRole('translator') ? 2 : 0,
+                                                    type: 'translator',
+                                                    roles: ['translator']
+                                                },{
+                                                    count: AccountService.hasRole('medical') ? 0 : 0,
+                                                    type: 'medical',
+                                                    roles: ['medical']
+                                                }],results)
                                             },
                                             {
                                                 id: 'three',
                                                 title: '22-24 Uhr',
                                                 description: 'Aufgabe: Kleider & Essensausgabe',
-                                                slots: slots(currentDate,'three',6,results)
+                                                slots: slots(currentDate,'three',6,results),
+                                                extendedSlots: extendedSlots(currentDate,'three',[{
+                                                    count: 6,
+                                                    type: 'angel',
+                                                    roles: ['angel']
+                                                },{
+                                                    count: AccountService.hasRole('archangel') ? 1 : 0,
+                                                    type: 'archangel',
+                                                    roles: ['archangel']
+                                                },{
+                                                    count: AccountService.hasRole('translator') ? 2 : 0,
+                                                    type: 'translator',
+                                                    roles: ['translator']
+                                                },{
+                                                    count: AccountService.hasRole('medical') ? 0 : 0,
+                                                    type: 'medical',
+                                                    roles: ['medical']
+                                                }],results)
                                             }
                                         ]
                                     };
-                                    if (-1 < self._config.get('zobangels_type_angels').indexOf(id)) {
-                                        currentResult.sections.splice(1,0,{
-                                            id: 'angel',
-                                            title: 'Tagesengel',
-                                            description: '',
-                                            slots: slots(currentDate,'angel',3,results)
-                                        });
-                                    }
                                     result.push(currentResult);
                                 }
-
+                                $log.debug('result: ',result);
                                 defer.resolve(result);
                             },
                                 function(error) {
@@ -331,8 +549,8 @@
                     return defer.promise;
                 },
 
-                take: function(date,section) {
-                    var assignment = window.ZOBAngels.Assignment.create(date,section,Parse.User.current()),
+                take: function(date,section,type) {
+                    var assignment = window.ZOBAngels.Assignment.create(date,section,Parse.User.current(),type),
                         defer = $q.defer(),
                         self = this;
 
@@ -355,7 +573,7 @@
                     assignment.destroy()
                         .then(
                             function(assignment) {
-                                defer.resolve(placeholder());
+                                defer.resolve(placeholder(assignment.type()));
                             },function(assignment,error) {
                                 handleParseError(error,AccountService);
                                 defer.reject(error);

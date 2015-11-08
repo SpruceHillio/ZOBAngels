@@ -1,0 +1,23 @@
+<h2 ng-bind="title"></h2>
+<table style="width: 100%;" ng-repeat="section in sections">
+    <colgroup>
+        <col width="10%" />
+        <col width="60%" />
+        <col width="30%" />
+    </colgroup>
+    <tr>
+        <td colspan="3">
+            <h4 ng-bind="section.headline"></h4>
+        </td>
+    </tr>
+    <tr ng-repeat="slot in section.slots">
+        <td><input type="checkbox" /></td>
+        <td ng-bind="slot.name"></td>
+        <td ng-bind="slot.type"></td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <hr />
+        </td>
+    </tr>
+</table>

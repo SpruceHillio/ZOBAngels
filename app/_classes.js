@@ -13,12 +13,28 @@
         fits: function(date,section) {
             return date === this.get('date') && section === this.get('section');
         },
+        type: function() {
+            var type = this.get('type');
+            return type ? type : 'angel';
+        },
+        typeName: function() {
+            switch (this.type()) {
+                case 'archangel':
+                    return 'Tagesengel';
+                case 'translator':
+                    return 'Übersetzerin / Übersetzer';
+                case 'medical':
+                    return 'Ärztin / Arzt';
+                default:
+                    return 'Engel';
+            }
+        },
         taken: function() {
             return true;
         },
         image: function() {
             if (this.get('user').get('facebookId')) {
-                return 'https://graph.facebook.com/' + this.get('user').get('facebookId') + '/picture?type=normal';
+                return 'https://graph.facebook.com/' + this.get('user').get('facebookId') + '/picture?width=200&height=200';
             }
             else if (this.get('user').get('gender')) {
                 return 'HOSTING_BASEassets/images/' + this.get('user').get('gender') + '.png';
@@ -48,11 +64,19 @@
             }
         }
     }, {
-        create: function(date, section, user) {
-            var assignment = new window.ZOBAngels.Assignment();
+        create: function(date, section, user, type) {
+            if (!type) {
+                type = 'angel';
+            }
+            var assignment = new window.ZOBAngels.Assignment(),
+                acl = new Parse.ACL(user);
+            acl.setPublicReadAccess(true);
+            acl.setRoleWriteAccess('orga',true);
             assignment.set('date',date);
             assignment.set('section',section);
             assignment.set('user',user);
+            assignment.set('type',type);
+            assignment.setACL(acl);
             return assignment;
         }
     });

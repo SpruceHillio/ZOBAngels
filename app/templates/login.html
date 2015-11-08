@@ -1,0 +1,51 @@
+<div class="row">
+    <div class="col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
+        <div class="form-group">
+            <p class="text-center">Du kannst Dich einfach</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
+        <div class="btn btn-primary btn-block" ng-click="login()" ng-disabled="!canLogin()">Mit Facebook anmelden</div>
+    </div>
+</div>
+<div ng-if="nofb">
+    <div class="row">
+        <br />
+        <br />
+        <br />
+        <div class="col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
+            <div class="form-group">
+                <p class="text-center">Oder hier</p>
+            </div>
+        </div>
+        <br />
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
+            <div class="form-group">
+                <input class="form-control" type="text" ng-model="user.name" placeholder="Dein Name" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
+            <div class="form-group">
+                <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default" ng-model="user.gender" uib-btn-radio="'female'"><i class="fa fa-female"></i></button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default" ng-model="user.gender" uib-btn-radio="'male'"><i class="fa fa-male"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
+            <div class="btn btn-default btn-block" ng-click="loginWithoutFacebook()" ng-disabled="!canLoginWithoutFacebook()">Anmelden</div>
+        </div>
+    </div>
+</div>

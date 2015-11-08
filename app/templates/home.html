@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-lg-4 col-lg-offset-4 col-xs-12">
+        <div class="row">
+            <div class="col-lg-12 col-xs-12">
+                <div class="alert alert-info alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>So funktioniert's: </strong>Klicke ein leeres Icon an, daraufhin erscheint dort Dein Bild mit einem Haken drüber - das war's auch schon und Deine Anmeldung ist gespeichert. Du kannst dann das Fenster also einfach wieder schließen.
+                    <br /><br />
+                    Wir freuen uns auf Dich.
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-xs-3">
+                <div class="btn btn-default paging" ng-disabled="0 >= currentDay" ng-click="previousDay()" ng-show="0 < currentDay">
+                    <i class="fa fa-chevron-left"></i>
+                </div>
+            </div>
+            <div class="col-lg-8 col-xs-6">
+                <h3 class="text-center" ng-bind="days[currentDay].date">Today</h3>
+            </div>
+            <div class="col-lg-2 col-xs-3">
+                <div class="btn btn-default paging pull-right" ng-disabled="1 >= days.length - currentDay" ng-click="nextDay()" ng-show="1 < days.length - currentDay">
+                    <i class="fa fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+        <div ng-repeat="section in days[currentDay].sections">
+            <div class="panel panel-default">
+                <div class="panel-heading" ng-bind="section.title">
+                    Header
+                </div>
+                <div class="panel-body section">
+                    <div class="row">
+                        <div class="col-lg-3 col-xs-4 slot" ng-class="slot.type()" ng-repeat="slot in section.extendedSlots">
+                            <img class="img img-responsive img-rounded button" title="{{slot.name()}}" ng-src="{{slot.image()}}"  ng-show="slot.taken() && !slot.mine()" uib-popover-template="'templates/_angelPopover.html'" popover-title="{{slot.popoverTitle()}}" />
+                            <img class="img img-responsive img-rounded button" ng-class="{'feedback': slot.feedback, 'disabled': !disabled(slot,section), 'enabled': disabled(slot,section)}" ng-src="{{slot.image()}}" ng-show="slot.taken() && slot.mine()" ng-click="release(section,slot)" />
+                            <img class="img img-responsive img-rounded button" ng-class="{'disabled': disabled(slot,section), 'enabled': !disabled(slot,section)}" src="HOSTING_BASEassets/images/default.png" ng-show="!slot.taken()" ng-click="take(section,slot)" ng-disabled="disabled(slot,section)" title="{{slot.name()}}" />
+                            <span class="feedback" ng-show="slot.feedback"><i class="fa fa-check fa-3x"></i></span>
+                            <span class="type" ng-show="'angel' !== slot.type()">
+                                <i class="fa fa-fw" ng-class="{'fa-star' : 'archangel' === slot.type(), 'fa-comment-o' : 'translator' === slot.type(), 'fa-medkit' : 'medical' === slot.type()}"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <span class="small" ng-bind="section.description">Footer</span>
+                </div>
+            </div>
+            <div class="alert alert-success" role="alert" ng-show="section.feedback">Vielen Dank dass Du in dieser Schicht dabei bist - ist auch schon alles gespeichert.</div>
+        </div>
+        <div class="panel panel-default" ng-show="hasRole('archangel')">
+            <div class="panel-body">
+                <button class="btn btn-default btn-block" angel-list-print data-sections="days[currentDay].sections" data-date="days[currentDay].date">
+                    Liste drucken
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
