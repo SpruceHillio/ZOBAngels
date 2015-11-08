@@ -2,11 +2,15 @@
     <div class="col-lg-4 col-lg-offset-4 col-xs-12">
         <div class="row">
             <div class="col-lg-12 col-xs-12">
-                <div class="alert alert-info alert-dismissible" role="alert">
+                <div class="alert alert-info alert-dismissible" role="alert" ng-click="howtoDetail = !howtoDetail" style="cursor: pointer;">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong>So funktioniert's: </strong>Klicke ein leeres Icon an, daraufhin erscheint dort Dein Bild mit einem Haken drüber - das war's auch schon und Deine Anmeldung ist gespeichert. Du kannst dann das Fenster also einfach wieder schließen.
-                    <br /><br />
-                    Wir freuen uns auf Dich.
+                    <strong>So funktioniert's: </strong> <span ng-show="!howtoDetail">(Bitte klicken)</span>
+                    <span ng-show="howtoDetail">
+                        <br />
+                        Klicke ein leeres Icon an, daraufhin erscheint dort Dein Bild mit einem Haken drüber - das war's auch schon und Deine Anmeldung ist gespeichert. Du kannst dann das Fenster also einfach wieder schließen.
+                        <br /><br />
+                        Wir freuen uns auf Dich.
+                    </span>
                 </div>
             </div>
         </div>
@@ -27,17 +31,17 @@
         </div>
         <div ng-repeat="section in days[currentDay].sections">
             <div class="panel panel-default">
-                <div class="panel-heading" ng-bind="section.title">
-                    Header
+                <div class="panel-heading">
+                    <strong ng-bind="section.title">Header</strong>
                 </div>
                 <div class="panel-body section">
                     <div class="row">
                         <div class="col-lg-3 col-xs-4 slot" ng-class="slot.type()" ng-repeat="slot in section.extendedSlots">
-                            <img class="img img-responsive img-rounded button" title="{{slot.name()}}" ng-src="{{slot.image()}}"  ng-show="slot.taken() && !slot.mine()" uib-popover-template="'templates/_angelPopover.html'" popover-title="{{slot.popoverTitle()}}" />
-                            <img class="img img-responsive img-rounded button" ng-class="{'feedback': slot.feedback, 'disabled': !disabled(slot,section), 'enabled': disabled(slot,section)}" ng-src="{{slot.image()}}" ng-show="slot.taken() && slot.mine()" ng-click="release(section,slot)" />
+                            <img class="img img-responsive img-rounded button taken" title="{{slot.name()}}" ng-src="{{slot.image()}}"  ng-show="slot.taken() && !slot.mine()" uib-popover-template="'templates/_angelPopover.html'" popover-title="{{slot.popoverTitle()}}" />
+                            <img class="img img-responsive img-rounded button taken" ng-class="{'feedback': slot.feedback, 'disabled': !disabled(slot,section), 'enabled': disabled(slot,section)}" ng-src="{{slot.image()}}" ng-show="slot.taken() && slot.mine()" ng-click="release(section,slot)" />
                             <img class="img img-responsive img-rounded button" ng-class="{'disabled': disabled(slot,section), 'enabled': !disabled(slot,section)}" src="HOSTING_BASEassets/images/default.png" ng-show="!slot.taken()" ng-click="take(section,slot)" ng-disabled="disabled(slot,section)" title="{{slot.name()}}" />
                             <span class="feedback" ng-show="slot.feedback"><i class="fa fa-check fa-3x"></i></span>
-                            <span class="type" ng-show="'angel' !== slot.type()">
+                            <span class="type" ng-class="{'taken' : slot.taken()}" ng-show="'angel' !== slot.type()">
                                 <i class="fa fa-fw" ng-class="{'fa-star' : 'archangel' === slot.type(), 'fa-comment-o' : 'translator' === slot.type(), 'fa-medkit' : 'medical' === slot.type()}"></i>
                             </span>
                         </div>

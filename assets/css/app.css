@@ -28,6 +28,10 @@ div.row div.slot {
     margin-bottom: 10px;
 }
 
+div.row div.slot img.taken {
+    border: 2px solid #363636;
+}
+
 div.row div.slot span.feedback {
     position: absolute;
     margin-left: -21px;
@@ -47,6 +51,13 @@ div.row div.slot span.type {
     background-color: #b5b5b5;
     border-bottom-left-radius: 6px;
     border-top-right-radius: 50%;
+}
+
+div.row div.slot span.type.taken {
+    border-top: 1px solid #363636;
+    border-right: 1px solid #363636;
+    border-left: 2px solid #363636;
+    border-bottom: 2px solid #363636;
 }
 
 div.row div.slot img.feedback {
