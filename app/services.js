@@ -514,7 +514,7 @@
                                             {
                                                 id: 'three',
                                                 title: '22-24 Uhr',
-                                                description: 'Aufgabe: Kleider & Essensausgabe',
+                                                description: 'Aufgabe: Kleider & Essensausgabe (evtl. auch über 24 Uhr hinaus)',
                                                 slots: slots(currentDate,'three',6,results),
                                                 extendedSlots: extendedSlots(currentDate,'three',[{
                                                     count: 6,
