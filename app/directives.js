@@ -27,7 +27,8 @@
                     element.on('click',function() {
                         $scope.$apply(function() {
                             var templateScope = $scope.$new(),
-                                popupWin = window.open('', '_blank', 'width=600,height=600,scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no'),
+                                isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1,
+                                popupWin = window.open('', '_blank', 'width=600,height=600' + (isChrome ? ',scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no' : '')),
                                 i, j,m,
                                 l = $scope.sections.length,
                                 section,slot;
@@ -54,19 +55,29 @@
                             var compiled = $compile($templateCache.get('templates/_angelListPrint.html'))(templateScope);
                             var div = $('<div></div>');
                             div.append(compiled);
-                            popupWin.window.focus();
+                            if (isChrome) {
+                                popupWin.window.focus();
+                            }
+                            else {
+                                popupWin.document.open();
+                            }
                             $timeout(function() {
-                                popupWin.window.document.write(div[0].innerHTML);
+                                popupWin.document.write(div[0].innerHTML);
+                                if (!isChrome) {
+                                    popupWin.document.close();
+                                }
                                 popupWin.window.print();
                             },500);
-                            popupWin.onbeforeunload = function (event) {
-                                popupWin.close();
-                                return '.\n';
-                            };
-                            popupWin.onabort = function (event) {
-                                popupWin.document.close();
-                                popupWin.close();
-                            };
+                            if (isChrome) {
+                                popupWin.onbeforeunload = function (event) {
+                                    popupWin.close();
+                                    return '.\n';
+                                };
+                                popupWin.onabort = function (event) {
+                                    popupWin.document.close();
+                                    popupWin.close();
+                                };
+                            }
                         });
                     });
                 }
