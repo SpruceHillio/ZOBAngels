@@ -445,6 +445,7 @@
 
                     query.greaterThanOrEqualTo('date',start);
                     query.include('user');
+                    query.limit(1000);
                     query.find()
                         .then(
                             function(results) {
