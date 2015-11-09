@@ -305,7 +305,9 @@
                     return;
                 }
 
-                AccountService.login($scope.user);
+                AccountService.login($scope.user).then(function() {
+                    $location.path('/home');
+                });
             };
 
             $scope.canLogin = function() {
