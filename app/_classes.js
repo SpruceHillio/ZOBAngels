@@ -3,7 +3,20 @@
  * (c) 2015 SpruceHill.io GmbH
  * License: MIT
  */
-(function() {
+(function(global,factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        module.exports = factory();
+    }
+    else if (typeof define === 'function' && define.amd) {
+        define(factory);
+    }
+    else {
+        if (typeof global.ZOBAngels === 'undefined') {
+            global.ZOBAngels = {};
+        }
+        global.ZOBAngels.model = factory();
+    }
+})(this,function() {
     'use strict';
 
     var Assignment = Parse.Object.extend('Assignment',{
@@ -68,7 +81,7 @@
             if (!type) {
                 type = 'angel';
             }
-            var assignment = new window.ZOBAngels.Assignment(),
+            var assignment = new Assignment(),
                 acl = new Parse.ACL(user);
             acl.setPublicReadAccess(true);
             acl.setRoleWriteAccess('orga',true);
@@ -81,7 +94,7 @@
         }
     });
 
-    window.ZOBAngels = {
+    return {
         Assignment: Assignment
     };
-})();
+});

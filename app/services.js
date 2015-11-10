@@ -421,7 +421,7 @@
                 },
 
                 listWithPromise: function() {
-                    var query = new Parse.Query(window.ZOBAngels.Assignment),
+                    var query = new Parse.Query(window.ZOBAngels.model.Assignment),
                         defer = $q.defer(),
                         result = [],
                         start = moment('20151109','YYYYMMDD').valueOf(),
@@ -551,7 +551,7 @@
                 },
 
                 take: function(date,section,type) {
-                    var assignment = window.ZOBAngels.Assignment.create(date,section,Parse.User.current(),type),
+                    var assignment = window.ZOBAngels.model.Assignment.create(date,section,Parse.User.current(),type),
                         defer = $q.defer(),
                         self = this;
 
