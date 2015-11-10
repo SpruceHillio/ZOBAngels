@@ -34,6 +34,11 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
+            src: 'shared/*.js',
+            dest: 'tmp/'
+          },
+          {
+            expand: true,
             cwd: 'app',
             src: 'templates/*.html',
             dest: 'tmp/'
@@ -168,7 +173,10 @@ module.exports = function(grunt) {
         }
       },
       app: {
-        src: ['tmp/app/*.js'],
+        src: [
+          'tmp/app/*.js',
+          'tmp/shared/*.js'
+        ],
         dest: 'tmp/app.js'
       },
       dist: {
@@ -192,7 +200,7 @@ module.exports = function(grunt) {
     },
 
     jshint: {
-      all: [ 'Gruntfile.js', 'app/*.js', 'app/**/*.js' ]
+      all: [ 'Gruntfile.js', 'app/*.js', 'app/**/*.js', 'shared/*.js', 'shared/**/*.js' ]
     },
 
     connect: {
