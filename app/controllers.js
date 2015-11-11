@@ -330,10 +330,11 @@
         'ZOBAngels.services.SlotService',
         '$timeout',
         '$window',
+        '$uibModal',
         '$location',
         '$sce',
         '$log',
-        function($scope,$rootScope,NavigationService,AccountService,SlotService,$timeout,$window,$location,$sce,$log) {
+        function($scope,$rootScope,NavigationService,AccountService,SlotService,$timeout,$window,$uibModal,$location,$sce,$log) {
 
             NavigationService.page(NavigationService.PAGE.HOME);
 
@@ -390,6 +391,10 @@
             };
 
             $scope.take = function(section,slot) {
+                if (slot.taking) {
+                    return;
+                }
+                slot.taking = true;
                 if ($scope.disabled(slot,section)) {
                     return;
                 }
@@ -397,6 +402,7 @@
                 SlotService.take($scope.days[$scope.currentDay]._date,section.id,slot.type()).then(function(assignment) {
                     var index = section.extendedSlots.indexOf(slot);
                     if (-1 < index) {
+                        $log.debug('assignment: ',assignment.name(), assignment.image());
                         section.extendedSlots[index] = assignment;
                         $timeout(function() {
                             section.feedback = true;
@@ -409,12 +415,18 @@
                             },5000);
                         },300);
                     }
+                    slot.taking = false;
                 }, function(error) {
+                    slot.taking = false;
                     $log.error(error);
                 });
             };
 
             $scope.release = function(section,assignment,orga) {
+                if (assignment.releasing) {
+                    return;
+                }
+                assignment.releasing = true;
                 var release = function(section,assignment) {
                     SlotService.release(assignment).then(function(placeholder) {
                         var index = section.extendedSlots.indexOf(assignment);
@@ -422,19 +434,72 @@
                             section.extendedSlots[index] = placeholder;
                         }
                         section.feedback = false;
+                        assignment.releasing = true;
                     }, function(error) {
                         $log.error(error);
+                        assignment.releasing = true;
                     });
                 };
 
+                var modalInstance;
+
                 if (orga) {
-                    if ($window.confirm(assignment.get('user').get('name') + ' wirklich entfernen?')) {
+
+                    modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: 'templates/_userReleaseConfirmModal.html',
+                        controller: 'ZOBAngels.controllers.UserReleaseConfirmModalController',
+                        size: 'sm',
+                        resolve: {
+                            confirmText: function() {
+                                return 'Willst Du ' + assignment.get('user').get('name') + ' wirklich austragen?';
+                            }
+                        }
+                    });
+
+                    modalInstance.result.then(function () {
                         release(section,assignment);
-                    }
+                    }, function () {
+                        assignment.releasing = false;
+                    });
                 }
                 else {
-                    release(section,assignment);
+
+                    modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: 'templates/_userReleaseConfirmModal.html',
+                        controller: 'ZOBAngels.controllers.UserReleaseConfirmModalController',
+                        size: 'sm',
+                        resolve: {
+                            confirmText: function () {
+                                return 'Willst Du Dich wirklich wieder austragen?';
+                            }
+                        }
+                    });
+
+                    modalInstance.result.then(function () {
+                        release(section,assignment);
+                    }, function () {
+                        assignment.releasing = false;
+                    });
                 }
+            };
+        }
+    ]);
+
+    controllers.controller('ZOBAngels.controllers.UserReleaseConfirmModalController',[
+        '$scope',
+        '$uibModalInstance',
+        'confirmText',
+        function($scope, $uibModalInstance,confirmText) {
+            $scope.text = confirmText;
+
+            $scope.ok = function() {
+                $uibModalInstance.close();
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
             };
         }
     ]);
