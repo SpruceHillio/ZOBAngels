@@ -94,7 +94,10 @@
                                 },[roleContainer.role]);
                             }
                         };
-                    new Parse.Query(Parse.Role).find().then(function(roles) {
+                    new Parse.Query(Parse.User).equalTo('username',user.get('username')).first().then(function(user) {
+                        return new Parse.Query(Parse.Role).find();
+                    })
+                    .then(function(roles) {
                         return Parse.Promise.when(roles.map(function(role) {
                             return resolveRolesForRole(role);
                         }));
