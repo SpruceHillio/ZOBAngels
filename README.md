@@ -30,11 +30,11 @@ Create a `config.json` file on the project root with the following content:
     "appId" : FACEBOOK_APP_ID
   },
   "parse" : {
-    "applicationId" : "PARSE_APPLICATION_ID",
+    "applicationId" : "__PARSE_APPLICATION_ID__",
     "javaScriptKey" : "PARSE_JAVSCRIPT_KEY"
   },
   "google" : {
-    "applicationKey" : "GOOGLE_APPLICATION_KEY"
+    "applicationKey" : "__GOOGLE_APPLICATION_KEY__"
   },
   "aws" : {
     "deploy" : {

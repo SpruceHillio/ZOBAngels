@@ -9,9 +9,13 @@
 
 module.exports = function(grunt) {
 
+  var configFile = 'config.' + (process.env.NODE_ENV || 'dev') + '.json';
+
+  console.log('configFile: ',configFile);
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    config: grunt.file.readJSON('config.json'),
+    config: grunt.file.readJSON(configFile),
 
     bower: {
       install: {
@@ -39,44 +43,133 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
+            src: 'cloud/*.js',
+            dest: 'tmp/'
+          },
+          {
+            expand: true,
+            cwd: 'config',
+            src: '.parse.*',
+            dest: 'tmp/'
+          },
+          {
+            expand: true,
             cwd: 'app',
             src: 'templates/*.html',
             dest: 'tmp/'
           },
           {
+            expand: true,
+            cwd: 'public',
             src: 'index.html',
-            dest: 'dist/'
+            dest: 'tmp/'
           }
         ],
         options: {
           replacements: [
             {
-              pattern: /META_TITLE/g,
+              pattern: /__TITLE__/g,
+              replacement: '<%= config.title %>'
+            },
+            {
+              pattern: /__ABOUT_TITLE__/g,
+              replacement: '<%= config.about.title %>'
+            },
+            {
+              pattern: /__ABOUT_TEXT__/g,
+              replacement: '<%= config.about.text %>'
+            },
+            {
+              pattern: /__ABOUT_LOCATION_LAT__/g,
+              replacement: '<%= config.about.location.lat %>'
+            },
+            {
+              pattern: /__ABOUT_LOCATION_LON__/g,
+              replacement: '<%= config.about.location.lon %>'
+            },
+            {
+              pattern: /__ABOUT_LOCATION_TITLE__/g,
+              replacement: '<%= config.about.location.title %>'
+            },
+            {
+              pattern: /__LOGIN_NOTICE_SHOW__/g,
+              replacement: '<%= config.login.notice.show %>'
+            },
+            {
+              pattern: /__LOGIN_NOTICE_TEXT__/g,
+              replacement: '<%= config.login.notice.text %>'
+            },
+            {
+              pattern: /__META_TITLE__/g,
               replacement: '<%= config.meta.title %>'
             },
             {
-              pattern: /META_DESCRIPTION/g,
+              pattern: /__META_DESCRIPTION__/g,
               replacement: '<%= config.meta.description %>'
             },
             {
-              pattern: /HOSTING_BASE/g,
+              pattern: /__HOSTING_BASE__/g,
               replacement: '<%= config.hosting.base %>'
             },
             {
-              pattern: /'FACEBOOK_ID'/g,
-              replacement: '<%= config.facebook.appId %>'
+              pattern: /'__FACEBOOK_ID__'/g,
+              replacement: '<%= config.facebook.app.id %>'
             },
             {
-              pattern: /PARSE_APPLICATION_ID/g,
+              pattern: /__FACEBOOK_APP_ACCESSTOKEN__/g,
+              replacement: '<%= config.facebook.app.accessToken %>'
+            },
+            {
+              pattern: /__FACEBOOK_PINNED_POST__/g,
+              replacement: '<%= config.facebook.pinnedPost %>'
+            },
+            {
+              pattern: /__TWITTER_HANDLE__/g,
+              replacement: '<%= config.twitter.handle %>'
+            },
+            {
+              pattern: /__PARSE_APPLICATION_ID__/g,
               replacement: '<%= config.parse.applicationId %>'
             },
             {
-              pattern: /PARSE_JAVA_SCRIPT_KEY/g,
+              pattern: /__PARSE_JAVA_SCRIPT_KEY__/g,
               replacement: '<%= config.parse.javaScriptKey %>'
             },
             {
-              pattern: /GOOGLE_APPLICATION_KEY/g,
+              pattern: /__PARSE_LINK__/g,
+              replacement: '<%= config.parse.link %>'
+            },
+            {
+              pattern: /__GOOGLE_APPLICATION_KEY__/g,
               replacement: '<%= config.google.applicationKey %>'
+            },
+            {
+              pattern: /"__SLACK_HOOKS_TAKERELEASE__"/g,
+              replacement: '<%= config.slack.hooks.takeRelease %>'
+            },
+            {
+              pattern: /"__SLACK_HOOKS_MISSINGANGELS__"/g,
+              replacement: '<%= config.slack.hooks.missingAngel %>'
+            },
+            {
+              pattern: /__SLACK_TEAM__/g,
+              replacement: '<%= config.slack.team %>'
+            },
+            {
+              pattern: /__SLACK_HOOK__/g,
+              replacement: '<%= config.slack.hook %>'
+            },
+            {
+              pattern: /__SLACK_KEY__/g,
+              replacement: '<%= config.slack.key %>'
+            },
+            {
+              pattern: /__SLACK_CHANNEL_TAKERELEASE__/g,
+              replacement: '<%= config.slack.channel.takeRelease %>'
+            },
+            {
+              pattern: /__SLACK_CHANNEL_MISSINGANGELS__/g,
+              replacement: '<%= config.slack.channel.missingAngel %>'
             }
           ]
         }
@@ -124,6 +217,9 @@ module.exports = function(grunt) {
       'dist' : {
         src: [ 'dist' ]
       },
+      'parse' : {
+        src: [ 'dist_parse' ]
+      },
       temp: {
         src: [ 'tmp' ]
       }
@@ -134,6 +230,20 @@ module.exports = function(grunt) {
         files : [
           {
             expand: true,
+            cwd: "tmp/",
+            src: ['index.html'],
+            dest: 'dist/',
+            filter: 'isFile'
+          },
+          {
+            expand: true,
+            src: ['assets/images/*'],
+            dest: 'dist/',
+            filter: 'isFile'
+          },
+          {
+            expand: true,
+            cwd: '<%= config.assetsDir %>',
             src: ['assets/images/*'],
             dest: 'dist/',
             filter: 'isFile'
@@ -150,6 +260,44 @@ module.exports = function(grunt) {
             cwd: 'libs/fontawesome',
             src: ['fonts/*'],
             dest: 'dist/assets',
+            filter: 'isFile'
+          }
+        ]
+      },
+      parse: {
+        files : [
+          {
+            expand: true,
+            cwd: 'tmp/',
+            src: ['shared/*'],
+            dest: 'dist_parse/cloud/',
+            filter: 'isFile'
+          },
+          {
+            expand: true,
+            cwd: 'tmp/cloud/',
+            src: ['*'],
+            dest: 'dist_parse/cloud/',
+            filter: 'isFile'
+          },
+          {
+            expand: true,
+            src: ['public/*'],
+            dest: 'dist_parse/',
+            filter: 'isFile'
+          },
+          {
+            expand: true,
+            cwd: "tmp/",
+            src: ['index.html'],
+            dest: 'dist_parse/public/',
+            filter: 'isFile'
+          },
+          {
+            expand: true,
+            cwd: 'tmp',
+            src: ['.parse.*'],
+            dest: 'dist_parse/',
             filter: 'isFile'
           }
         ]
@@ -200,7 +348,7 @@ module.exports = function(grunt) {
     },
 
     jshint: {
-      all: [ 'Gruntfile.js', 'app/*.js', 'app/**/*.js', 'shared/*.js', 'shared/**/*.js' ]
+      all: [ 'Gruntfile.js', 'app/*.js', 'app/**/*.js', 'shared/*.js', 'shared/**/*.js', 'cloud/*.js', 'cloud/**/*.js' ]
     },
 
     connect: {
@@ -214,14 +362,21 @@ module.exports = function(grunt) {
 
     watch: {
       dev: {
-        files: [ 'config.json', 'Gruntfile.js', 'app/*.js', '*.html', 'app/templates/*.html', 'assets/css/*.css' ],
+        files: [ configFile, 'Gruntfile.js', 'app/*.js', '*.html', 'app/templates/*.html', 'assets/css/*.css', '<%= config.assetsDir %>**/*' ],
         tasks: [ 'jshint', 'uglify:checklist-model', 'uglify:parse-angular', 'string-replace:dist', 'html2js:dist', 'concat:css', 'concat:app', 'concat:dist', 'copy:dist', 'clean:temp' ],
         options: {
           atBegin: true
         }
       },
+      parse: {
+        files: [ configFile, 'Gruntfile.js', 'shared/*.js', 'cloud/*.js', 'config/.parse.*' ],
+        tasks: [ 'jshint', 'string-replace:dist', 'concat:app', 'clean:parse', 'copy:parse', 'clean:temp' ],
+        options: {
+          atBegin: true
+        }
+      },
       min: {
-        files: [ 'config.json', 'Gruntfile.js', 'app/*.js', '*.html' ],
+        files: [ configFile, 'Gruntfile.js', 'app/*.js', '*.html', '<%= config.assetsDir %>**/*' ],
         tasks: [ 'jshint', 'uglify:checklist-model', 'uglify:parse-angular', 'string-replace:dist', 'html2js:dist', 'concat:css', 'concat:app', 'uglify:dist', 'concat:dist', 'copy:dist', 'clean:temp' ],
         options: {
           atBegin: true

@@ -1,8 +1,11 @@
 .parse.local
 .parse.project
 deploy-keys.json
-config.json
+config.*.json
 libs
 dist
+dist_parse
 node_modules
 .idea
+.zobangels
+.christophorus

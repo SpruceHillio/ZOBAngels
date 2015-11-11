@@ -1,0 +1,62 @@
+{
+  "title" : "Christophorus",
+  "assetsDir" : ".example/",
+  "about" : {
+    "title" : "Christophorus",
+    "text" : "Christophorus ist ein frühchristlicher Märtyrer, der vermutlich im 3. oder beginnenden 4. Jahrhundert gelebt hat und in der katholischen und der orthodoxen Kirche als Heiliger verehrt wird. Aus den Quellen geht nicht eindeutig hervor, ob er zur Regierungszeit des römischen Kaisers Decius (249–251) oder der des Kaisers Maximinus Daia (308–313) lebte. Christophorus wird in der Ikonographie häufig als Hüne mit Stab dargestellt, der das Jesuskind auf den Schultern über einen Fluss trägt. Er zählt zu den Vierzehn Nothelfern und ist heute besonders bekannt als Schutzheiliger der Reisenden.",
+    "location" : {
+      "lat" : 36.38,
+      "lon" : 29.79,
+      "title" : "St. Christophorus"
+    }
+  },
+  "login" : {
+    "notice" : {
+      "show" : true,
+      "text" : "Willkommen, wir freuen uns über deine Hilfe!<br /><br />Bitte beachte, dass dich alle Nutzer über unser Planungstool auf Facebook finden können, sobald du dich für eine Schicht eingetragen hast. Wir haben uns dafür entschieden, das nicht zu anonymisieren, sondern wir wollen den Vorteil des persönlichen Kontakts, den uns die Facebook Integration bietet, nutzen.<br /><br />Solltest du das nicht wollen, setz dich mit XXX Verbindung, um dich anonym eintragen zu lassen. Vielen Dank"
+    }
+  },
+  "meta" : {
+    "title" : "Christophorus - Schicht Planung für Flüchtlingshelfer",
+    "description" : "Christophorus ist eine einfache Web App mit der Flüchtlingshelfer Schichtplanung betreiben können"
+  },
+  "hosting" : {
+    "base" : "https://example.com/"
+  },
+  "facebook" : {
+    "app" : {
+      "id" : 12345,
+      "accessToken" : "YOUR FACEBOOK APP ACCESS TOKEN"
+    },
+    "pinnedPost" : "YOUR FACEBOOK PINNED POST ID"
+  },
+  "twitter" : {
+    "handle" : "YOUR TWITTER HANDLE"
+  },
+  "parse" : {
+    "applicationId" : "YOUR PARSE APPLICATION ID",
+    "javaScriptKey" : "YOUR PARSE JAVASCRIPT KEY",
+    "link" : "YOUR PARSE APP LINK"
+  },
+  "google" : {
+    "applicationKey" : "YOUR GOOGLE APPLICATION KEY"
+  },
+  "aws" : {
+    "deploy" : {
+      "bucket" : "YOUR AWS S3 BUCKET"
+    }
+  },
+  "slack" : {
+    "team" : "",
+    "hook" : "",
+    "key" : "",
+    "hooks" : {
+      "takeRelease" : false,
+      "missingAngel" : false
+    },
+    "channel" : {
+      "takeRelease" : "",
+      "missingAngel" : ""
+    }
+  }
+}

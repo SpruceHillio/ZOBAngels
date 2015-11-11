@@ -50,7 +50,7 @@
                 return 'https://graph.facebook.com/' + this.get('user').get('facebookId') + '/picture?width=200&height=200';
             }
             else if (this.get('user').get('gender')) {
-                return 'HOSTING_BASEassets/images/' + this.get('user').get('gender') + '.png';
+                return '__HOSTING_BASE__assets/images/' + this.get('user').get('gender') + '.png';
             }
             else {
                 return '';

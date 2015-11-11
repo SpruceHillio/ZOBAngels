@@ -8,11 +8,11 @@
 
     var parseServices = angular.module('ParseServices', []);
     parseServices.factory('ParseSDK', function() {
-        Parse.initialize("PARSE_APPLICATION_ID", "PARSE_JAVA_SCRIPT_KEY");
+        Parse.initialize("__PARSE_APPLICATION_ID__", "__PARSE_JAVA_SCRIPT_KEY__");
         // FACEBOOK init
         window.fbPromise.then(function() {
             Parse.FacebookUtils.init({
-                appId: 'FACEBOOK_ID', // Facebook App ID
+                appId: '__FACEBOOK_ID__', // Facebook App ID
                 cookie: true, // enable cookies to allow Parse to access the session
                 xfbml: true, // parse XFBML
                 frictionlessRequests: true // recommended

@@ -81,7 +81,7 @@
             };
 
             if (FB) {
-                FB.apiAngular('/v2.5/179372189068790').then(function(post) {
+                FB.apiAngular('/v2.5/__FACEBOOK_PINNED_POST__').then(function(post) {
                     if (post) {
                         $scope.post.show = true;
                         $scope.post.message = $sce.trustAsHtml(post.message.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br />$2'));
