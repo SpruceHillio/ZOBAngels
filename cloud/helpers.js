@@ -20,7 +20,9 @@
     return function(config,model,texts,moment) {
         return {
             helperStats: function(date, config) {
-                var query = new Parse.Query(model.Assignment),
+                var sectionKeys = ['driver','one','two','three'],
+                    types = ['angel'],
+                    query = new Parse.Query(model.Assignment),
                     now = date,
                     i,j,
                     len, m,

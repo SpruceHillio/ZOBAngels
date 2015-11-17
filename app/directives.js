@@ -4,8 +4,6 @@
 (function() {
     'use strict';
 
-    console.log('loading directives');
-
     var directives = angular.module('ZOBAngels.directives',[]);
 
     directives.directive('angelListPrint',[
@@ -15,7 +13,6 @@
         '$timeout',
         '$log',
         function($compile,$templateCache,$controller,$timeout,$log) {
-            $log.debug('angelListPrint directive');
             return {
                 restrict: 'A',
                 scope: {

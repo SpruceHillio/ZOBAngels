@@ -3,9 +3,7 @@
  * (c) 2015 SpruceHill.io GmbH
  * License: MIT
  */
-var sectionKeys = ['driver','one','two','three'],
-    types = ['angel'],
-    config = require('cloud/config'),
+var config = require('cloud/config'),
     texts = require('cloud/texts'),
     model = require('cloud/shared/model'),
     moment = require('moment');
@@ -24,6 +22,8 @@ Parse.Cloud.afterSave('Assignment', triggers.Assignment.afterSave.postToSlack);
 
 Parse.Cloud.afterDelete('Assignment', triggers.Assignment.afterDelete.postToSlack);
 
+Parse.Cloud.afterSave(Parse.User, triggers.User.afterSave.assignAdminRole);
+
 /**
  * Job definitions
  */
@@ -36,4 +36,8 @@ Parse.Cloud.job('angelStatus',jobs.angelStatus);
  */
 Parse.Cloud.define('sectionsWithAssignments',function(request,response) {
     functions.sectionsWithAssignments(request,response);
+});
+
+Parse.Cloud.define('initRoles',function(request,response) {
+    security.initRoles(request,response);
 });

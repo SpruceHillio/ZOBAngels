@@ -21,17 +21,17 @@
         return {
             informAngels: function(request,status) {
                 var query = new Parse.Query(model.Assignment),
-                    now = new Date().getTime(),
+                    now = new Date(new Date().toJSON().slice(0,10)) - (60 * 60 * 1000),
                     i,
                     len,
-                    users,
+                    users = {},
                     user,
                     assignment,
                     times,
                     driver,
                     angel,
                     normalSections = ['one','two','three'],
-                    createFacebookNotification = function(facebookId, times, accessToken) {
+                    createFacebookNotification = function(facebookId, times, driver, angel, accessToken) {
                         Parse.Cloud.httpRequest({
                             method: 'POST',
                             url: 'https://graph.facebook.com/v2.5/' + facebookId + '/notifications',
@@ -41,9 +41,15 @@
                             body: {
                                 access_token: accessToken,
                                 href: 'http://zobangels.s3.eu-central-1.amazonaws.com/index.html',
-                                template : (0 < times.length ? 'Du bist heute um ' + times + ' ein ZOB Angel.' : '') + (driver ? ' Du bist heute auch als Fahrer eingetragen.' : '') + (angel ? ' Du bist heute der Tagesengel.' : '')
+                                template : (0 < times.length ? 'Du bist heute um ' + times + ' ein ZOB Angel.' : '') + (driver ? ' Du bist heute ' + (0 < times.length ? 'auch ' : '') + 'als Fahrer eingetragen.' : '') + (angel ? ' Du bist heute ' + (0 < times.length || driver ? 'auch ' : '') + 'der Tagesengel.' : '')
                             }
                         });
+                    },
+                    filterNormal = function(a) {
+                        return -1 < normalSections.indexOf(a);
+                    },
+                    mapSection = function(a) {
+                        return 'one' === a ? '18-20 Uhr' : 'two' === a ? '20-22 Uhr' : '22-24 Uhr';
                     };
                 query.greaterThanOrEqualTo('date',now);
                 query.lessThanOrEqualTo('date',now + 24 * 60 * 60 * 1000);
@@ -52,13 +58,13 @@
                     len = assignments.length;
                     for (i=0; i<len; i+=1) {
                         assignment = assignments[i];
-                        user = users[assignment.get('user').get('id')];
+                        user = users[assignment.get('user').id];
                         if (!user) {
                             user = {
                                 user: assignment.get('user'),
                                 sections: []
                             };
-                            users[user.user.get('id')] = user;
+                            users[user.user.id] = user;
                         }
                         user.sections.push(assignment.get('section'));
                     }
@@ -69,35 +75,18 @@
                             driver = false;
                             angel = false;
                             times = '';
-                            for (i=0; i<len; i+=1) {
-                                if (-1 < normalSections.indexOf(user.sections[i])) {
-                                    if (0<i) {
-                                        if (i < len -2) {
-                                            times += ', ';
-                                        }
-                                        else {
-                                            times += ' und ';
-                                        }
-                                    }
-                                }
-                                if ('one' === user.sections[i]) {
-                                    times += '18-20 Uhr';
-                                }
-                                else if ('two' === user.sections[i]) {
-                                    times += '20-22 Uhr';
-                                }
-                                else if ('three' === user.sections[i]) {
-                                    times += '22-24 Uhr';
-                                }
-                                else if ('driver' === user.sections[i]) {
-                                    driver = true;
-                                }
-                                else if ('angel' === user.sections[i]) {
-                                    driver = true;
-                                }
+                            times = user.sections.filter(filterNormal).map(mapSection).join(', ').toString();
+                            driver = -1 < user.sections.indexOf('driver');
+                            // TODO Fix this as it's not stored that way any longer
+                            angel = -1 < user.sections.indexOf('angel');
+
+                            i = times.lastIndexOf(', ');
+
+                            if (-1 < i) {
+                                times = times.substring(0, i) + ' und ' + times.substr(i + 2);
                             }
 
-                            createFacebookNotification(user.user.get('facebookId'), times, config.facebook.app.accessToken);
+                            createFacebookNotification(user.user.get('facebookId'), times, driver, angel, config.facebook.app.accessToken);
                         }
                     }
                 }, function(error) {
@@ -105,8 +94,11 @@
                 });
             },
             angelStatus: function(request,status) {
-                helpers.helperStats(date.getTime() - 60 * 60 * 1000,config).then(function(result) {
-                    var fields = result.fields,
+                var moment = moment(new Date());
+                moment.utc();
+                helpers.helperStats(new Date(new Date().toJSON().slice(0,10)).getTime() - (60 * 60 * 1000),config).then(function(result) {
+                    var types = ['angel'],
+                        fields = result.fields,
                         config = result.config,
                         i,
                         len = types.length,

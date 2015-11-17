@@ -53,7 +53,24 @@
                 }).state('admin', {
                     url: '/admin',
                     templateUrl: 'templates/admin.html',
-                    controller: 'ZOBAngels.controllers.AdminController'
+                    controller: 'ZOBAngels.controllers.AdminController',
+                    authenticate: true
+                }).state('inventory', {
+                    abstract: true,
+                    url: '/inventory',
+                    templateUrl: 'templates/inventory/index.html',
+                    controller: 'ZOBAngels.controllers.inventory.IndexController',
+                    authenticate: true
+                }).state('inventory.overview', {
+                    url: '/overview',
+                    templateUrl: 'templates/inventory/overview.html',
+                    controller: 'ZOBAngels.controllers.inventory.OverviewController',
+                    authenticate: true
+                }).state('inventory.detail', {
+                    url: '/:id',
+                    templateUrl: 'templates/inventory/detail.html',
+                    controller: 'ZOBAngels.controllers.inventory.DetailController',
+                    authenticate: true
                 });
             }
         ]).
@@ -63,9 +80,11 @@
             'ZOBAngels.services.AccountService',
             'ParseSDK',
             'FacebookAngularPatch',
+            '$log',
             function($rootScope,$location,AccountService,ParseSDK,FacebookAngularPatch,$log) {
                 $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
                     if (toState.authenticate && !AccountService.isLoggedIn()) {
+                        $rootScope._originalRequest = $location.path();
                         $location.path('/login');
                     }
                 });

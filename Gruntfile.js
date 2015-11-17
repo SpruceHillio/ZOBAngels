@@ -55,7 +55,7 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: 'app',
-            src: 'templates/*.html',
+            src: 'templates/**/*.html',
             dest: 'tmp/'
           },
           {
@@ -140,6 +140,10 @@ module.exports = function(grunt) {
               replacement: '<%= config.parse.link %>'
             },
             {
+              pattern: /'__PARSE_ADMINS__'/g,
+              replacement: '<%= config.parse.admins %>'
+            },
+            {
               pattern: /__GOOGLE_APPLICATION_KEY__/g,
               replacement: '<%= config.google.applicationKey %>'
             },
@@ -208,7 +212,7 @@ module.exports = function(grunt) {
         base: 'tmp'
       },
       dist: {
-        src: [ 'tmp/templates/*.html' ],
+        src: [ 'tmp/templates/**/*.html' ],
         dest: 'tmp/templates.js'
       }
     },
@@ -362,7 +366,7 @@ module.exports = function(grunt) {
 
     watch: {
       dev: {
-        files: [ configFile, 'Gruntfile.js', 'app/*.js', '*.html', 'app/templates/*.html', 'assets/css/*.css', '<%= config.assetsDir %>**/*' ],
+        files: [ configFile, 'Gruntfile.js', 'app/*.js', 'app/**/*.js', 'public/*.html', 'public/**/*.html', 'app/templates/*.html', 'app/templates/**/*.html', 'assets/css/*.css', '<%= config.assetsDir %>**/*' ],
         tasks: [ 'jshint', 'uglify:checklist-model', 'uglify:parse-angular', 'string-replace:dist', 'html2js:dist', 'concat:css', 'concat:app', 'concat:dist', 'copy:dist', 'clean:temp' ],
         options: {
           atBegin: true
@@ -434,7 +438,7 @@ module.exports = function(grunt) {
     'connect:server',
     'watch:min' ]);
   // Build the distribution
-  grunt.registerTask('package', [
+  grunt.registerTask('package:dist', [
     //'bower', // We're not running bower at the moment as we patched the parse-angular library
     'jshint',
     'clean:dist',
@@ -450,6 +454,13 @@ module.exports = function(grunt) {
     'clean:temp' ]);
   // Deploy to AWS S3
   grunt.registerTask('deploy:s3', [
-    'package',
+    'package:dist',
     'aws_s3' ]);
+  grunt.registerTask('package:parse', [
+    'jshint',
+    'string-replace:dist',
+    'concat:app',
+    'clean:parse',
+    'copy:parse',
+    'clean:temp' ]);
 };

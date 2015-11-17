@@ -20,5 +20,4 @@
         });
         return {};
     });
-    console.log('loaded ParseServices');
 })();

@@ -19,6 +19,26 @@
 })(this,function() {
     return function(config,model,texts,helpers,security,moment) {
         return {
+            User : {
+                afterSave: {
+                    assignAdminRole: function(request) {
+                        Parse.Cloud.useMasterKey();
+                        var adminFacebookIds = ['__PARSE_ADMINS__'],
+                            query;
+                        console.log('User - afterSave - assignAdminRole');
+                        if (request.object && request.object.get('facebookId') && -1 < adminFacebookIds.indexOf(request.object.get('facebookId'))) {
+                            new Parse.Query(Parse.Role).equalTo('name','admin').first().then(function(adminRole) {
+                                adminRole.getUsers().add(request.object);
+                                return adminRole.save();
+                            }).then(function() {
+                                console.log('success adding admin role to ' + request.object.get('name'));
+                            }, function(error) {
+                                console.log('error adding admin tole to ' + request.object.get('name') + error);
+                            });
+                        }
+                    }
+                }
+            },
             Assignment: {
                 beforeSave: {
                     checkForDuplicate: function(request,response) {

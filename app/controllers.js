@@ -61,6 +61,10 @@
                 NavigationService.page(NavigationService.PAGE.ADMIN);
             };
 
+            $scope.ready = function() {
+                return AccountService.ready();
+            };
+
             $log.debug('ZOBAngels.controllers.Navigation loaded');
         }
     ]);
@@ -86,11 +90,10 @@
                         $scope.post.show = true;
                         $scope.post.message = $sce.trustAsHtml(post.message.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br />$2'));
                     }
-                    $log.debug('post: ',post);
                 });
             }
 
-            $log.debug('Created ZOBAngels.controllers.AboutController');
+            $log.debug('ZOBAngels.controllers.AboutController loaded');
         }
     ]);
 
@@ -103,6 +106,8 @@
             NavigationService.page(NavigationService.PAGE.FAQ);
 
             $scope.NavigationService = NavigationService;
+
+            $log.debug('ZOBAngels.controllers.FaqController loaded');
         }
     ]);
 
@@ -116,6 +121,63 @@
             NavigationService.page(NavigationService.PAGE.FAQ);
 
             $scope.NavigationService = NavigationService;
+
+            $log.debug('ZOBAngels.controllers.ProfileController loaded');
+        }
+    ]);
+
+    controllers.controller('ZOBAngels.controllers.inventory.IndexController',[
+        '$scope',
+        'ZOBAngels.services.NavigationService',
+        '$log',
+        function($scope,NavigationService,$log) {
+
+            NavigationService.page(NavigationService.PAGE.INVENTORY);
+
+            $scope.NavigationService = NavigationService;
+
+            $log.debug('ZOBAngels.controllers.IndexController loaded');
+        }
+    ]);
+
+    controllers.controller('ZOBAngels.controllers.inventory.OverviewController',[
+        '$scope',
+        'ZOBAngels.services.NavigationService',
+        'ZOBAngels.services.AccountService',
+        'ZOBAngels.services.InventoryService',
+        '$log',
+        function($scope,NavigationService,AccountService,InventoryService,$log) {
+
+            NavigationService.page(NavigationService.PAGE.INVENTORY);
+
+            $scope.sections = InventoryService.list();
+
+            $scope.NavigationService = NavigationService;
+
+            $log.debug('ZOBAngels.controllers.OverviewController loaded');
+        }
+    ]);
+
+    controllers.controller('ZOBAngels.controllers.inventory.DetailController',[
+        '$scope',
+        'ZOBAngels.services.NavigationService',
+        'ZOBAngels.services.AccountService',
+        'ZOBAngels.services.InventoryService',
+        '$stateParams',
+        '$log',
+        function($scope,NavigationService,AccountService,InventoryService,$stateParams,$log) {
+
+            $log.debug('ZOBAngels.controllers.inventory.DetailController');
+
+            NavigationService.page(NavigationService.PAGE.INVENTORY);
+
+            $log.debug('$stateParams',$stateParams);
+
+            $scope.section = InventoryService.detail($stateParams.id);
+
+            $scope.NavigationService = NavigationService;
+
+            $log.debug('ZOBAngels.controllers.inventory.DetailController loaded');
         }
     ]);
 
@@ -275,6 +337,8 @@
             });
 
             $scope.NavigationService = NavigationService;
+
+            $log.debug('ZOBAngels.controllers.AdminController loaded');
         }
     ]);
 
@@ -319,6 +383,8 @@
                     $location.path('/home');
                 });
             };
+
+            $log.debug('ZOBAngels.controllers.LoginController loaded');
         }
     ]);
 
@@ -483,6 +549,19 @@
                         assignment.releasing = false;
                     });
                 }
+            };
+
+            $log.debug('ZOBAngels.controllers.HomeController loaded');
+        }
+    ]);
+
+    controllers.controller('ZOBAngels.controllers.PageController',[
+        '$scope',
+        'ZOBAngels.services.AccountService',
+        '$log',
+        function($scope, AccountService, $log) {
+            $scope.ready = function() {
+                return AccountService.ready();
             };
         }
     ]);

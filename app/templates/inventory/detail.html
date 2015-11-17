@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-lg-3 col-xs-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Back</strong>
+            </div>
+            <div class="panel-body">
+                <div class="btn btn-default btn-block" ui-sref="inventory.overview"><i class="fa fa-fw fa-4x fa-chevron-left"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-xs-6" ng-repeat="detail in section.entries">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong ng-bind="detail.name"></strong>
+            </div>
+            <div class="panel-body">
+                <div class="btn-group btn-group-justified">
+                    <div class="btn btn-default btn-block"><i class="fa fa-fw fa-4x fa-plus"></i></div>
+                    <div class="btn btn-default btn-block"><i class="fa fa-fw fa-4x fa-minus"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

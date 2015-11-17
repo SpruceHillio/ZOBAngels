@@ -141,3 +141,7 @@ div.row div.slot img.feedback {
 label i.fa.fa-check, label i.fa.fa-minus {
     margin-left: -20px;
 }
+
+.not-ready {
+    display: none;
+}

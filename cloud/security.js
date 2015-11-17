@@ -43,6 +43,55 @@
                 }
             },
 
+            initRoles: function(request,response) {
+                var roleACL = new Parse.ACL();
+                roleACL.setPublicReadAccess(true);
+                roleACL.setPublicWriteAccess(false);
+                roleACL.setRoleWriteAccess('admin',true);
+                var admin = new Parse.Role('admin',roleACL),
+                    orga = new Parse.Role('orga',roleACL),
+                    archangel = new Parse.Role('archangel',roleACL),
+                    medical = new Parse.Role('medical',roleACL),
+                    translator = new Parse.Role('translator',roleACL),
+                    angel = new Parse.Role('angel',roleACL);
+                admin.save().then(function (result) {
+                    console.log('saved admin role');
+                    admin = result;
+                    orga.getRoles().add(admin);
+                    return orga.save();
+                }).then(function(result) {
+                    console.log('saved orga role');
+                    orga = result;
+                    archangel.getRoles().add(orga);
+                    return archangel.save();
+                }).then(function(result) {
+                    console.log('saved archangel role');
+                    archangel = result;
+                    medical.getRoles().add(admin);
+                    return medical.save();
+                }).then(function(result) {
+                    console.log('saved medical role');
+                    medical = result;
+                    translator.getRoles().add(admin);
+                    return translator.save();
+                }).then(function (result) {
+                    console.log('saved translator role');
+                    translator = result;
+                    angel.getRoles().add(translator);
+                    angel.getRoles().add(medical);
+                    angel.getRoles().add(archangel);
+                    return angel.save();
+                }).then(function(result) {
+                    console.log('saved angel role');
+                    angel = result;
+                    response.success({
+                        success: true
+                    });
+                }, function(error) {
+                    response.error(error);
+                });
+            },
+
             roles: function(user) {
                 var promise = new Parse.Promise(),
                     self = this,

@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col-lg-3 col-xs-6" ng-repeat="section in sections">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong ng-bind="section.name"></strong>
+            </div>
+            <div class="panel-body">
+                <a class="btn btn-default btn-block" ui-sref="inventory.detail({id: section.id})"><i class="fa fa-fw fa-4x" ng-class="section.icon"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
