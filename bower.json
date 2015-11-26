@@ -14,6 +14,10 @@
     "lodash": "~3.10.1",
     "moment": "~2.10.6",
     "angular-bootstrap": "~0.14.3",
-    "ngmap": "~1.13.15"
+    "ngmap": "~1.13.15",
+    "angular-chart.js": "~0.8.5",
+    "awesome-bootstrap-checkbox": "~0.3.5",
+    "ng-tags-input": "~3.0.0",
+    "angular-permission": "~1.1.1"
   }
 }

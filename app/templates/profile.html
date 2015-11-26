@@ -1,5 +1,54 @@
 <div class="row">
-    <div class="col-lg-2 col-lg-offset-4 col-xs-5 col-xs-offset-1">
-
+    <div class="col-lg-2 col-lg-offset-3 col-xs-3 col-xs-offset-1">
+        <img class="img-rounded img-responsive" ng-src="{{image()}}" />
+    </div>
+    <div class="col-lg-4 col-xs-7">
+        <div class="row">
+            <div class="col-lg-12 col-xs-12">
+                <h3 ng-bind="name()"></h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-xs-12">
+                <strong>Hygienebelehrung vorhanden?</strong>
+                <br />
+                <div class="checkbox checkbox-success checkbox-circle">
+                    <input id="food_yes" type="radio" ng-model="data.food" ng-value="true" ng-disabled="updating" />
+                    <label for="food_yes">
+                        Ja
+                    </label>
+                </div>
+                <div class="checkbox checkbox-success checkbox-circle">
+                    <input id="food_no" type="radio" ng-model="data.food" ng-value="false   " ng-disabled="updating" />
+                    <label for="food_no">
+                        Nein
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="hasRole('translator')">
+            <div class="col-lg-12 col-xs-12">
+                <tags-input ng-model="data.languages" ng-disabled="updating" placeholder="Sprache hinzufügen"></tags-input>
+            </div>
+        </div>
+        <div class="row" ng-show="saved">
+            <div class="col-lg-12 col-xs-12">
+                <br />
+                <div class="alert alert-success" role="alert">Deine Änderungen wurden gespeichert.</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-lg-offset-3 col-xs-10 col-xs-offset-1">
+        <hr />
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-2 col-xs-4 col-lg-offset-5 col-xs-offset-3">
+        <a class="btn btn-default btn-block" ui-sref="calendar">Zurück zum Kalender</a>
+    </div>
+    <div class="col-lg-2 col-xs-4">
+        <div class="btn btn-default btn-block" ng-click="logout()">Abmelden</div>
     </div>
 </div>

@@ -1,12 +1,13 @@
 /**
- * Created by duergner on 08/11/15.
+ * @license ZOB Angels
+ * (c) 2015 SpruceHill.io GmbH
+ * License: MIT
  */
 (function() {
     'use strict';
 
-    var directives = angular.module('ZOBAngels.directives',[]);
-
-    directives.directive('angelListPrint',[
+    angular.module('ZOBAngels.directive.AngelListPrintDirective',[
+    ]).directive('angelListPrint',[
         '$compile',
         '$templateCache',
         '$controller',

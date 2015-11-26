@@ -35,7 +35,7 @@
                 case 'archangel':
                     return 'Tagesengel';
                 case 'translator':
-                    return 'Übersetzerin / Übersetzer';
+                    return 'ÜbersetzerIn';
                 case 'medical':
                     return 'Ärztin / Arzt';
                 default:

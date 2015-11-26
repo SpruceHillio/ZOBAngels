@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col-lg-3 col-xs-3"></div>
+    <div class="col-lg-3 col-xs-3">
+        18-20 Uhr
+    </div>
+    <div class="col-lg-3 col-xs-3">
+        20-22 Uhr
+    </div>
+    <div class="col-lg-3 col-xs-3">
+        22-24 Uhr
+    </div>
+</div>
+<div class="row highlight-on-hover" ng-repeat="day in days">
+    <div class="col-lg-3 col-xs-3" ng-bind="day.dateFormat"></div>
+    <div class="col-lg-3 col-xs-3">
+        <p ng-repeat="assignment in day.one">
+            <a ng-if="assignment.get('user').get('facebookId')" href="https://facebook.com/" target="_blank" ng-href="https://facebook.com/{{assignment.get('user').get('facebookId')}}" ng-bind="assignment.get('user').get('name')"></a>
+            <span ng-if="!assignment.get('user').get('facebookId')" ng-bind="assignment.get('user').get('name')"></span>
+            <i ng-if="assignment.get('type')" class="fa fa-fw" ng-class="{'fa-star' : 'archangel' === assignment.get('type'), 'fa-comment-o' : 'translator' === assignment.get('type'), 'fa-medkit' : 'medical' === assignment.get('type')}"></i>
+        </p>
+    </div>
+    <div class="col-lg-3 col-xs-3">
+        <p ng-repeat="assignment in day.two">
+            <a ng-if="assignment.get('user').get('facebookId')" href="https://facebook.com/" target="_blank" ng-href="https://facebook.com/{{assignment.get('user').get('facebookId')}}" ng-bind="assignment.get('user').get('name')"></a>
+            <span ng-if="!assignment.get('user').get('facebookId')" ng-bind="assignment.get('user').get('name')"></span>
+            <i ng-if="assignment.get('type')" class="fa fa-fw" ng-class="{'fa-star' : 'archangel' === assignment.get('type'), 'fa-comment-o' : 'translator' === assignment.get('type'), 'fa-medkit' : 'medical' === assignment.get('type')}"></i>
+        </p>
+    </div>
+    <div class="col-lg-3 col-xs-3">
+        <p ng-repeat="assignment in day.three">
+            <a ng-if="assignment.get('user').get('facebookId')" href="https://facebook.com/" target="_blank" ng-href="https://facebook.com/{{assignment.get('user').get('facebookId')}}" ng-bind="assignment.get('user').get('name')"></a>
+            <span ng-if="!assignment.get('user').get('facebookId')" ng-bind="assignment.get('user').get('name')"></span>
+            <i ng-if="assignment.get('type')" class="fa fa-fw" ng-class="{'fa-star' : 'archangel' === assignment.get('type'), 'fa-comment-o' : 'translator' === assignment.get('type'), 'fa-medkit' : 'medical' === assignment.get('type')}"></i>
+        </p>
+    </div>
+</div>

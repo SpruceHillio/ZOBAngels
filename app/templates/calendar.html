@@ -14,6 +14,13 @@
                 </div>
             </div>
         </div>
+        <div class="row" ng-show="!hasFoodSetting">
+            <div class="col-lg-12 col-xs-12">
+                <div class="alert alert-warning alert-dismissible" role="alert">
+                    <strong>Wichtig:</strong> Bitte gib in Deinem <a ui-sref="profile">Profil</a> noch an, ob Du eine gültige Hygienebelehrung hast.
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-2 col-xs-3">
                 <div class="btn btn-default paging" ng-disabled="0 >= currentDay" ng-click="previousDay()" ng-show="0 < currentDay">
@@ -30,6 +37,7 @@
             </div>
         </div>
         <div ng-repeat="section in days[currentDay].sections">
+            <div class="alert alert-success" role="alert" ng-show="section.feedback">Vielen Dank dass Du in dieser Schicht dabei bist - ist auch schon alles gespeichert.</div>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <strong ng-bind="section.title">Header</strong>
@@ -44,6 +52,9 @@
                             <span class="type" ng-class="{'taken' : slot.taken()}" ng-show="'angel' !== slot.type()">
                                 <i class="fa fa-fw" ng-class="{'fa-star' : 'archangel' === slot.type(), 'fa-comment-o' : 'translator' === slot.type(), 'fa-medkit' : 'medical' === slot.type()}"></i>
                             </span>
+                            <span class="food" ng-show="slot.get('user').get('food')">
+                                <i class="fa fa-fw fa-cutlery"></i>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -51,7 +62,6 @@
                     <span class="small" ng-bind="section.description">Footer</span>
                 </div>
             </div>
-            <div class="alert alert-success" role="alert" ng-show="section.feedback">Vielen Dank dass Du in dieser Schicht dabei bist - ist auch schon alles gespeichert.</div>
         </div>
         <div class="panel panel-default" ng-show="hasRole('archangel')">
             <div class="panel-body">

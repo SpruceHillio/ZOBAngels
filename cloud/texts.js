@@ -32,21 +32,21 @@
         one: {
             title: '18-20 Uhr',
             texts: {
-                angel : 'Es fehlern uns noch __COUNT__ Engel',
+                angel : 'Es fehlesn uns noch __COUNT__ Engel',
                 archangel : 'Es fehlt uns noch der Tagesengel'
             }
         },
         two: {
             title: '20-22 Uhr',
             texts: {
-                angel : 'Es fehlern uns noch __COUNT__ Engel',
+                angel : 'Es fehlen uns noch __COUNT__ Engel',
                 archangel : 'Es fehlt uns noch der Tagesengel'
             }
         },
         three: {
             title: '22-24 Uhr',
             texts: {
-                angel : 'Es fehlern uns noch __COUNT__ Engel',
+                angel : 'Es fehlen uns noch __COUNT__ Engel',
                 archangel : 'Es fehlt uns noch der Tagesengel'
             }
         }

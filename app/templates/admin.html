@@ -14,23 +14,40 @@
 <div class="row">
     <div class="col-lg-4">
         <div class="radio" ng-repeat="roleContainer in roles">
-            <label>
-                <input type="radio" ng-model="selection.source" ng-value="roleContainer"> {{roleContainer.role.getName()}}
+            <input id="source_{{roleContainer.role.getName()}}" type="radio" ng-model="selection.source" ng-value="roleContainer">
+            <label for="source_{{roleContainer.role.getName()}}">
+                 {{roleContainer.role.getName()}}
             </label>
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="checkbox" ng-repeat="user in users">
-            <label>
-                <input type="checkbox" checklist-model="selection.targetUsers" checklist-value="user" ng-show="!alreadyMemberUser(user)" ng-disabled="alreadyMemberUser(user)"><i class="fa fa-check" ng-show="alreadyMemberUser(user) && !toRemoveUser(user)" ng-click="removeMemberUser(user)"></i><i class="fa fa-minus" ng-show="alreadyMemberUser(user) && toRemoveUser(user)" ng-click="notRemoveMemberUser(user)"></i> {{user.get('name')}}
-            </label>
+        <div ng-repeat="user in users | orderBy:userGetName">
+            <div class="checkbox" ng-show="!alreadyMemberUser(user)">
+                <input id="target_user_{{user.id}}" type="checkbox" checklist-model="selection.targetUsers" checklist-value="user" ng-disabled="alreadyMemberUser(user)">
+                <label for="target_user_{{user.id}}">
+                    {{user.get('name')}}
+                </label>
+            </div>
+            <div ng-show="alreadyMemberUser(user)" style="padding-left: 20px; margin-top: 10px; margin-bottom: 10px;">
+                <i style="margin-left: -20px;" class="fa fa-fw fa-check" ng-show="alreadyMemberUser(user) && !toRemoveUser(user)" ng-click="removeMemberUser(user)"></i>
+                <i style="margin-left: -20px;" class="fa fa-fw fa-minus" ng-show="alreadyMemberUser(user) && toRemoveUser(user)" ng-click="notRemoveMemberUser(user)"></i>
+                <span style="display: inline-block; margin-left: 3px;" ng-bind="user.get('name')"></span>
+            </div>
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="checkbox" ng-repeat="roleContainer in roles">
-            <label>
-                <input type="checkbox" checklist-model="selection.targetRoles" checklist-value="roleContainer.role" ng-show="!alreadyMemberRole(roleContainer.role)" ng-disabled="alreadyMemberRole(roleContainer.role)"><i class="fa fa-check" ng-show="alreadyMemberRole(roleContainer.role) && !toRemoveRole(roleContainer.role)" ng-click="removeMemberRole(roleContainer.role)"></i><i class="fa fa-minus" ng-show="alreadyMemberRole(roleContainer.role) && toRemoveRole(roleContainer.role)" ng-click="notRemoveMemberRole(roleContainer.role)"></i> {{roleContainer.role.getName()}}
-            </label>
+        <div ng-repeat="roleContainer in roles">
+            <div class="checkbox" ng-show="!alreadyMemberRole(roleContainer.role)">
+                <input id="target_role_{{roleContainer.role.getName()}}" type="checkbox" checklist-model="selection.targetRoles" checklist-value="roleContainer.role" ng-disabled="alreadyMemberRole(roleContainer.role)">
+                <label for="target_role_{{roleContainer.role.getName()}}">
+                    {{roleContainer.role.getName()}}
+                </label>
+            </div>
+            <div ng-show="alreadyMemberRole(roleContainer.role)" style="padding-left: 20px; margin-top: 10px; margin-bottom: 10px;">
+                <i style="margin-left: -20px;" class="fa fa-fw fa-check" ng-show="alreadyMemberRole(roleContainer.role) && !toRemoveRole(roleContainer.role)" ng-click="removeMemberRole(roleContainer.role)"></i>
+                <i style="margin-left: -20px;" class="fa fa-fw fa-minus" ng-show="alreadyMemberRole(roleContainer.role) && toRemoveRole(roleContainer.role)" ng-click="notRemoveMemberRole(roleContainer.role)"></i>
+                <span style="display: inline-block; margin-left: 3px;" ng-bind="roleContainer.role.getName()"></span>
+            </div>
         </div>
     </div>
 </div>

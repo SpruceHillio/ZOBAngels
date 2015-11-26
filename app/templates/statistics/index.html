@@ -1,0 +1,9 @@
+<div class="row">
+    <div class="col-lg-6 col-xs-6">
+        <a class="btn btn-block" ng-class="{'btn-default' : 'day' !== section(), 'btn-primary' : 'day' === section()}" ui-sref="statistics.day">Nach Tagen</a>
+    </div>
+    <div class="col-lg-6 col-xs-6">
+        <a class="btn btn-block" ng-class="{'btn-default' : 'user' !== section(), 'btn-primary' : 'user' === section()}" ui-sref="statistics.user">Nach Engel</a>
+    </div>
+</div>
+<div ui-view></div>

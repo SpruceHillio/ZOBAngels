@@ -2,6 +2,10 @@
     <strong><i class="fa fa-fw" ng-class="{'fa-star' : 'archangel' === slot.type(), 'fa-comment-o' : 'translator' === slot.type(), 'fa-medkit' : 'medical' === slot.type()}"></i> <span ng-bind="slot.typeName()"></span></strong>
 </div>
 <br />
+<div ng-show="'translator' === slot.type()">
+    <span ng-repeat="language in slot.get('user').get('languages')"><span class="label label-default" ng-bind="language.text"></span>&nbsp;</span>
+</div>
+<br />
 <div class="text-center">
     <a class="btn btn-primary" ng-href="https://facebook.com/{{slot.facebookId()}}" target="_blank" ng-show="slot.facebookId()"><i class="fa fw fa-facebook-f"></i> Facebook Profil</a>
     <span ng-bind="slot.gender()" ng-show="!slot.facebookId()"></span>

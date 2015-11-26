@@ -38,6 +38,11 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
+            src: 'app/**/*.js',
+            dest: 'tmp/'
+          },
+          {
+            expand: true,
             src: 'shared/*.js',
             dest: 'tmp/'
           },
@@ -189,6 +194,14 @@ module.exports = function(grunt) {
           mangle: false
         }
       },
+      'angular-permission': {
+        files: {
+          'tmp/angular-permission.min.js': [ 'libs/angular-permission/dist/angular-permission.js' ]
+        },
+        options: {
+          mangle: false
+        }
+      },
       'parse-angular': {
         files: {
           'tmp/parse-angular.min.js': [ 'libs/parse-angular-patch/src/parse-angular.js' ]
@@ -317,6 +330,10 @@ module.exports = function(grunt) {
           'libs/bootstrap/dist/css/bootstrap.min.css',
           'libs/angular-bootstrap/ui-bootstrap-csp.css',
           'libs/fontawesome/css/font-awesome.min.css',
+          'libs/angular-chart.js/dist/angular-chart.min.css',
+          'libs/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
+          'libs/ng-tags-input/ng-tags-input.min.css',
+          'libs/ng-tags-input/ng-tags-input.bootstrap.min.css',
           'assets/css/app.css'
         ],
         dest: 'dist/assets/css/app.css',
@@ -326,7 +343,8 @@ module.exports = function(grunt) {
       },
       app: {
         src: [
-          'tmp/app/*.js',
+          'tmp/app/js/*.js',
+          'tmp/app/js/**/*.js',
           'tmp/shared/*.js'
         ],
         dest: 'tmp/app.js'
@@ -339,7 +357,10 @@ module.exports = function(grunt) {
           'libs/angular-bootstrap/ui-bootstrap-tpls.min.js',
           'libs/ngmap/build/scripts/ng-map.min.js',
           'libs/angular-ui-router/release/angular-ui-router.min.js',
-          'libs/angular-ui-router/release/angular-ui-router.min.js',
+          'tmp/angular-permission.min.js',
+          'libs/Chart.js/Chart.min.js',
+          'libs/angular-chart.js/dist/angular-chart.min.js',
+          'libs/ng-tags-input/ng-tags-input.min.js',
           'tmp/checklist-model.min.js',
           'libs/parse/parse.min.js',
           'tmp/parse-angular.min.js',
@@ -352,7 +373,7 @@ module.exports = function(grunt) {
     },
 
     jshint: {
-      all: [ 'Gruntfile.js', 'app/*.js', 'app/**/*.js', 'shared/*.js', 'shared/**/*.js', 'cloud/*.js', 'cloud/**/*.js' ]
+      all: [ 'Gruntfile.js', 'app/js/*.js', 'app/js/**/*.js', 'shared/*.js', 'shared/**/*.js', 'cloud/*.js', 'cloud/**/*.js' ]
     },
 
     connect: {
@@ -366,8 +387,8 @@ module.exports = function(grunt) {
 
     watch: {
       dev: {
-        files: [ configFile, 'Gruntfile.js', 'app/*.js', 'app/**/*.js', 'public/*.html', 'public/**/*.html', 'app/templates/*.html', 'app/templates/**/*.html', 'assets/css/*.css', '<%= config.assetsDir %>**/*' ],
-        tasks: [ 'jshint', 'uglify:checklist-model', 'uglify:parse-angular', 'string-replace:dist', 'html2js:dist', 'concat:css', 'concat:app', 'concat:dist', 'copy:dist', 'clean:temp' ],
+        files: [ configFile, 'Gruntfile.js', 'app/js/*.js', 'app/js/**/*.js', 'public/*.html', 'public/**/*.html', 'app/templates/*.html', 'app/templates/**/*.html', 'assets/css/*.css', '<%= config.assetsDir %>**/*' ],
+        tasks: [ 'jshint', 'uglify:checklist-model', 'uglify:angular-permission', 'uglify:parse-angular', 'string-replace:dist', 'html2js:dist', 'concat:css', 'concat:app', 'concat:dist', 'copy:dist', 'clean:temp' ],
         options: {
           atBegin: true
         }
@@ -380,8 +401,8 @@ module.exports = function(grunt) {
         }
       },
       min: {
-        files: [ configFile, 'Gruntfile.js', 'app/*.js', '*.html', '<%= config.assetsDir %>**/*' ],
-        tasks: [ 'jshint', 'uglify:checklist-model', 'uglify:parse-angular', 'string-replace:dist', 'html2js:dist', 'concat:css', 'concat:app', 'uglify:dist', 'concat:dist', 'copy:dist', 'clean:temp' ],
+        files: [ configFile, 'Gruntfile.js', 'app/js/*.js', 'app/js/**/*.js', '*.html', '<%= config.assetsDir %>**/*' ],
+        tasks: [ 'jshint', 'uglify:checklist-model', 'uglify:angular-permission', 'uglify:parse-angular', 'string-replace:dist', 'html2js:dist', 'concat:css', 'concat:app', 'uglify:dist', 'concat:dist', 'copy:dist', 'clean:temp' ],
         options: {
           atBegin: true
         }
@@ -443,6 +464,7 @@ module.exports = function(grunt) {
     'jshint',
     'clean:dist',
     'uglify:checklist-model',
+    'uglify:angular-permission',
     'uglify:parse-angular',
     'string-replace:dist',
     'html2js:dist',

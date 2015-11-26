@@ -34,8 +34,8 @@
 
     <link rel="shortcut icon" href="__HOSTING_BASE__assets/images/favicon.png" type="image/png" />
 </head>
-<body ng-controller="ZOBAngels.controllers.PageController">
-<nav class="navbar navbar-default navbar-fixed-top" ng-controller="ZOBAngels.controllers.Navigation">
+<body ng-controller="ZOBAngels.controller.PageController">
+<nav class="navbar navbar-default navbar-fixed-top" ng-controller="ZOBAngels.controller.NavigationController">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -48,13 +48,14 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse" ng-class="{'not-ready' : !ready()}">
             <ul class="nav navbar-nav">
-                <li ng-class="{'active': onPage(NavigationService.PAGE.LOGIN)}" ng-click="login()" ng-show="!isLoggedIn()"><a ui-sref="login">Anmelden</a></li>
-                <li ng-class="{'active': onPage(NavigationService.PAGE.HOME)}" ng-click="home()" ng-show="isLoggedIn()"><a ui-sref="home">Kalender</a></li>
-                <li ng-class="{'active': onPage(NavigationService.PAGE.ABOUT)}" ng-click="about()"><a ui-sref="about">Über uns</a></li>
-                <li ng-class="{'active': onPage(NavigationService.PAGE.ADMIN)}" ng-click="admin()" ng-show="hasRole('admin')"><a ui-sref="admin">Admin</a></li>
+                <li ng-class="{'active': onPage(NavigationService.PAGE.LOGIN)}" ng-show="!isLoggedIn()"><a ui-sref="login">Anmelden</a></li>
+                <li ng-class="{'active': onPage(NavigationService.PAGE.HOME)}" ng-show="isLoggedIn()"><a ui-sref="calendar">Kalender</a></li>
+                <li ng-class="{'active': onPage(NavigationService.PAGE.ABOUT)}"><a ui-sref="about">Über uns</a></li>
+                <li ng-class="{'active': onPage(NavigationService.PAGE.DONATION)}"><a ui-sref="donation">Spenden</a></li>
+                <li ng-class="{'active': onPage(NavigationService.PAGE.ADMIN)}" ng-show="hasRole('admin')"><a ui-sref="admin">Admin</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right" ng-show="isLoggedIn()">
-                <li ng-click="logout()"><img class="img-rounded" style="max-height: 30px; margin-top: 10px;" ng-src="{{image()}}" ng-title="{{name()}}" /></li>
+                <li ng-class="{'active': onPage(NavigationService.PAGE.PROFILE)}"><a ui-sref="profile">Profil</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -62,14 +63,6 @@
 <div class="container-fluid" ui-view  ng-class="{'not-ready' : !ready()}"></div>
 <script type="text/javascript" src="assets/js/app.js"></script>
 <script type="text/javascript">
-    function initMap() {
-        // Create a map object and specify the DOM element for display.
-        var map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: -34.397, lng: 150.644},
-            scrollwheel: false,
-            zoom: 8
-        });
-    }
     (function(doc, script) {
         var js,
                 fjs = doc.getElementsByTagName(script)[0],
