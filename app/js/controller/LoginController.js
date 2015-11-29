@@ -27,7 +27,7 @@
             $scope.NavigationService = NavigationService;
 
             $scope.canLoginWithoutFacebook = function() {
-                return $scope.user.name && 3 < $scope.user.name.length && $scope.user.gender;
+                return $scope.user.name && 2 < $scope.user.name.length && $scope.user.gender;
             };
 
             $scope.loginWithoutFacebook = function() {
