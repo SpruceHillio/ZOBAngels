@@ -71,6 +71,17 @@
                 return result;
             },
 
+            facebookPinnedPost: function(request,response) {
+                Parse.Cloud.httpRequest({
+                    method: 'GET',
+                    url: 'https://graph.facebook.com/v2.5/__FACEBOOK_PINNED_POST__?access_token=__FACEBOOK_APP_ACCESSTOKEN__'
+                }).then(function(httpResponse) {
+                    response.success(httpResponse.data);
+                }, function(httpResponse) {
+                    response.error(httpResponse.text);
+                });
+            },
+
             sectionsWithAssignments: function(request,response) {
                 var query = new Parse.Query(model.Assignment),
                     rolesPromise = security.roles(request.user),

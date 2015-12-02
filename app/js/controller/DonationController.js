@@ -23,14 +23,15 @@
                 show: false
             };
 
-            if (FB) {
-                FB.apiAngular('/v2.5/__FACEBOOK_PINNED_POST__').then(function(post) {
-                    if (post) {
-                        $scope.post.show = true;
-                        $scope.post.message = $sce.trustAsHtml(post.message.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br />$2'));
-                    }
-                });
-            }
+            Parse.Cloud.run('facebookPinnedPost',{},{
+               success: function(post) {
+                   $scope.post.show = true;
+                   $scope.post.message = $sce.trustAsHtml(post.message.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br />$2'));
+               },
+                error: function(error) {
+                    $log.debug('error: ',error);
+                }
+            });
 
             $log.debug('ZOBAngels.controller.DonationController loaded');
         }

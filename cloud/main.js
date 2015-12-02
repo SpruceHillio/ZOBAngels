@@ -38,6 +38,10 @@ Parse.Cloud.define('sectionsWithAssignments',function(request,response) {
     functions.sectionsWithAssignments(request,response);
 });
 
+Parse.Cloud.define('facebookPinnedPost', function(request,response) {
+    functions.facebookPinnedPost(request,response);
+});
+
 Parse.Cloud.define('initRoles',function(request,response) {
     security.initRoles(request,response);
 });
