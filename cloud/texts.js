@@ -21,7 +21,9 @@
     return {
         type: {
             angel: 'Engel',
-            archangel: 'Tagesengel'
+            archangel: 'Tagesengel',
+            translator: 'ÜbersetzerIn',
+            medical: 'Arzt / Ärztin'
         },
         driver: {
             title: 'Fahrer',
@@ -32,7 +34,7 @@
         one: {
             title: '18-20 Uhr',
             texts: {
-                angel : 'Es fehlesn uns noch __COUNT__ Engel',
+                angel : 'Es fehlen uns noch __COUNT__ Engel',
                 archangel : 'Es fehlt uns noch der Tagesengel'
             }
         },
