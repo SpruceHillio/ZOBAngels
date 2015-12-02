@@ -52,7 +52,9 @@
                                 return [roleContainer.role];
                             }
                             else {
-                                return roleContainer.roles.map(function(role) {
+                                return roleContainer.roles.filter(function(role) {
+                                    return roleContainer.role.getName() !== role.getName();
+                                }).map(function(role) {
                                     return collectRoles(self._rolesById[role.id]);
                                 }).reduce(function(a,b) {
                                     Array.prototype.push.apply(a,b);
