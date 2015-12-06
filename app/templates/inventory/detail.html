@@ -9,15 +9,19 @@
             </div>
         </div>
     </div>
+</div>
+<div class="row">
     <div class="col-lg-3 col-xs-6" ng-repeat="detail in section.entries">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <strong ng-bind="detail.name"></strong>
             </div>
             <div class="panel-body">
+                <p>Einheit: <strong ng-bind="detail.unit"></strong></p>
                 <div class="btn-group btn-group-justified">
-                    <div class="btn btn-default btn-block"><i class="fa fa-fw fa-4x fa-plus"></i></div>
-                    <div class="btn btn-default btn-block"><i class="fa fa-fw fa-4x fa-minus"></i></div>
+                    <div class="btn btn-block" ng-class="{'btn-default' : !detail.today, 'btn-primary': detail.today}" ng-repeat="quantity in detail.quantities" ng-model="detail.quantity" uib-btn-radio="quantity" ng-bind="quantity" ng-click="update(detail)"></div>
+                    <!--<div class="btn btn-default btn-block"><i class="fa fa-fw fa-4x fa-plus"></i></div>-->
+                    <!--<div class="btn btn-default btn-block"><i class="fa fa-fw fa-4x fa-minus"></i></div>-->
                 </div>
             </div>
         </div>

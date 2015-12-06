@@ -83,7 +83,7 @@
                     authenticate: true,
                     data: {
                         permissions: {
-                            only: ['archangel'],
+                            only: ['inventory'],
                             redirectTo: 'login'
                         }
                     }
@@ -94,7 +94,7 @@
                     authenticate: true,
                     data: {
                         permissions: {
-                            only: ['archangel'],
+                            only: ['inventory'],
                             redirectTo: 'login'
                         }
                     }
@@ -105,7 +105,7 @@
                     authenticate: true,
                     data: {
                         permissions: {
-                            only: ['archangel'],
+                            only: ['inventory'],
                             redirectTo: 'login'
                         }
                     }
@@ -162,7 +162,7 @@
                 //    }
                 //});
 
-                permission.defineManyRoles(['angel','translator','medical','archangel','orga','admin'], function (stateParams, roleName) {
+                permission.defineManyRoles(['angel','translator','medical','inventory','archangel','orga','admin'], function (stateParams, roleName) {
                     return AccountService.hasRole(roleName);
                 });
             }
