@@ -94,7 +94,40 @@
         }
     });
 
+    var Inventory = Parse.Object.extend('Inventory',{
+        date: function() {
+            return this.get('date');
+        },
+        section: function() {
+            return this.get('section');
+        },
+        key: function() {
+            return this.get('key');
+        },
+        quantity: function(quantity) {
+            if (quantity) {
+                this.set('quantity',quantity);
+            }
+            return this.get('quantity');
+        }
+    },{
+        create: function(date, section, key, quantity) {
+            var inventory = new Inventory(),
+                acl = new Parse.ACL();
+            acl.setPublicReadAccess(false);
+            acl.setRoleReadAccess('inventory',true);
+            acl.setRoleWriteAccess('inventory',true);
+            inventory.set('date',date);
+            inventory.set('section',section);
+            inventory.set('key',key);
+            inventory.set('quantity',quantity);
+            inventory.setACL(acl);
+            return inventory;
+        }
+    });
+
     return {
-        Assignment: Assignment
+        Assignment: Assignment,
+        Inventory: Inventory
     };
 });
