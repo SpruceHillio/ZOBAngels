@@ -18,6 +18,7 @@
     "angular-chart.js": "~0.8.5",
     "awesome-bootstrap-checkbox": "~0.3.5",
     "ng-tags-input": "~3.0.0",
-    "angular-permission": "~1.1.1"
+    "angular-permission": "~1.1.1",
+    "bootstrap-toggle": "~2.2.1"
   }
 }
