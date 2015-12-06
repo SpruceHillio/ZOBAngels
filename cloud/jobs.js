@@ -94,8 +94,10 @@
                 });
             },
             angelStatus: function(request,status) {
-                var moment = moment(new Date());
-                moment.utc();
+                console.log('config: '+config);
+                console.log('moment: '+moment);
+                //var moment = moment(new Date());
+                //moment.utc();
                 helpers.helperStats(new Date(new Date().toJSON().slice(0,10)).getTime() - (60 * 60 * 1000),config).then(function(result) {
                     var types = ['angel'],
                         fields = result.fields,
