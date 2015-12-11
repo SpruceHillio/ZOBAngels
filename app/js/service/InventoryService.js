@@ -28,47 +28,29 @@
                                 id: 'trouser_sm',
                                 name: 'Hose (S/M)',
                                 unit: 'Stück',
-                                quantities: ['0','2','4','6','8','10+']
+                                quantities: ['0','5','10','15','20','25+']
                             },
                             {
                                 id: 'trouser_l',
                                 name: 'Hose (L)',
                                 unit: 'Stück',
-                                quantities: ['0','2','4','6','8','10+']
-                            },
-                            {
-                                id: 'gloves',
-                                name: 'Handschuhe',
-                                unit: 'Kiste',
-                                quantities: ['0', '1/2', '1', '1 1/2', '2']
-                            },
-                            {
-                                id: 'socks',
-                                name: 'Socken',
-                                unit: 'Kiste',
-                                quantities: ['0', '1/2', '1', '1 1/2', '2']
-                            },
-                            {
-                                id: 'caps',
-                                name: 'Mützen',
-                                unit: 'Kiste',
-                                quantities: ['0', '1/2', '1', '1 1/2', '2']
-                            },
-                            {
-                                id: 'shoe_38',
-                                name: 'Schuhe (38)',
-                                unit: 'Stück',
                                 quantities: ['0','1','2','3','4','5+']
                             },
                             {
-                                id: 'shoe_39',
-                                name: 'Schuhe (39)',
+                                id: 'pullover',
+                                name: 'Pullover',
                                 unit: 'Stück',
-                                quantities: ['0','1','2','3','4','5+']
+                                quantities: ['0','5','10','15','20','25+']
                             },
                             {
-                                id: 'shoe_40',
-                                name: 'Schuhe (40)',
+                                id: 'jacket_sm',
+                                name: 'Jacke (S/M)',
+                                unit: 'Stück',
+                                quantities: ['0','5','10','15','20','25+']
+                            },
+                            {
+                                id: 'jacket_l',
+                                name: 'Jacke (L)',
                                 unit: 'Stück',
                                 quantities: ['0','1','2','3','4','5+']
                             },
@@ -104,44 +86,111 @@
                             }
                         ]
                     },
+                    unisex: {
+                        name: 'Unisex',
+                        icon: 'fa-users',
+                        entries: [
+                            {
+                                id: 'caps',
+                                name: 'Mützen',
+                                unit: 'Kiste',
+                                quantities: ['0', '1/2', '1', '1 1/2', '2']
+                            },
+                            {
+                                id: 'gloves',
+                                name: 'Handschuhe',
+                                unit: 'Kiste',
+                                quantities: ['0', '1/2', '1', '1 1/2', '2']
+                            },
+                            {
+                                id: 'scarf',
+                                name: 'Schal',
+                                unit: 'Kiste',
+                                quantities: ['0', '1/2', '1', '1 1/2', '2']
+                            },
+                            {
+                                id: 'socks',
+                                name: 'Socken',
+                                unit: 'Kiste',
+                                quantities: ['0', '1/2', '1', '1 1/2', '2']
+                            }
+                        ]
+                    },
                     woman: {
                         name: 'Frauen',
                         icon: 'fa-female',
                         entries: [
                             {
-                                id: 'trouser_sm',
-                                name: 'Hose (S/M)',
+                                id: 'trouser',
+                                name: 'Hose',
+                                unit: 'Stück',
                                 quantities: ['0','2','4','6','8','10+']
                             },
                             {
-                                id: 'trouser_l',
-                                name: 'Hose (L)',
+                                id: 'pullover',
+                                name: 'Pullover',
+                                unit: 'Stück',
                                 quantities: ['0','2','4','6','8','10+']
+                            },
+                            {
+                                id: 'jacket',
+                                name: 'Pullover',
+                                unit: 'Stück',
+                                quantities: ['0','2','4','6','8','10+']
+                            },
+                            {
+                                id: 'stocking',
+                                name: 'Strumpfhosen',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
+                            },
+                            {
+                                id: 'leggings',
+                                name: 'Leggings',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
+                            },
+                            {
+                                id: 'shoe_36',
+                                name: 'Schuhe (36)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'shoe_37',
+                                name: 'Schuhe (37)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
                             },
                             {
                                 id: 'shoe_38',
                                 name: 'Schuhe (38)',
+                                unit: 'Stück',
                                 quantities: ['0','1','2','3','4','5+']
                             },
                             {
                                 id: 'shoe_39',
                                 name: 'Schuhe (39)',
+                                unit: 'Stück',
                                 quantities: ['0','1','2','3','4','5+']
                             },
                             {
                                 id: 'shoe_40',
                                 name: 'Schuhe (40)',
+                                unit: 'Stück',
                                 quantities: ['0','1','2','3','4','5+']
                             },
                             {
                                 id: 'shoe_41',
                                 name: 'Schuhe (41)',
+                                unit: 'Stück',
                                 quantities: ['0','1','2','3','4','5+']
                             },
                             {
-                                id: 'shoe_42',
-                                name: 'Schuhe (42)',
-                                quantities: ['0','1','2','3','4','5+']
+                                id: 'hygiene',
+                                name: 'Hygieneartikel',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
                             }
                         ]
                     },
@@ -150,19 +199,358 @@
                         icon: 'fa-child',
                         entries: [
                             {
-                                id: 'trouser_sm',
-                                name: 'Hose (S/M)',
-                                quantities: ['0','2','4','6','8','10+']
+                                id: 'trouser_134',
+                                name: 'Hose (134)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'trouser_140',
+                                name: 'Hose (140)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'trouser_146',
+                                name: 'Hose (146)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'trouser_152',
+                                name: 'Hose (152)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'trouser_158',
+                                name: 'Hose (158)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'trouser_164',
+                                name: 'Hose (164)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'trouser_170',
+                                name: 'Hose (170)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'trouser_176',
+                                name: 'Hose (176)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'pullover_134',
+                                name: 'Pullover (134)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'pullover_140',
+                                name: 'Pullover (140)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'pullover_146',
+                                name: 'Pullover (146)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'pullover_152',
+                                name: 'Pullover (152)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'pullover_158',
+                                name: 'Pullover (158)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'pullover_164',
+                                name: 'Pullover (164)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'pullover_170',
+                                name: 'Pullover (170)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'pullover_176',
+                                name: 'Pullover (176)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'jacket_134',
+                                name: 'Jacke (134)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'jacket_140',
+                                name: 'Jacke (140)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'jacket_146',
+                                name: 'Jacke (146)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'jacket_152',
+                                name: 'Jacke (152)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'jacket_158',
+                                name: 'Jacke (158)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'jacket_164',
+                                name: 'Jacke (164)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'jacket_170',
+                                name: 'Jacke (170)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'jacket_176',
+                                name: 'Jacke (176)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3','4','5+']
                             },
                             {
                                 id: 'trouser_l',
                                 name: 'Hose (L)',
+                                unit: 'Stück',
                                 quantities: ['0','2','4','6','8','10+']
                             },
                             {
-                                id: 'shoe_38',
-                                name: 'Schuhe (38)',
-                                quantities: ['0','1','2','3','4','5+']
+                                id: 'shoe_21',
+                                name: 'Schuhe (21)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'shoe_22',
+                                name: 'Schuhe (22)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'shoe_23',
+                                name: 'Schuhe (23)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'shoe_24',
+                                name: 'Schuhe (24)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'shoe_25',
+                                name: 'Schuhe (25)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'shoe_26',
+                                name: 'Schuhe (26)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'shoe_27',
+                                name: 'Schuhe (27)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'shoe_28',
+                                name: 'Schuhe (28)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'shoe_29',
+                                name: 'Schuhe (29)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'shoe_30',
+                                name: 'Schuhe (30)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'shoe_31',
+                                name: 'Schuhe (31)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'shoe_32',
+                                name: 'Schuhe (32)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'shoe_33',
+                                name: 'Schuhe (33)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'shoe_34',
+                                name: 'Schuhe (34)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'shoe_35',
+                                name: 'Schuhe (35)',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'socks',
+                                name: 'Socken',
+                                unit: 'Kiste',
+                                quantities: ['0','1/4','1/2+']
+                            },
+                            {
+                                id: 'caps',
+                                name: 'Mützen',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
+                            },
+                            {
+                                id: 'gloves',
+                                name: 'Handschuhe`',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
+                            },
+                            {
+                                id: 'scarf',
+                                name: 'Schal',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
+                            },
+                            {
+                                id: 'underwear',
+                                name: 'Unterwäsche',
+                                unit: 'Kiste',
+                                quantities: ['0','1/4','1/2+']
+                            },
+                            {
+                                id: 'toys',
+                                name: 'Spielzeug',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
+                            }
+                        ]
+                    },
+                    baby: {
+                        name: 'Baby',
+                        icon: 'fa-child',
+                        entries: [
+                            {
+                                id: 'sleepingbag',
+                                name: 'Schlafsack',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
+                            },
+                            {
+                                id: 'clothing',
+                                name: 'KLeindung',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1','1 1/2','2+']
+                            },
+                            {
+                                id: 'socks',
+                                name: 'Socken',
+                                unit: 'Kiste',
+                                quantities: ['0','1/4','1/2+']
+                            },
+                            {
+                                id: 'nappies_1',
+                                name: 'Windel (1)',
+                                unit: 'Kiste',
+                                quantities: ['0','1/4','1/2+']
+                            },
+                            {
+                                id: 'nappies_2',
+                                name: 'Windel (2)',
+                                unit: 'Kiste',
+                                quantities: ['0','1/4','1/2+']
+                            },
+                            {
+                                id: 'nappies_3',
+                                name: 'Windel (3)',
+                                unit: 'Kiste',
+                                quantities: ['0','1/4','1/2+']
+                            },
+                            {
+                                id: 'nappies_4',
+                                name: 'Windel (4)',
+                                unit: 'Kiste',
+                                quantities: ['0','1/4','1/2+']
+                            },
+                            {
+                                id: 'nappies_5',
+                                name: 'Windel (5)',
+                                unit: 'Kiste',
+                                quantities: ['0','1/4','1/2+']
+                            },
+                            {
+                                id: 'nappies_6',
+                                name: 'Windel (6)',
+                                unit: 'Kiste',
+                                quantities: ['0','1/4','1/2+']
+                            },
+                            {
+                                id: 'changingmat',
+                                name: 'Wickelunterlagen',
+                                unit: 'Kiste',
+                                quantities: ['0','1/4','1/2+']
+                            },
+                            {
+                                id: 'wet_tissues',
+                                name: 'Feuchttücher',
+                                unit: 'Kiste',
+                                quantities: ['0','1/4','1/2+']
+                            },
+                            {
+                                id: 'toys',
+                                name: 'Kuscheltiere',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
                             }
                         ]
                     },
@@ -171,14 +559,94 @@
                         icon: 'fa-cutlery',
                         entries: [
                             {
-                                id: 'shoe_39',
-                                name: 'Schuhe (39)',
-                                quantities: ['0','1','2','3','4','5+']
+                                id: 'chocolate_cookie',
+                                name: 'Kekse & Schokolade',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
                             },
                             {
-                                id: 'shoe_40',
-                                name: 'Schuhe (40)',
-                                quantities: ['0','1','2','3','4','5+']
+                                id: 'fruit',
+                                name: 'Obst',
+                                unit: 'Kiste',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'banana',
+                                name: 'Banane',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
+                            },
+                            {
+                                id: 'bread',
+                                name: 'Brot',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1','1 1/2','2+']
+                            },
+                            {
+                                id: 'banana',
+                                name: 'Banane',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
+                            },
+                            {
+                                id: 'banana',
+                                name: 'Banane',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
+                            },
+                            {
+                                id: 'instant_soup',
+                                name: 'Fertigsuppe',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
+                            },
+                            {
+                                id: 'water_small',
+                                name: 'Wasser (klein)',
+                                unit: 'Kiste',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'water_big',
+                                name: 'Wasser (groß)',
+                                unit: 'Liter',
+                                quantities: ['0','5','10','15','20','25+']
+                            },
+                            {
+                                id: 'savory',
+                                name: 'Salziges',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
+                            },
+                            {
+                                id: 'fruit_whatever',
+                                name: 'Fruchtquetschis',
+                                unit: 'Stück',
+                                quantities: ['0','5','10','15','20','25+']
+                            },
+                            {
+                                id: 'milk',
+                                name: 'Milch',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
+                            },
+                            {
+                                id: 'sugar',
+                                name: 'Zucker',
+                                unit: 'Kilo',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'salt',
+                                name: 'Salz',
+                                unit: 'Stück',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'baby',
+                                name: 'Babynahrung',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
                             }
                         ]
                     },
@@ -187,14 +655,106 @@
                         icon: 'fa-cubes',
                         entries: [
                             {
-                                id: 'trouser_sm',
-                                name: 'Hose (S/M)',
+                                id: 'blanket_light',
+                                name: 'Decke (leicht)',
+                                unit: 'Stück',
+                                quantities: ['0','5','10','15','20','25+']
+                            },
+                            {
+                                id: 'blanket_heavy',
+                                name: 'Decke (warm)',
+                                unit: 'Stück',
+                                quantities: ['0','5','10','15','20','25+']
+                            },
+                            {
+                                id: 'blanket_rescue',
+                                name: 'Rettungsdecke',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
+                            },
+                            {
+                                id: 'isomat',
+                                name: 'Isomatte',
+                                unit: 'Stück',
                                 quantities: ['0','1','2','3','4','5+']
                             },
                             {
-                                id: 'trouser_l',
-                                name: 'Hose (L)',
+                                id: 'sleepingbag',
+                                name: 'Schlafsack',
+                                unit: 'Stück',
                                 quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'hygiene',
+                                name: 'Hygieneartikel',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
+                            },
+                            {
+                                id: 'soles',
+                                name: 'Einlegesolen',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
+                            },
+                            {
+                                id: 'trashbag',
+                                name: 'Müllsack',
+                                unit: 'Rolle',
+                                quantities: ['0','1','2','3','4','5+']
+                            },
+                            {
+                                id: 'zewa',
+                                name: 'Zewa',
+                                unit: 'Rolle',
+                                quantities: ['0','1','2','3+']
+                            },
+                            {
+                                id: 'plate_flat',
+                                name: 'Teller',
+                                unit: 'Stück',
+                                quantities: ['0','5','10','15','20','25+']
+                            },
+                            {
+                                id: 'cup',
+                                name: 'Becher',
+                                unit: 'Stück',
+                                quantities: ['0','50','100','150','200+']
+                            },
+                            {
+                                id: 'spoon',
+                                name: 'Löffel',
+                                unit: 'Stück',
+                                quantities: ['0','50','100','150','200+']
+                            },
+                            {
+                                id: 'plate_deep',
+                                name: 'Suppenbecher',
+                                unit: 'Stück',
+                                quantities: ['0','50','100','150','200+']
+                            },
+                            {
+                                id: 'warmer',
+                                name: 'Wärmflasche',
+                                unit: 'Kiste',
+                                quantities: ['0','1/2','1+']
+                            },
+                            {
+                                id: 'schnuller',
+                                name: 'Schnuller',
+                                unit: 'Kiste',
+                                quantities: ['0','1/4','1/2+']
+                            },
+                            {
+                                id: 'baby_bottle',
+                                name: 'Babyflasche',
+                                unit: 'Kiste',
+                                quantities: ['0','1/4','1/2+']
+                            },
+                            {
+                                id: 'bag_small',
+                                name: 'Proviantbeutel',
+                                unit: 'Kiste',
+                                quantities: ['0','1/4','1/2+']
                             }
                         ]
                     }
