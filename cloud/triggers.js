@@ -67,64 +67,83 @@
                             console.log('disabled');
                             return;
                         }
-                        Parse.Cloud.httpRequest({
-                            method: 'POST',
-                            url: 'https://hooks.slack.com/services/' + config.slack.team + '/' +  config.slack.hook+ '/' + config.slack.key,
-                            headers: {
-                                'Content-Type': 'application/json;charset=utf-8'
-                            },
-                            body: {
-                                channel: config.slack.channel.takeRelease,
-                                attachments: [
-                                    {
-                                        fallback: '*' + request.object.get('user').get('name') + '* hat sich für *' + texts[request.object.get('section')].title + '* am *' + moment(new Date(request.object.get('date'))).format('YYYY-MM-DD') + '* angemeldet.',
-                                        color: "#00D000",
-                                        title: "Anmeldung (" + texts.type[request.object.get('type')] + ")",
-                                        fields: [
-                                            {
-                                                title: texts[request.object.get('section')].title + ' am ' + moment(new Date(request.object.get('date'))).format('YYYY-MM-DD'),
-                                                value: request.object.get('user').get('name'),
-                                                short: false
-                                            }
-                                        ]
-                                    }
-                                ],
-                                username : "Der Schicht Engel",
-                                icon_emoji: ":angel:"
-                            }
+                        var postToSlack = function(assignment,user) {
+                            var name = (undefined === user || null === user) ? assignment.get('user').objectId : user.get('name');
+                            Parse.Cloud.httpRequest({
+                                method: 'POST',
+                                url: 'https://hooks.slack.com/services/' + config.slack.team + '/' +  config.slack.hook+ '/' + config.slack.key,
+                                headers: {
+                                    'Content-Type': 'application/json;charset=utf-8'
+                                },
+                                body: {
+                                    channel: config.slack.channel.takeRelease,
+                                    attachments: [
+                                        {
+                                            fallback: '*' + name + '* hat sich für *' + texts[assignment.get('section')].title + '* am *' + moment(new Date(assignment.get('date'))).format('YYYY-MM-DD') + '* angemeldet.',
+                                            color: "#00D000",
+                                            title: "Anmeldung (" + texts.type[assignment.get('type')] + ")",
+                                            fields: [
+                                                {
+                                                    title: texts[assignment.get('section')].title + ' am ' + moment(new Date(assignment.get('date'))).format('YYYY-MM-DD'),
+                                                    value: name,
+                                                    short: false
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    username : "Der Schicht Engel",
+                                    icon_emoji: ":angel:"
+                                }
+                            });
+                        };
+                        new Parse.Query(Parse.User).equalTo('id',request.object.get('user').objectId).first().then(function(user) {
+                            postToSlack(request.object,user);
+                        }, function(message) {
+                            console.log('Assignment.afterSave.postToSlack - fetching user failed: ' + message);
+                            postToSlack(request.object);
                         });
                     }
                 },
                 afterDelete: {
                     postToSlack: function(request) {
+                        console.log('Assignment.afterDelete.postToSlack');
                         if (!config.slack.hooks.takeRelease) {
                             return;
                         }
-                        Parse.Cloud.httpRequest({
-                            method: 'POST',
-                            url: 'https://hooks.slack.com/services/' + config.slack.team + '/' +  config.slack.hook+ '/' + config.slack.key,
-                            headers: {
-                                'Content-Type': 'application/json;charset=utf-8'
-                            },
-                            body: {
-                                channel: config.slack.channel.takeRelease,
-                                attachments: [
-                                    {
-                                        fallback: '*' + request.object.get('user').get('name') + '* hat sich für *' + texts[request.object.get('section')].title + '* am *' + moment(new Date(request.object.get('date'))).format('YYYY-MM-DD') + '* abgemeldet.',
-                                        color: "#D00000",
-                                        title: "Abmeldung (" + texts.type[request.object.get('type')] + ")",
-                                        fields: [
-                                            {
-                                                title: texts[request.object.get('section')].title + ' am ' + moment(new Date(request.object.get('date'))).format('YYYY-MM-DD'),
-                                                value: request.object.get('user').get('name'),
-                                                short: false
-                                            }
-                                        ]
-                                    }
-                                ],
-                                username : "Der Schicht Engel",
-                                icon_emoji: ":angel:"
-                            }
+                        var postToSlack = function(assignment,user) {
+                            var name = (undefined === user || null === user) ? assignment.get('user').objectId : user.get('name');
+                            Parse.Cloud.httpRequest({
+                                method: 'POST',
+                                url: 'https://hooks.slack.com/services/' + config.slack.team + '/' +  config.slack.hook+ '/' + config.slack.key,
+                                headers: {
+                                    'Content-Type': 'application/json;charset=utf-8'
+                                },
+                                body: {
+                                    channel: config.slack.channel.takeRelease,
+                                    attachments: [
+                                        {
+                                            fallback: '*' + name + '* hat sich für *' + texts[assignment.get('section')].title + '* am *' + moment(new Date(assignment.get('date'))).format('YYYY-MM-DD') + '* abgemeldet.',
+                                            color: "#D00000",
+                                            title: "Abmeldung (" + texts.type[assignment.get('type')] + ")",
+                                            fields: [
+                                                {
+                                                    title: texts[assignment.get('section')].title + ' am ' + moment(new Date(assignment.get('date'))).format('YYYY-MM-DD'),
+                                                    value: name,
+                                                    short: false
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    username : "Der Schicht Engel",
+                                    icon_emoji: ":angel:"
+                                }
+                            });
+                        };
+                        new Parse.Query(Parse.User).equalTo('id',request.object.get('user').objectId).first().then(function(user) {
+                            postToSlack(request.object,user);
+                        }, function(message) {
+                            console.log('Assignment.afterDelete.postToSlack - fetching user failed: ' + message);
+                            postToSlack(request.object);
                         });
                     }
                 }
