@@ -96,7 +96,7 @@
                                 }
                             });
                         };
-                        new Parse.Query(Parse.User).equalTo('id',request.object.get('user').objectId).first().then(function(user) {
+                        new Parse.Query(Parse.User).get(request.object.get('user').id).then(function(user) {
                             postToSlack(request.object,user);
                         }, function(message) {
                             console.log('Assignment.afterSave.postToSlack - fetching user failed: ' + message);
@@ -139,7 +139,7 @@
                                 }
                             });
                         };
-                        new Parse.Query(Parse.User).equalTo('id',request.object.get('user').objectId).first().then(function(user) {
+                        new Parse.Query(Parse.User).get(request.object.get('user').id).then(function(user) {
                             postToSlack(request.object,user);
                         }, function(message) {
                             console.log('Assignment.afterDelete.postToSlack - fetching user failed: ' + message);
