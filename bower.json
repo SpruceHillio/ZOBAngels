@@ -19,6 +19,7 @@
     "awesome-bootstrap-checkbox": "~0.3.5",
     "ng-tags-input": "~3.0.0",
     "angular-permission": "~1.1.1",
-    "bootstrap-toggle": "~2.2.1"
+    "bootstrap-toggle": "~2.2.1",
+    "checklist-model": "~0.8.0"
   }
 }
