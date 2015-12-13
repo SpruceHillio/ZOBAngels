@@ -205,7 +205,8 @@
                                     section: key,
                                     key: entry.id,
                                     title: data.Inventory[key].name + ' - ' + entry.name,
-                                    quantity: dataQuantity - inventoryQuantity
+                                    quantity: dataQuantity - inventoryQuantity,
+                                    unit: entry.unit
                                 });
                             }
                         }
@@ -221,7 +222,7 @@
                             text: order.filter(function(order) {
                                 return 0 < order.quantity;
                             }).map(function(order) {
-                                return '• ' + order.title + ': *' + order.quantity + '*';
+                                return '• ' + order.title + ': *' + order.quantity + '* (' + order.unit + ')';
                             }).join('\n'),
                             username : "Der Lager Engel",
                             icon_emoji: ":angel:"
