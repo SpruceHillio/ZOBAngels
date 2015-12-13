@@ -73,7 +73,7 @@
                         },
                         todayQuery,
                         yesterdayQuery;
-                    if (today.hour() < 13) {
+                    if (today.hour() < 10) {
                         today = today.subtract(1,'days');
                     }
                     yesterday = today.clone().subtract(1,'days');
