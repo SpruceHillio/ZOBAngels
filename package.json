@@ -13,5 +13,9 @@
     "grunt-contrib-watch": "latest",
     "grunt-html2js": "latest",
     "grunt-string-replace": "^1.2.0"
+  },
+  "dependencies": {
+    "moment": "^2.10.6",
+    "moment-timezone": "^0.4.1"
   }
 }

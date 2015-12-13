@@ -82,6 +82,15 @@
                 });
             },
 
+            timezoneTest: function(request,response) {
+                var time = moment();
+                response.success({
+                    timestamp: time.utc().valueOf(),
+                    date: moment().format('YYYY-MM-DD HH:mm ZZ'),
+                    dateWithTimezone: moment().tz('Europe/Berlin').format('YYYY-MM-DD HH:mm ZZ')
+                });
+            },
+
             sectionsWithAssignments: function(request,response) {
                 var query = new Parse.Query(model.Assignment),
                     rolesPromise = security.roles(request.user),

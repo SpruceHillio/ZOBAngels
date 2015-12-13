@@ -6,11 +6,12 @@
 var config = require('cloud/config'),
     texts = require('cloud/texts'),
     model = require('cloud/shared/model'),
-    moment = require('moment');
+    data = require('cloud/shared/data'),
+    moment = require('cloud/moment-timezone-with-data');
 var helpers = require('cloud/helpers')(config,model,texts,moment),
     security = require('cloud/security')(config,model,texts,moment);
 var triggers = require('cloud/triggers')(config,model,texts,helpers,security,moment),
-    jobs = require('cloud/jobs')(config,model,texts,helpers,security,moment),
+    jobs = require('cloud/jobs')(config,model,data,texts,helpers,security,moment),
     functions = require('cloud/functions')(config,model,texts,helpers,security,moment);
 
 /**
@@ -31,6 +32,8 @@ Parse.Cloud.job('informAngels',jobs.informAngels);
 
 Parse.Cloud.job('angelStatus',jobs.angelStatus);
 
+Parse.Cloud.job('createInventoryOrder',jobs.createInventoryOrder);
+
 /**
  * Function definitions
  */
@@ -42,6 +45,14 @@ Parse.Cloud.define('facebookPinnedPost', function(request,response) {
     functions.facebookPinnedPost(request,response);
 });
 
+Parse.Cloud.define('timezoneTest', function(request,response) {
+    functions.timezoneTest(request,response);
+});
+
 Parse.Cloud.define('initRoles',function(request,response) {
     security.initRoles(request,response);
+});
+
+Parse.Cloud.define('createInventoryOrder',function(request,response) {
+    jobs.createInventoryOrder(request,response);
 });

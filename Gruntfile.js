@@ -177,8 +177,30 @@ module.exports = function(grunt) {
               replacement: '<%= config.slack.channel.takeRelease %>'
             },
             {
+              pattern: /__SLACK_CHANNEL_ORDER__/g,
+              replacement: '<%= config.slack.channel.order %>'
+            },
+            {
               pattern: /__SLACK_CHANNEL_MISSINGANGELS__/g,
               replacement: '<%= config.slack.channel.missingAngel %>'
+            }
+          ]
+        }
+      },
+      parse: {
+        files: [
+          {
+            expand: true,
+            cwd: 'node_modules/moment-timezone/builds/',
+            src: 'moment-timezone-with-data.js',
+            dest: 'tmp/cloud/'
+          }
+        ],
+        options: {
+          replacements: [
+            {
+              pattern: 'module.exports = factory(require(\'moment\')); // Node',
+              replacement: 'module.exports = factory(require(\'cloud/moment\')); // Node'
             }
           ]
         }
@@ -294,6 +316,13 @@ module.exports = function(grunt) {
             expand: true,
             cwd: 'tmp/cloud/',
             src: ['*'],
+            dest: 'dist_parse/cloud/',
+            filter: 'isFile'
+          },
+          {
+            expand: true,
+            cwd: 'node_modules/moment/',
+            src: ['moment.js'],
             dest: 'dist_parse/cloud/',
             filter: 'isFile'
           },
@@ -481,6 +510,7 @@ module.exports = function(grunt) {
   grunt.registerTask('package:parse', [
     'jshint',
     'string-replace:dist',
+    'string-replace:parse',
     'concat:app',
     'clean:parse',
     'copy:parse',

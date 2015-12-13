@@ -29,6 +29,7 @@
             },
             channel: {
                 takeRelease: '__SLACK_CHANNEL_TAKERELEASE__',
+                order: '__SLACK_CHANNEL_ORDER__',
                 missingAngels: '__SLACK_CHANNEL_MISSINGANGELS__'
             }
         },

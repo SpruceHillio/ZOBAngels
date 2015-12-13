@@ -17,7 +17,7 @@
         global.ZOBAngels.model = factory();
     }
 })(this,function() {
-    return function(config,model,texts,helpers,security,moment) {
+    return function(config,model,data,texts,helpers,security,moment) {
         return {
             informAngels: function(request,status) {
                 var query = new Parse.Query(model.Assignment),
@@ -148,6 +148,93 @@
                         status.success('Der Aufruf ist raus!');
                     }
                 },function(error) {
+                    status.error('got an error: ' + error);
+                });
+            },
+            createInventoryOrder: function(request,status) {
+                console.log('Jobs - createInventoryOrder');
+                moment().utc();
+                console.log('Jobs - createInventoryOrder');
+                var today = moment().utc().subtract(1,'days'),
+                    actualQuery = new Parse.Query(model.Inventory),
+                    previousQuery = new Parse.Query(model.Inventory),
+                    key,
+                    entry,
+                    inventory,
+                    i,j,
+                    m,n,
+                    yesterdayOnly = [],
+                    dataQuantity,
+                    inventoryQuantity,
+                    order = [],
+                    findInResults = function(results,section,key) {
+                        n = results.length;
+                        for (j=0; j<n; j+=1) {
+                            if (section === results[j].get('section') && key === results[j].get('key')) {
+                                return results[j];
+                            }
+                        }
+                        return null;
+                    },
+                    quantityToNumber = function(quantity) {
+                        quantity = quantity.replace('+','');
+                        if (-1 < quantity.indexOf('/')) {
+                            quantity = quantity.replace(' 1/2','.5');
+                        }
+                        return parseFloat(quantity);
+                    };
+                actualQuery.equalTo('date',today.format('YYYYMMDD'));
+                previousQuery.equalTo('date',today.clone().subtract(1,'days').format('YYYYMMDD'));
+
+                console.log('starting createInventoryOrder');
+
+                Parse.Promise.when(actualQuery.find(),previousQuery.find()).then(function(actualResults, perviousResults) {
+                    for (key in data.Inventory) {
+                        if (data.Inventory.hasOwnProperty(key)) {
+                            m = data.Inventory[key].entries.length;
+                            for (i=0; i<m; i+=1) {
+                                entry = data.Inventory[key].entries[i];
+                                inventory = findInResults(actualResults,key,entry.id);
+                                if (null === inventory) {
+                                    inventory = findInResults(perviousResults,key,entry.id);
+                                    yesterdayOnly.push(inventory);
+                                }
+                                dataQuantity = quantityToNumber(entry.quantities[entry.quantities.length - 1]);
+                                inventoryQuantity = quantityToNumber(undefined === inventory || null === inventory ? '0' : inventory.get('quantity'));
+                                order.push({
+                                    section: key,
+                                    key: entry.id,
+                                    title: data.Inventory[key].name + ' - ' + entry.name,
+                                    quantity: dataQuantity - inventoryQuantity
+                                });
+                            }
+                        }
+                    }
+                    Parse.Cloud.httpRequest({
+                        method: 'POST',
+                        url: 'https://hooks.slack.com/services/' + config.slack.team + '/' +  config.slack.hook+ '/' + config.slack.key,
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
+                        body: {
+                            channel: config.slack.channel.order,
+                            text: order.filter(function(order) {
+                                return 0 < order.quantity;
+                            }).map(function(order) {
+                                return '• ' + order.title + ': *' + order.quantity + '*';
+                            }).join('\n'),
+                            username : "Der Lager Engel",
+                            icon_emoji: ":angel:"
+                        }
+                    }).then(function() {
+                        status.success({
+                            yesterdayOnly: yesterdayOnly,
+                            order: order
+                        });
+                    }, function(error) {
+                        status.error('got an error: ' + error);
+                    });
+                }, function(error) {
                     status.error('got an error: ' + error);
                 });
             }

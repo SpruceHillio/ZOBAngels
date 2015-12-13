@@ -164,7 +164,7 @@ label i.fa.fa-check, label i.fa.fa-minus {
     margin-left: -20px;
 }
 
-.not-ready {
+.not-ready, #navbar.not-ready {
     display: none;
 }
 
