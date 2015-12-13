@@ -65,28 +65,42 @@
 <div class="container-fluid" ui-view  ng-class="{'not-ready' : !ready()}"></div>
 <script type="text/javascript" src="assets/js/app.js"></script>
 <script type="text/javascript">
-    (function(doc, script) {
-        var js,
-                fjs = doc.getElementsByTagName(script)[0],
-                add = function(url, id) {
-                    if (doc.getElementById(id)) {return;}
-                    js = doc.createElement(script);
-                    js.src = url;
-                    id && (js.id = id);
-                    fjs.parentNode.insertBefore(js, fjs);
-                };
-        add('//connect.facebook.net/en_US/all.js', 'facebook-jssdk');
-    }(document, 'script'));
-    var fbDeferred = $.Deferred();
-    window.fbPromise = fbDeferred.promise();
-    window.fbAsyncInit = function() {
-        fbDeferred.resolve();
-    };
-    moment.locale(window.navigator.userLanguage || window.navigator.language);
+    var host = window.location.host,
+        pathname = window.location.pathname.split('/'),
+        bucket;
+    console.log('pathname:', window.location.pathname);
+    console.log('hash:', window.location.hash);
+    console.log('host:', window.location.host);
+    console.log('pathname: ',pathname);
+    if (0 === host.indexOf('s3')) {
+//        bucket = pathname[1];
+        bucket = pathname.splice(1,1);
+        window.location.href = 'https://' + bucket + '.' + host + pathname.join('/') + window.location.hash;
+    }
+    else {
+        (function(doc, script) {
+            var js,
+                    fjs = doc.getElementsByTagName(script)[0],
+                    add = function(url, id) {
+                        if (doc.getElementById(id)) {return;}
+                        js = doc.createElement(script);
+                        js.src = url;
+                        id && (js.id = id);
+                        fjs.parentNode.insertBefore(js, fjs);
+                    };
+            add('//connect.facebook.net/en_US/all.js', 'facebook-jssdk');
+        }(document, 'script'));
+        var fbDeferred = $.Deferred();
+        window.fbPromise = fbDeferred.promise();
+        window.fbAsyncInit = function() {
+            fbDeferred.resolve();
+        };
+        moment.locale(window.navigator.userLanguage || window.navigator.language);
 
-    angular.element(document).ready(function() {
-        angular.bootstrap(document, ['ZOBAngels']);
-    });
+        angular.element(document).ready(function() {
+            angular.bootstrap(document, ['ZOBAngels']);
+        });
+    }
 </script>
 </body>
 </html>
