@@ -28,6 +28,7 @@
                     {
                         id: 'trouser_sm',
                         name: 'Hose (S/M)',
+                        source: 'xxx',
                         unit: 'Stück',
                         quantities: ['0','5','10','15','20','25+']
                     },
