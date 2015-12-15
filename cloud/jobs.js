@@ -166,7 +166,9 @@
                     yesterdayOnly = [],
                     dataQuantity,
                     inventoryQuantity,
-                    order = [],
+                    orderRichel = [],
+                    orderPwc = [],
+                    orderOthers = [],
                     findInResults = function(results,section,key) {
                         n = results.length;
                         for (j=0; j<n; j+=1) {
@@ -182,6 +184,13 @@
                             quantity = quantity.replace(' 1/2','.5');
                         }
                         return parseFloat(quantity);
+                    },
+                    createText = function(orders, headline) {
+                    	return '*' + headline + '*\n' + orders.filter(function(order) {
+                            return 0 < order.quantity;
+                        }).map(function(order) {
+                            return '• ' + order.title + ': *' + order.quantity + '* (' + order.unit + ')';
+                        }).join('\n');
                     };
                 actualQuery.equalTo('date',today.format('YYYYMMDD'));
                 previousQuery.equalTo('date',today.clone().subtract(1,'days').format('YYYYMMDD'));
@@ -201,13 +210,40 @@
                                 }
                                 dataQuantity = quantityToNumber(entry.quantities[entry.quantities.length - 1]);
                                 inventoryQuantity = quantityToNumber(undefined === inventory || null === inventory ? '0' : inventory.get('quantity'));
-                                order.push({
-                                    section: key,
-                                    key: entry.id,
-                                    title: data.Inventory[key].name + ' - ' + entry.name,
-                                    quantity: dataQuantity - inventoryQuantity,
-                                    unit: entry.unit
-                                });
+                                
+                                switch (entry.source) {
+                                
+                                case 'richel':
+	                                orderRichel.push({
+	                                    section: key,
+	                                    key: entry.id,
+	                                    title: data.Inventory[key].name + ' - ' + entry.name,
+	                                    quantity: dataQuantity - inventoryQuantity,
+	                                    unit: entry.unit
+	                                });
+	                                break;
+                                case 'pwc':                                
+	                                orderPwc.push({
+	                                    section: key,
+	                                    key: entry.id,
+	                                    title: data.Inventory[key].name + ' - ' + entry.name,
+	                                    quantity: dataQuantity - inventoryQuantity,
+	                                    unit: entry.unit
+	                                });
+	                                break;
+                                case 'others':
+	                                orderOthers.push({
+	                                    section: key,
+	                                    key: entry.id,
+	                                    title: data.Inventory[key].name + ' - ' + entry.name,
+	                                    quantity: dataQuantity - inventoryQuantity,
+	                                    unit: entry.unit
+	                                });
+	                                break;
+	                            default:
+	                            	console.log('inventory: not richel, not pwc, not others');
+	                            	break;
+                                }
                             }
                         }
                     }
@@ -219,11 +255,7 @@
                         },
                         body: {
                             channel: config.slack.channel.order,
-                            text: order.filter(function(order) {
-                                return 0 < order.quantity;
-                            }).map(function(order) {
-                                return '• ' + order.title + ': *' + order.quantity + '* (' + order.unit + ')';
-                            }).join('\n'),
+                            text: createText(orderRichel, 'Richel') + '\n\n' + createText(orderPwc, 'PWC') + '\n\n' + createText(orderOthers, 'Sonstiges'),
                             username : "Der Lager Engel",
                             icon_emoji: ":angel:"
                         }
