@@ -167,6 +167,7 @@
                     dataQuantity,
                     inventoryQuantity,
                     orderRichel = [],
+                    orderVokue = [],
                     orderPwc = [],
                     orderOthers = [],
                     findInResults = function(results,section,key) {
@@ -240,6 +241,15 @@
 	                                    unit: entry.unit
 	                                });
 	                                break;
+                                case 'vokue':
+	                                orderVokue.push({
+	                                    section: key,
+	                                    key: entry.id,
+	                                    title: data.Inventory[key].name + ' - ' + entry.name,
+	                                    quantity: dataQuantity - inventoryQuantity,
+	                                    unit: entry.unit
+	                                });
+	                                break;	                                
 	                            default:
 	                            	console.log('inventory: not richel, not pwc, not others');
 	                            	break;
@@ -255,7 +265,7 @@
                         },
                         body: {
                             channel: config.slack.channel.order,
-                            text: createText(orderRichel, 'Richel') + '\n\n' + createText(orderPwc, 'PWC') + '\n\n' + createText(orderOthers, 'Sonstiges'),
+                            text: createText(orderRichel, 'Richel') + '\n\n' + createText(orderVokue, 'Vokü') + '\n\n' + createText(orderPwc, 'PWC') + '\n\n' + createText(orderOthers, 'Sonstiges'),
                             username : "Der Lager Engel",
                             icon_emoji: ":angel:"
                         }

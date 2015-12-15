@@ -737,8 +737,8 @@
                 ]
             },
             other: {
-                name: 'Sonstiges',
-                icon: 'fa-cubes',
+                name: 'Sonstiges: Kleidercontainer',
+                icon: 'fa-archive',
                 entries: [
                     {
                         id: 'blanket_light',
@@ -775,6 +775,26 @@
                         unit: 'Kiste',
                         quantities: ['0','1/2','1+']
                     },
+                    {
+                        id: 'warmer',
+                        name: 'Wärmflasche',
+                        source: 'others',
+                        unit: 'Kiste',
+                        quantities: ['0','1/2','1+']
+                    },
+                    {
+                        id: 'backpack',
+                        name: 'Rucksack / Tasche',
+                        source: 'others',
+                        unit: 'Stück',
+                        quantities: ['0','5','10','15','20','25+']
+                    }
+                ]
+            },
+            other_food: {
+                name: 'Sonstiges: Essenscontainer',
+                icon: 'fa-cubes',
+                entries: [
                     {
                         id: 'trashbag',
                         name: 'Müllsack',
@@ -818,13 +838,6 @@
                         quantities: ['0','50','100','150','200+']
                     },
                     {
-                        id: 'warmer',
-                        name: 'Wärmflasche',
-                        source: 'others',
-                        unit: 'Kiste',
-                        quantities: ['0','1/2','1+']
-                    },
-                    {
                         id: 'schnuller',
                         name: 'Schnuller',
                         source: 'others',
@@ -839,19 +852,26 @@
                         quantities: ['0','1/4','1/2+']
                     },
                     {
-                        id: 'backpack',
-                        name: 'Rucksack / Tasche',
-                        source: 'others',
-                        unit: 'Stück',
-                        quantities: ['0','5','10','15','20','25+']
-                    },
-                    {
                         id: 'bag_small',
                         name: 'Proviantbeutel',
                         source: 'others',
                         unit: 'Kiste',
                         quantities: ['0','1/4','1/2+']
-                    }
+                    },
+                    {
+                        id: 'germicide',
+                        name: 'Desinfektionsmittel Fläche',
+                        source: 'others',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3','4','5+']
+                    },
+                    {
+                        id: 'germicide_hands',
+                        name: 'Desinfektionsmittel Hände',
+                        source: 'others',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3','4','5+']
+                    } 
                 ]
             }
         }
