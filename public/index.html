@@ -48,16 +48,16 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse not-ready" ng-class="{'not-ready' : !ready()}">
             <ul class="nav navbar-nav">
-                <li ng-class="{'active': onPage(NavigationService.PAGE.LOGIN)}" ng-show="!isLoggedIn()"><a ui-sref="login">Anmelden</a></li>
-                <li ng-class="{'active': onPage(NavigationService.PAGE.HOME)}" ng-show="isLoggedIn()"><a ui-sref="calendar">Kalender</a></li>
-                <li ng-class="{'active': onPage(NavigationService.PAGE.ABOUT)}"><a ui-sref="about">Über uns</a></li>
-                <li ng-class="{'active': onPage(NavigationService.PAGE.DONATION)}"><a ui-sref="donation">Spenden</a></li>
-                <li ng-class="{'active': onPage(NavigationService.PAGE.ADMIN)}" ng-show="hasRole('admin')"><a ui-sref="admin">Admin</a></li>
+                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.LOGIN)}" ng-show="!isLoggedIn()"><a ui-sref="login">Anmelden</a></li>
+                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.HOME)}" ng-show="isLoggedIn()"><a ui-sref="calendar">Kalender</a></li>
+                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.ABOUT)}"><a ui-sref="about">Über uns</a></li>
+                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.DONATION)}"><a ui-sref="donation">Spenden</a></li>
+                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.ADMIN)}" ng-show="hasRole('admin')"><a ui-sref="admin">Admin</a></li>
                 <!--<li ng-class="{'active': onPage(NavigationService.PAGE.STATISTICS)}" ng-show="hasRole('admin')"><a ui-sref="statistics.day">Statistiken</a></li>-->
-                <li ng-class="{'active': onPage(NavigationService.PAGE.INVENTORY)}" ng-show="hasRole('inventory')"><a ui-sref="inventory.overview">Bestellung</a></li>
+                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.INVENTORY)}" ng-show="hasRole('inventory')"><a ui-sref="inventory.overview">Inventur</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right" ng-show="isLoggedIn()">
-                <li ng-class="{'active': onPage(NavigationService.PAGE.PROFILE)}"><a ui-sref="profile">Profil</a></li>
+                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.PROFILE)}"><a ui-sref="profile">Profil</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
