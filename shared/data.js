@@ -686,11 +686,11 @@
                         quantities: ['0','1','2','3+']
                     },
                     {
-                        id: 'water_big',
-                        name: 'Wasser (groß)',
+                        id: 'juice',
+                        name: 'Saft / Caprisonne',
                         source: 'others',
-                        unit: 'Liter',
-                        quantities: ['0','5','10','15','20','25+']
+                        unit: 'Kiste',
+                        quantities: ['0','1/2','1+']
                     },
                     {
                         id: 'savory',
