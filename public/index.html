@@ -90,15 +90,24 @@
                     };
             add('//connect.facebook.net/en_US/all.js', 'facebook-jssdk');
         }(document, 'script'));
-        var fbDeferred = $.Deferred();
+        var fbDeferred = $.Deferred(),
+            documentDeferred = $.Deferred();
         window.fbPromise = fbDeferred.promise();
+        window.documentPromise = documentDeferred.promise();
         window.fbAsyncInit = function() {
             fbDeferred.resolve();
         };
         moment.locale(window.navigator.userLanguage || window.navigator.language);
 
         angular.element(document).ready(function() {
-            angular.bootstrap(document, ['ZOBAngels']);
+            documentDeferred.resolve();
+//            angular.bootstrap(document, ['ZOBAngels']);
+        });
+
+        $.when(window.fbPromise, window.documentPromise).done(function() {
+            setTimeout(function() {
+                angular.bootstrap(document, ['ZOBAngels']);
+            },100);
         });
     }
 </script>
