@@ -155,15 +155,8 @@
             'Permission',
             '$log',
             function($rootScope,$location,AccountService,ParseSDK,FacebookAngularPatch,permission,$log) {
-                //$rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
-                //    if (toState.authenticate && !AccountService.isLoggedIn()) {
-                //        $rootScope._originalRequest = $location.path();
-                //        $location.path('/login');
-                //    }
-                //});
-
                 permission.defineManyRoles(['angel','translator','medical','inventory','archangel','orga','admin'], function (stateParams, roleName) {
-                    return AccountService.hasRole(roleName);
+                    return AccountService.hasRolePromise(roleName);
                 });
             }
         ]);

@@ -11,12 +11,15 @@
         '$rootScope',
         '$location',
         '$q',
+        '$timeout',
         '$log',
-        function($rootScope,$location,$q,$log) {
+        function($rootScope,$location,$q,$timeout,$log) {
 
             var AccountService = {
                 _fbReady: false,
+                _launching: false,
                 _ready: false,
+                _hasRolePromises: [],
 
                 _user: null,
                 _data: null,
@@ -62,60 +65,65 @@
                                 },[roleContainer.role]);
                             }
                         };
-
-                    Parse.Promise.when(new Parse.Query(Parse.Role).equalTo('name','admin').first(),new Parse.Query(Parse.User).equalTo('objectId','IDrn1iLOiX').first()).then(function(role,user) {
-                        if (role && user) {
-                            role.getUsers().add(user);
-                            role.save();
-                        }
-                    });
-
-                    new Parse.Query(Parse.User).equalTo('username',user.get('username')).first().then(function(user) {
-                        return new Parse.Query(Parse.Role).find();
-                    })
-                        .then(function(roles) {
-                            return Parse.Promise.when(roles.map(function(role) {
-                                return resolveRolesForRole(role);
-                            }));
-                        }).then(function() {
-                            len = arguments.length;
-                            for (i=0; i<len; i+=1) {
-                                current = arguments[i];
-                                self._rolesById[current.role.id] = current;
+                    if (undefined === user || null === user) {
+                        defer.resolve();
+                    }
+                    else {
+                        this._launching = true;
+                        Parse.Promise.when(new Parse.Query(Parse.Role).equalTo('name','admin').first(),new Parse.Query(Parse.User).equalTo('objectId','IDrn1iLOiX').first()).then(function(role,user) {
+                            if (role && user) {
+                                role.getUsers().add(user);
+                                role.save();
                             }
-                            for (i=0; i<len; i+=1) {
-                                current = arguments[i];
-                                Array.prototype.push.apply(current.allRoles,collectRoles(current));
-                            }
-                            return new Parse.Query(Parse.Role).equalTo('users',user).find();
-                        }).then(function(roles) {
-                            roles = roles.map(function(role) {
-                                var roles = [];
-                                Array.prototype.push.apply(roles,self._rolesById[role.id].allRoles);
-                                return roles;
-                            }).reduce(function(a,b) {
-                                Array.prototype.push.apply(a,b);
-                                return a;
-                            },[]);
-                            self._user = user;
-                            self._userContainer = {
-                                user: user,
-                                roles: roles,
-                                roleNames: roles.map(function(role) {
-                                    return role.getName();
-                                })
-                            };
-                            if (-1 === self._userContainer.roleNames.indexOf('angel')) {
-                                self._userContainer.roleNames.push('angel');
-                            }
-                            defer.resolve(self._userContainer);
-                            $rootScope.$broadcast('login',{
-                                user: user
-                            });
-                        },function(error) {
-                            handleParseError(error);
-                            defer.reject();
                         });
+
+                        new Parse.Query(Parse.User).equalTo('username',user.get('username')).first().then(function(user) {
+                            return new Parse.Query(Parse.Role).find();
+                        })
+                            .then(function(roles) {
+                                return Parse.Promise.when(roles.map(function(role) {
+                                    return resolveRolesForRole(role);
+                                }));
+                            }).then(function() {
+                                len = arguments.length;
+                                for (i=0; i<len; i+=1) {
+                                    current = arguments[i];
+                                    self._rolesById[current.role.id] = current;
+                                }
+                                for (i=0; i<len; i+=1) {
+                                    current = arguments[i];
+                                    Array.prototype.push.apply(current.allRoles,collectRoles(current));
+                                }
+                                return new Parse.Query(Parse.Role).equalTo('users',user).find();
+                            }).then(function(roles) {
+                                roles = roles.map(function(role) {
+                                    var roles = [];
+                                    Array.prototype.push.apply(roles,self._rolesById[role.id].allRoles);
+                                    return roles;
+                                }).reduce(function(a,b) {
+                                    Array.prototype.push.apply(a,b);
+                                    return a;
+                                },[]);
+                                self._user = user;
+                                self._userContainer = {
+                                    user: user,
+                                    roles: roles,
+                                    roleNames: roles.map(function(role) {
+                                        return role.getName();
+                                    })
+                                };
+                                if (-1 === self._userContainer.roleNames.indexOf('angel')) {
+                                    self._userContainer.roleNames.push('angel');
+                                }
+                                defer.resolve(self._userContainer);
+                                $rootScope.$broadcast('login',{
+                                    user: user
+                                });
+                            },function(error) {
+                                handleParseError(error);
+                                defer.reject();
+                            });
+                    }
                     return defer.promise;
                 },
 
@@ -135,10 +143,33 @@
                  * @returns {boolean}
                  */
                 hasRole: function(role) {
+                    return this._hasRole(role);
+                },
+
+                hasRolePromise: function(role) {
+                    var defer = $q.defer();
+                    if (!this._ready || this._launching) {
+                        this._hasRolePromises.push({
+                            role: role,
+                            defer: defer
+                        });
+                    }
+                    else {
+                        if (this._hasRole(role)) {
+                            defer.resolve();
+                        }
+                        else {
+                            defer.reject();
+                        }
+                    }
+
+                    return defer.promise;
+                },
+
+                _hasRole: function(role) {
                     if (!this._userContainer) {
                         return false;
                     }
-                    //$log.debug(this._userContainer.roleNames);
                     return -1 < this._userContainer.roleNames.indexOf(role);
                 },
 
@@ -376,28 +407,25 @@
 
                     return defer.promise;
                 }
-            };
+            },
+                setupDone = function() {
+                    AccountService._ready = true;
+                    AccountService._launching = false;
+                    var i,len = AccountService._hasRolePromises.length;
+                    for (i=0; i<len; i+=1) {
+                        if (AccountService._hasRole(AccountService._hasRolePromises[i].role)) {
+                            AccountService._hasRolePromises[i].defer.resolve();
+                        }
+                        else {
+                            AccountService._hasRolePromises[i].defer.reject();
+                        }
+                    }
+                };
 
-            $rootScope.$on('fbReady',function() {
-                $rootScope.$apply(function() {
-                    AccountService._fbReady = true;
-                    var user = Parse.User.current();
-                    if (user) {
-                        AccountService._setUser(user).then(function() {
-                            if ($rootScope._originalRequest) {
-                                $location.path($rootScope._originalRequest);
-                            }
-                            else {
-                                $location.path('/home');
-                            }
-                            AccountService._ready = true;
-                        });
-                    }
-                    else {
-                        AccountService._ready = true;
-                    }
-                });
-            });
+            AccountService._fbReady = true;
+            $timeout(function() {
+                AccountService._setUser(Parse.User.current()).then(setupDone,setupDone);
+            },300);
 
             return AccountService;
         }

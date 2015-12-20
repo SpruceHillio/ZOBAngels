@@ -43,7 +43,6 @@
 
             window.fbPromise.then(function(){
                 FB.apiAngular = fbApiAngular;
-                $rootScope.$broadcast('fbReady',{});
             });
             return {};
         }]);
