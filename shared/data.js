@@ -683,7 +683,7 @@
                         name: 'Wasser (klein)',
                         source: 'pwc',
                         unit: 'Kiste',
-                        quantities: ['0','1','2','3+']
+                        quantities: ['0','1','2','3','4','5+']
                     },
                     {
                         id: 'juice',
@@ -716,7 +716,7 @@
                     {
                         id: 'sugar',
                         name: 'Zucker',
-                        source: 'pwc',
+                        source: 'others',
                         unit: 'Kilo',
                         quantities: ['0','1','2','3+']
                     },
