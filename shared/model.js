@@ -126,8 +126,24 @@
         }
     });
 
+    var AuditLog = Parse.Object.extend('AuditLog',{
+    },{
+        create: function(user, entry) {
+            var auditLog = new AuditLog(),
+                acl = new Parse.ACL();
+            acl.setPublicReadAccess(false);
+            acl.setRoleReadAccess('admin',true);
+            acl.setRoleWriteAccess('admin',true);
+            auditLog.set('user',user);
+            auditLog.set('entry',entry);
+            auditLog.setACL(acl);
+            return auditLog;
+        }
+    });
+
     return {
         Assignment: Assignment,
-        Inventory: Inventory
+        Inventory: Inventory,
+        AuditLog: AuditLog
     };
 });

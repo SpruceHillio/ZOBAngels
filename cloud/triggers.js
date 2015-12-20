@@ -147,6 +147,28 @@
                         });
                     }
                 }
+            },
+            Inventory: {
+                afterSave: {
+                    createAuditLog: function(request) {
+                        model.AuditLog.create(request.user,JSON.stringify({
+                            type: 'save',
+                            section: request.object.get('section'),
+                            key: request.object.get('key'),
+                            quantity: request.object.get('quantity')
+                        })).save();
+                    }
+                },
+                afterDelete: {
+                    createAuditLog: function(request) {
+                        model.AuditLog.create(request.user,JSON.stringify({
+                            type: 'delete',
+                            section: request.object.get('section'),
+                            key: request.object.get('key'),
+                            quantity: request.object.get('quantity')
+                        })).save();
+                    }
+                }
             }
         };
     };

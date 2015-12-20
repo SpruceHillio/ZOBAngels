@@ -25,6 +25,10 @@ Parse.Cloud.afterDelete('Assignment', triggers.Assignment.afterDelete.postToSlac
 
 Parse.Cloud.afterSave(Parse.User, triggers.User.afterSave.assignAdminRole);
 
+Parse.Cloud.afterSave('Inventory', triggers.Inventory.afterSave.createAuditLog);
+
+Parse.Cloud.afterDelete('Inventory', triggers.Inventory.afterDelete.createAuditLog);
+
 /**
  * Job definitions
  */
