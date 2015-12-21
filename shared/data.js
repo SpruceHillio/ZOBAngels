@@ -879,7 +879,28 @@
                         source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3','4','5+']
-                    } 
+                    },
+                    {
+                        id: 'disposable_gloves_s',
+                        name: 'Einweghandschuhe (S)',
+                        source: 'pwc',
+                        unit: 'Packung',
+                        quantities: ['0','1/2','1','1 1/2','2+']
+                    },
+                    {
+                        id: 'disposable_gloves_m',
+                        name: 'Einweghandschuhe (M)',
+                        source: 'pwc',
+                        unit: 'Packung',
+                        quantities: ['0','1/2','1','1 1/2','2+']
+                    },
+                    {
+                        id: 'disposable_gloves_l',
+                        name: 'Einweghandschuhe (L)',
+                        source: 'pwc',
+                        unit: 'Packung',
+                        quantities: ['0','1/2','1','1 1/2','2+']
+                    }                     
                 ]
             }
         }
