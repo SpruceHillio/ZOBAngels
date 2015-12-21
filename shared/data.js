@@ -94,40 +94,34 @@
                         source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3','4','5+']
-                    }
-                ]
-            },
-            unisex: {
-                name: 'Unisex',
-                icon: 'fa-users',
-                entries: [
-                    {
-                        id: 'caps',
-                        name: 'Mützen',
-                        source: 'richel',
-                        unit: 'Kiste',
-                        quantities: ['0', '1/2', '1', '1 1/2', '2']
-                    },
-                    {
-                        id: 'gloves',
-                        name: 'Handschuhe',
-                        source: 'richel',
-                        unit: 'Kiste',
-                        quantities: ['0', '1/2', '1', '1 1/2', '2']
-                    },
-                    {
-                        id: 'scarf',
-                        name: 'Schal',
-                        source: 'richel',
-                        unit: 'Kiste',
-                        quantities: ['0', '1/2', '1', '1 1/2', '2']
                     },
                     {
                         id: 'socks',
                         name: 'Socken',
                         source: 'richel',
                         unit: 'Kiste',
-                        quantities: ['0', '1/2', '1', '1 1/2', '2']
+                        quantities: ['0', '1/2', '1+']
+                    },                    
+                    {
+                        id: 'caps',
+                        name: 'Mützen',
+                        source: 'richel',
+                        unit: 'Kiste',
+                        quantities: ['0', '1/2', '1+']
+                    },
+                    {
+                        id: 'gloves',
+                        name: 'Handschuhe',
+                        source: 'richel',
+                        unit: 'Kiste',
+                        quantities: ['0', '1/2', '1+']
+                    },
+                    {
+                        id: 'scarf',
+                        name: 'Schal',
+                        source: 'richel',
+                        unit: 'Kiste',
+                        quantities: ['0', '1/2', '1+']
                     }
                 ]
             },
@@ -175,42 +169,70 @@
                         name: 'Schuhe (36)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'shoe_37',
                         name: 'Schuhe (37)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'shoe_38',
                         name: 'Schuhe (38)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'shoe_39',
                         name: 'Schuhe (39)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'shoe_40',
                         name: 'Schuhe (40)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'shoe_41',
                         name: 'Schuhe (41)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2+']
+                    },
+                    {
+                        id: 'socks',
+                        name: 'Socken',
+                        source: 'richel',
+                        unit: 'Kiste',
+                        quantities: ['0', '1/2', '1+']
+                    },                    
+                    {
+                        id: 'caps',
+                        name: 'Mützen',
+                        source: 'richel',
+                        unit: 'Kiste',
+                        quantities: ['0', '1/2', '1+']
+                    },
+                    {
+                        id: 'gloves',
+                        name: 'Handschuhe',
+                        source: 'richel',
+                        unit: 'Kiste',
+                        quantities: ['0', '1/2', '1+']
+                    },
+                    {
+                        id: 'scarf',
+                        name: 'Schal',
+                        source: 'richel',
+                        unit: 'Kiste',
+                        quantities: ['0', '1/2', '1+']
                     },
                     {
                         id: 'hygiene',
@@ -230,175 +252,168 @@
                         name: 'Hose (134)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'trouser_140',
                         name: 'Hose (140)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'trouser_146',
                         name: 'Hose (146)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'trouser_152',
                         name: 'Hose (152)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'trouser_158',
                         name: 'Hose (158)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'trouser_164',
                         name: 'Hose (164)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'trouser_170',
                         name: 'Hose (170)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'trouser_176',
                         name: 'Hose (176)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'pullover_134',
                         name: 'Pullover (134)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'pullover_140',
                         name: 'Pullover (140)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'pullover_146',
                         name: 'Pullover (146)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'pullover_152',
                         name: 'Pullover (152)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'pullover_158',
                         name: 'Pullover (158)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'pullover_164',
                         name: 'Pullover (164)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'pullover_170',
                         name: 'Pullover (170)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'pullover_176',
                         name: 'Pullover (176)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'jacket_134',
                         name: 'Jacke (134)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'jacket_140',
                         name: 'Jacke (140)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'jacket_146',
                         name: 'Jacke (146)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'jacket_152',
                         name: 'Jacke (152)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'jacket_158',
                         name: 'Jacke (158)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'jacket_164',
                         name: 'Jacke (164)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'jacket_170',
                         name: 'Jacke (170)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'jacket_176',
                         name: 'Jacke (176)',
                         source: 'richel',
                         unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
-                    },
-                    {
-                        id: 'trouser_l',
-                        name: 'Hose (L)',
-                        source: 'richel',
-                        unit: 'Stück',
-                        quantities: ['0','2','4','6','8','10+']
+                        quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'shoe_21',
@@ -562,7 +577,7 @@
                     },
                     {
                         id: 'clothing',
-                        name: 'KLeindung',
+                        name: 'Kleindung',
                         source: 'richel',
                         unit: 'Kiste',
                         quantities: ['0','1/2','1','1 1/2','2+']
@@ -710,8 +725,8 @@
                         id: 'milk',
                         name: 'Milch',
                         source: 'pwc',
-                        unit: 'Kiste',
-                        quantities: ['0','1/2','1+']
+                        unit: 'Liter',
+                        quantities: ['0','1','2','3','4','5+']
                     },
                     {
                         id: 'sugar',
@@ -741,16 +756,9 @@
                 icon: 'fa-archive',
                 entries: [
                     {
-                        id: 'blanket_light',
-                        name: 'Decke (leicht)',
-                        source: 'richel',
-                        unit: 'Stück',
-                        quantities: ['0','5','10','15','20','25+']
-                    },
-                    {
-                        id: 'blanket_heavy',
-                        name: 'Decke (warm)',
-                        source: 'richel',
+                        id: 'blanket',
+                        name: 'Decke',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','5','10','15','20','25+']
                     },
