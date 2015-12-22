@@ -203,6 +203,7 @@
                 console.log('starting createInventoryOrder');
 
                 Parse.Promise.when(actualQuery.find(),previousQuery.find()).then(function(actualResults, previousResults) {
+                    status.message('Queried for inventory entries; got #' + actualResults.length + ' for the current day and #' + previousResults.length + ' for the previous day.');
                     console.log('actualResults: ' + actualResults.length + ', previousResults: ' + previousResults.length);
                     for (key in data.Inventory) {
                         if (data.Inventory.hasOwnProperty(key)) {
@@ -265,12 +266,14 @@
                             }
                         }
                     }
+                    status.message('Created the required stuff to order.');
                     m = yesterdayOnly.length;
                     for (i=0; i<m; i+=1) {
                         inventory = model.Inventory.clone(yesterdayOnly[i]);
                         inventory.set('date',moment(inventory.get('date'),'YYYYMMDD').add(1,'days').format('YYYYMMDD'));
                         inventory.save();
                     }
+                    status.message('Copied entries that only existed on the previous day over to the current day.');
                     Parse.Cloud.httpRequest({
                         method: 'POST',
                         url: 'https://hooks.slack.com/services/' + config.slack.team + '/' +  config.slack.hook+ '/' + config.slack.key,
@@ -284,10 +287,7 @@
                             icon_emoji: ":angel:"
                         }
                     }).then(function() {
-                        status.success({
-                            yesterdayOnly: yesterdayOnly,
-                            order: order
-                        });
+                        status.success('Successfully posted order');
                     }, function(error) {
                         status.error('got an error: ' + error);
                     });
