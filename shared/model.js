@@ -123,6 +123,19 @@
             inventory.set('quantity',quantity);
             inventory.setACL(acl);
             return inventory;
+        },
+        clone: function(inventory) {
+            var clone = new Inventory(),
+                acl = new Parse.ACL();
+            acl.setPublicReadAccess(false);
+            acl.setRoleReadAccess('inventory',true);
+            acl.setRoleWriteAccess('inventory',true);
+            clone.set('date',inventory.get('date'));
+            clone.set('section',inventory.get('section'));
+            clone.set('key',inventory.get('key'));
+            clone.set('quantity',inventory.get('quantity'));
+            clone.setACL(acl);
+            return clone;
         }
     });
 

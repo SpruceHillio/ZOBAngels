@@ -152,12 +152,13 @@
                 });
             },
             createInventoryOrder: function(request,status) {
+                Parse.Cloud.useMasterKey();
                 console.log('Jobs - createInventoryOrder');
                 moment().utc();
                 console.log('Jobs - createInventoryOrder');
                 var today = moment().utc().subtract(1,'days'),
-                    actualQuery = new Parse.Query(model.Inventory),
-                    previousQuery = new Parse.Query(model.Inventory),
+                    actualQuery = new Parse.Query(model.Inventory).limit(500),
+                    previousQuery = new Parse.Query(model.Inventory).limit(500),
                     key,
                     entry,
                     inventory,
@@ -183,6 +184,9 @@
                         quantity = quantity.replace('+','');
                         if (-1 < quantity.indexOf('/')) {
                             quantity = quantity.replace(' 1/2','.5');
+                            quantity = quantity.replace(' 1/4','.25');
+                            quantity = quantity.replace('1/2','0.5');
+                            quantity = quantity.replace('1/4','0.25');
                         }
                         return parseFloat(quantity);
                     },
@@ -198,7 +202,8 @@
 
                 console.log('starting createInventoryOrder');
 
-                Parse.Promise.when(actualQuery.find(),previousQuery.find()).then(function(actualResults, perviousResults) {
+                Parse.Promise.when(actualQuery.find(),previousQuery.find()).then(function(actualResults, previousResults) {
+                    console.log('actualResults: ' + actualResults.length + ', previousResults: ' + previousResults.length);
                     for (key in data.Inventory) {
                         if (data.Inventory.hasOwnProperty(key)) {
                             m = data.Inventory[key].entries.length;
@@ -206,8 +211,11 @@
                                 entry = data.Inventory[key].entries[i];
                                 inventory = findInResults(actualResults,key,entry.id);
                                 if (null === inventory) {
-                                    inventory = findInResults(perviousResults,key,entry.id);
-                                    yesterdayOnly.push(inventory);
+                                    console.log('no value for today: ' + key + '::' + entry.id);
+                                    inventory = findInResults(previousResults,key,entry.id);
+                                    if (undefined !== inventory && null !== inventory) {
+                                        yesterdayOnly.push(inventory);
+                                    }
                                 }
                                 dataQuantity = quantityToNumber(entry.quantities[entry.quantities.length - 1]);
                                 inventoryQuantity = quantityToNumber(undefined === inventory || null === inventory ? '0' : inventory.get('quantity'));
@@ -256,6 +264,12 @@
                                 }
                             }
                         }
+                    }
+                    m = yesterdayOnly.length;
+                    for (i=0; i<m; i+=1) {
+                        inventory = model.Inventory.clone(yesterdayOnly[i]);
+                        inventory.set('date',moment(inventory.get('date'),'YYYYMMDD').add(1,'days').format('YYYYMMDD'));
+                        inventory.save();
                     }
                     Parse.Cloud.httpRequest({
                         method: 'POST',
