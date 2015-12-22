@@ -24,7 +24,13 @@
             $scope.NavigationService = NavigationService;
 
             $scope.update = function(detail) {
-                InventoryService.save($stateParams.id,detail.id,detail.quantity);
+                detail.saving = true;
+                InventoryService.save($stateParams.id,detail.id,detail.quantity).then(function() {
+                    detail.today = true;
+                    detail.saving = false;
+                },function(error) {
+                    detail.saving = false;
+                });
             };
 
             $log.debug('ZOBAngels.controller.inventory.DetailController loaded');
