@@ -146,7 +146,19 @@
             };
 
             var roleQuery = new Parse.Query(Parse.Role),
-                userQuery = new Parse.Query(Parse.User).exists('facebookId').limit(1000);
+                fetchUsers = function() {
+                    var query = new Parse.Query(Parse.User).limit(1000);
+                    $scope.loadingUsers = true;
+                    $scope.users.length = 0;
+                    if ($scope.onlyFacebookUser) {
+                        query.exists('facebookId');
+                    }
+                    query.find().then(function(users) {
+                        $scope.loadingUsers = false;
+                        Array.prototype.push.apply($scope.users,users);
+                    });
+                },
+                userQuery = new Parse.Query(Parse.User)/*.exists('facebookId')*/.limit(1000);
             roleQuery.find().then(function(roles) {
                 $scope.roles.length = 0;
                 Array.prototype.push.apply($scope.roles,roles.map(function(role) {
@@ -158,9 +170,17 @@
                     return roleContainer;
                 }));
             });
-            userQuery.find().then(function(users) {
-                $scope.users.length = 0;
-                Array.prototype.push.apply($scope.users,users);
+            //userQuery.find().then(function(users) {
+            //    $scope.users.length = 0;
+            //    Array.prototype.push.apply($scope.users,users);
+            //});
+
+            $scope.onlyFacebookUser = true;
+
+            $scope.loadingUsers = false;
+
+            $scope.$watch('onlyFacebookUser',function() {
+                fetchUsers();
             });
 
             $scope.NavigationService = NavigationService;
