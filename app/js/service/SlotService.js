@@ -99,7 +99,10 @@
 
                 _initFailed: false,
 
-                _config: null,
+                _config: {
+                    days: ['__CONFIG_DAYS__'],
+                    timespan: '__CONFIG_TIMESPAN__'
+                },
 
                 _init: function() {
                     var self = this,
@@ -112,25 +115,15 @@
                                 element.defer.reject(error);
                             });
                         };
-                    Parse.Config.get().then(function(config) {
-                        self._config = config;
-                        len = self._initQueue.length;
-                        for (i=0; i<len; i+=1) {
-                            if ('listWithPromise' === self._initQueue[i].action) {
-                                resolveListWithPromise(self,self._initQueue[i]);
-                            }
-                            else {
-                                self._initQueue[i].defer.reject('unknown');
-                            }
+                    len = self._initQueue.length;
+                    for (i=0; i<len; i+=1) {
+                        if ('listWithPromise' === self._initQueue[i].action) {
+                            resolveListWithPromise(self,self._initQueue[i]);
                         }
-                    }, function(error) {
-                        handleParseError(error,AccountService);
-                        self._initFailed = true;
-                        len = self._initQueue.length;
-                        for (i=0; i<len; i+=1) {
-                            self._initQueue[i].defer.reject(error);
+                        else {
+                            self._initQueue[i].defer.reject('unknown');
                         }
-                    });
+                    }
                 },
 
                 list: function() {
@@ -151,9 +144,12 @@
                         today = moment(moment().format('YYYYMMDD'),'YYYYMMDD').valueOf(),
                         currentDate,
                         currentResult,
-                        i,
+                        i,j,
+                        len = this._config.days.length,
+                        day,
                         id = '',
-                        self = this;
+                        self = this,
+                        skip;
                     if (!this._config) {
                         this._initQueue.push({
                             defer: defer,
@@ -172,8 +168,23 @@
                     query.find()
                         .then(
                         function(results) {
-                            for (i=0; i<14; i+=1) {
+                            for (i=0; i<self._config.timespan; i+=1) {
                                 currentDate = start + i * 86400000;
+                                skip = true;
+                                day = moment(new Date(currentDate)).format('d');
+                                for (j=0; j<len; j+=1) {
+                                    if ('ALL' === self._config.days[j]) {
+                                        skip = false;
+                                        break;
+                                    }
+                                    if (day === self._config.days[j]) {
+                                        skip = false;
+                                        break;
+                                    }
+                                }
+                                if (skip) {
+                                    continue;
+                                }
                                 currentResult = {
                                     date: moment(currentDate).format('dd, D. MMM'),
                                     _date: currentDate,

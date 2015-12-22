@@ -77,6 +77,14 @@ module.exports = function(grunt) {
               replacement: '<%= config.features %>'
             },
             {
+              pattern: /'__CONFIG_DAYS__'/g,
+              replacement: '<%= config.days %>'
+            },
+            {
+              pattern: /'__CONFIG_TIMESPAN__'/g,
+              replacement: '<%= config.timespan %>'
+            },
+            {
               pattern: /__TITLE__/g,
               replacement: '<%= config.title %>'
             },
