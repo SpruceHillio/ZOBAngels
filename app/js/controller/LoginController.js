@@ -18,6 +18,8 @@
 
             NavigationService.page(NavigationService.PAGE.LOGIN);
 
+            $scope.logginIn = false;
+
             $scope.user = {
 
             };
@@ -35,8 +37,12 @@
                     return;
                 }
 
+                $scope.logginIn = true;
+
                 AccountService.login($scope.user).then(function() {
                     $location.path('/home');
+                }, function() {
+                    $scope.logginIn = false;
                 });
             };
 
@@ -45,8 +51,13 @@
             };
 
             $scope.login = function() {
+
+                $scope.logginIn = true;
+
                 AccountService.login().then(function() {
                     $location.path('/home');
+                }, function() {
+                    $scope.logginIn = false;
                 });
             };
 

@@ -101,7 +101,8 @@
                 },
 
                 save: function(section, id, quantity) {
-                    var date = moment().format('YYYYMMDD');
+                    var date = moment().format('YYYYMMDD'),
+                        defer = $q.defer();
 
                     $log.debug('date: ',date,' section: ',section,' id: ',id, ' quantity: ',quantity);
 
@@ -121,11 +122,14 @@
                             .then(
                             function(inventory) {
                                 $log.debug('created');
+                                defer.resolve();
                             },
                             function(inventory,error) {
                                 $log.debug('failed: ',error);
+                                defer.reject(error);
                             });
                     });
+                    return defer.promise;
 
                 }
             };

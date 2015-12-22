@@ -12,8 +12,9 @@
         '$location',
         '$q',
         '$timeout',
+        'ZOBAngels.service.FeatureService',
         '$log',
-        function($rootScope,$location,$q,$timeout,$log) {
+        function($rootScope,$location,$q,$timeout,featureService,$log) {
 
             var AccountService = {
                 _fbReady: false,
@@ -115,6 +116,19 @@
                                 if (-1 === self._userContainer.roleNames.indexOf('angel')) {
                                     self._userContainer.roleNames.push('angel');
                                 }
+
+                                self._ready = true;
+                                self._launching = false;
+                                len = self._hasRolePromises.length;
+                                for (i=0; i<len; i+=1) {
+                                    if (self._hasRole(AccountService._hasRolePromises[i].role)) {
+                                        self._hasRolePromises[i].defer.resolve();
+                                    }
+                                    else {
+                                        self._hasRolePromises[i].defer.reject();
+                                    }
+                                }
+
                                 defer.resolve(self._userContainer);
                                 $rootScope.$broadcast('login',{
                                     user: user
@@ -168,9 +182,13 @@
 
                 _hasRole: function(role) {
                     if (!this._userContainer) {
-                        return false;
+                        return featureService.hasFeature(role);
+                        //return false;
                     }
-                    return -1 < this._userContainer.roleNames.indexOf(role);
+                    if (-1 === this._userContainer.roleNames.indexOf(role)) {
+                        return featureService.hasFeature(role);
+                    }
+                    return true;
                 },
 
                 /**
@@ -407,24 +425,11 @@
 
                     return defer.promise;
                 }
-            },
-                setupDone = function() {
-                    AccountService._ready = true;
-                    AccountService._launching = false;
-                    var i,len = AccountService._hasRolePromises.length;
-                    for (i=0; i<len; i+=1) {
-                        if (AccountService._hasRole(AccountService._hasRolePromises[i].role)) {
-                            AccountService._hasRolePromises[i].defer.resolve();
-                        }
-                        else {
-                            AccountService._hasRolePromises[i].defer.reject();
-                        }
-                    }
-                };
+            };
 
             AccountService._fbReady = true;
             $timeout(function() {
-                AccountService._setUser(Parse.User.current()).then(setupDone,setupDone);
+                AccountService._setUser(Parse.User.current());
             },300);
 
             return AccountService;

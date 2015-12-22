@@ -48,30 +48,26 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse not-ready" ng-class="{'not-ready' : !ready()}">
             <ul class="nav navbar-nav">
-                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.LOGIN)}" ng-show="!isLoggedIn()"><a ui-sref="login">Anmelden</a></li>
-                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.HOME)}" ng-show="isLoggedIn()"><a ui-sref="calendar">Kalender</a></li>
-                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.ABOUT)}"><a ui-sref="about">Über uns</a></li>
-                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.DONATION)}"><a ui-sref="donation">Spenden</a></li>
-                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.ADMIN)}" ng-show="hasRole('admin')"><a ui-sref="admin">Admin</a></li>
-                <!--<li ng-class="{'active': onPage(NavigationService.PAGE.STATISTICS)}" ng-show="hasRole('admin')"><a ui-sref="statistics.day">Statistiken</a></li>-->
-                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.INVENTORY)}" ng-show="hasRole('inventory')"><a ui-sref="inventory.overview">Inventur</a></li>
+                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.LOGIN)}" is-not-authenticated=""><a ui-sref="login">Anmelden</a></li>
+                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.HOME)}" has-all-roles="angel,f_calendar"><a ui-sref="calendar">Kalender</a></li>
+                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.ABOUT)}" has-feature="f_about"><a ui-sref="about">Über uns</a></li>
+                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.DONATION)}" has-feature="f_donation"><a ui-sref="donation">Spenden</a></li>
+                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.ADMIN)}" has-all-roles="admin,f_admin"><a ui-sref="admin">Admin</a></li>
+                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.STATISTICS)}" has-all-roles="admin,f_statistics"><a ui-sref="statistics.day">Statistiken</a></li>
+                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.INVENTORY)}" has-all-roles="inventory,f_inventory"><a ui-sref="inventory.overview">Inventur</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right" ng-show="isLoggedIn()">
-                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.PROFILE)}"><a ui-sref="profile">Profil</a></li>
+                <li data-toggle="collapse" data-target="#navbar" ng-class="{'active': onPage(NavigationService.PAGE.PROFILE)}" has-all-roles="angel,f_profile"><a ui-sref="profile">Profil</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
-<div class="container-fluid" ui-view  ng-class="{'not-ready' : !ready()}"></div>
+<div class="container-fluid" ui-view ></div>
 <script type="text/javascript" src="assets/js/app.js"></script>
 <script type="text/javascript">
     var host = window.location.host,
         pathname = window.location.pathname.split('/'),
         bucket;
-    console.log('pathname:', window.location.pathname);
-    console.log('hash:', window.location.hash);
-    console.log('host:', window.location.host);
-    console.log('pathname: ',pathname);
     if (0 === host.indexOf('s3')) {
 //        bucket = pathname[1];
         bucket = pathname.splice(1,1);

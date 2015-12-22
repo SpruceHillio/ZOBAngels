@@ -73,6 +73,10 @@ module.exports = function(grunt) {
         options: {
           replacements: [
             {
+              pattern: /'__FEATURES__'/g,
+              replacement: '<%= config.features %>'
+            },
+            {
               pattern: /__TITLE__/g,
               replacement: '<%= config.title %>'
             },

@@ -7,6 +7,8 @@
     'use strict';
 
     angular.module('ZOBAngels.directive',[
-        'ZOBAngels.directive.AngelListPrintDirective'
+        'ZOBAngels.directive.AngelListPrintDirective',
+        'ZOBAngels.directive.FeatureCheckDirectives',
+        'ZOBAngels.directive.SecurityDirectives'
     ]);
 })();

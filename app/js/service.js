@@ -8,6 +8,7 @@
 
     angular.module('ZOBAngels.service',[
         'ZOBAngels.service.AccountService',
+        'ZOBAngels.service.FeatureService',
         'ZOBAngels.service.InventoryService',
         'ZOBAngels.service.NavigationService',
         'ZOBAngels.service.SlotService'
