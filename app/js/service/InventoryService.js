@@ -101,8 +101,13 @@
                 },
 
                 save: function(section, id, quantity) {
-                    var date = moment().format('YYYYMMDD'),
+                    var date = moment().utc(),
                         defer = $q.defer();
+
+                    if (date.hour() < 10) {
+                        date.subtract(1,'days');
+                    }
+                    date = date.format('YYYYMMDD');
 
                     $log.debug('date: ',date,' section: ',section,' id: ',id, ' quantity: ',quantity);
 
