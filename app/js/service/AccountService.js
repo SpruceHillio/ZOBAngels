@@ -65,8 +65,22 @@
                                     return a;
                                 },[roleContainer.role]);
                             }
+                        },
+                        handleUserSet = function() {
+                            AccountService._ready = true;
+                            AccountService._launching = false;
+                            len = AccountService._hasRolePromises.length;
+                            for (i=0; i<len; i+=1) {
+                                if (AccountService._hasRole(AccountService._hasRolePromises[i].role)) {
+                                    AccountService._hasRolePromises[i].defer.resolve();
+                                }
+                                else {
+                                    AccountService._hasRolePromises[i].defer.reject();
+                                }
+                            }
                         };
                     if (undefined === user || null === user) {
+                        handleUserSet();
                         defer.resolve();
                     }
                     else {
@@ -117,17 +131,19 @@
                                     self._userContainer.roleNames.push('angel');
                                 }
 
-                                self._ready = true;
-                                self._launching = false;
-                                len = self._hasRolePromises.length;
-                                for (i=0; i<len; i+=1) {
-                                    if (self._hasRole(AccountService._hasRolePromises[i].role)) {
-                                        self._hasRolePromises[i].defer.resolve();
-                                    }
-                                    else {
-                                        self._hasRolePromises[i].defer.reject();
-                                    }
-                                }
+                                handleUserSet();
+                                //self._ready = true;
+                                //self._launching = false;
+                                //len = self._hasRolePromises.length;
+                                //for (i=0; i<len; i+=1) {
+                                //    $log.debug('resolving');
+                                //    if (self._hasRole(AccountService._hasRolePromises[i].role)) {
+                                //        self._hasRolePromises[i].defer.resolve();
+                                //    }
+                                //    else {
+                                //        self._hasRolePromises[i].defer.reject();
+                                //    }
+                                //}
 
                                 defer.resolve(self._userContainer);
                                 $rootScope.$broadcast('login',{
@@ -135,6 +151,7 @@
                                 });
                             },function(error) {
                                 handleParseError(error);
+                                handleUserSet();
                                 defer.reject();
                             });
                     }
@@ -429,6 +446,7 @@
 
             AccountService._fbReady = true;
             $timeout(function() {
+                $log.debug('setting user');
                 AccountService._setUser(Parse.User.current());
             },300);
 
