@@ -47,6 +47,10 @@
                             equalTo('section',request.object.get('section')).
                             equalTo('type',request.object.get('type')).
                             equalTo('date',request.object.get('date'));
+                        if (request.master) {
+                            response.success();
+                            return;
+                        }
                         query.first().then(function(result) {
                             if (result) {
                                 response.error('Already signed up!');

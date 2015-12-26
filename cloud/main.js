@@ -38,6 +38,8 @@ Parse.Cloud.job('angelStatus',jobs.angelStatus);
 
 Parse.Cloud.job('createInventoryOrder',jobs.createInventoryOrder);
 
+Parse.Cloud.job('convertTimestampToDay',functions.convertTimestampToDay);
+
 /**
  * Function definitions
  */

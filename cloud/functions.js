@@ -91,6 +91,29 @@
                 });
             },
 
+            convertTimestampToDay: function(request,response) {
+                Parse.Cloud.useMasterKey();
+                var i,len,
+                    assignment,
+                    day;
+                new Parse.Query(model.Assignment).limit(10000).find().then(function(assignments) {
+                    len = assignments.length;
+                    for (i=0; i<len; i+=1) {
+                        assignment = assignments[i];
+                        day = new Date(assignment.get('date'));
+                        console.log('day: ' + day);
+                        day = moment(day).format('YYYYMMDD');
+                        console.log('day: ' + day);
+                        assignment.set('day',day);
+                        assignment.save();
+                    }
+                    response.success('updated');
+                }, function(error) {
+                    console.log('error while querying: ' + error);
+                    response.error(error);
+                });
+            },
+
             sectionsWithAssignments: function(request,response) {
                 var query = new Parse.Query(model.Assignment),
                     rolesPromise = security.roles(request.user),
