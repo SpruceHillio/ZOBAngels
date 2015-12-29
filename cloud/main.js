@@ -3,15 +3,17 @@
  * (c) 2015 SpruceHill.io GmbH
  * License: MIT
  */
-var config = require('cloud/config'),
+var mandrill = require('mandrill'),
+    config = require('cloud/config'),
     texts = require('cloud/texts'),
     model = require('cloud/shared/model'),
     data = require('cloud/shared/data'),
     moment = require('cloud/moment-timezone-with-data');
+mandrill.initialize('__MANDRILL_API_KEY___');
 var helpers = require('cloud/helpers')(config,model,texts,moment),
     security = require('cloud/security')(config,model,texts,moment);
 var triggers = require('cloud/triggers')(config,model,texts,helpers,security,moment),
-    jobs = require('cloud/jobs')(config,model,data,texts,helpers,security,moment),
+    jobs = require('cloud/jobs')(config,model,data,texts,helpers,security,moment,mandrill),
     functions = require('cloud/functions')(config,model,texts,helpers,security,moment);
 
 /**

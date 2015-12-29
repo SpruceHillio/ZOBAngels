@@ -17,7 +17,7 @@
         global.ZOBAngels.model = factory();
     }
 })(this,function() {
-    return function(config,model,data,texts,helpers,security,moment) {
+    return function(config,model,data,texts,helpers,security,moment,mandrill) {
         return {
             informAngels: function(request,status) {
                 var query = new Parse.Query(model.Assignment),
@@ -171,6 +171,9 @@
                     orderVokue = [],
                     orderPwc = [],
                     orderOthers = [],
+                    orders = {},
+                    text,
+                    slackText,
                     findInResults = function(results,section,key) {
                         n = results.length;
                         for (j=0; j<n; j+=1) {
@@ -190,8 +193,8 @@
                         }
                         return parseFloat(quantity);
                     },
-                    createText = function(orders, headline) {
-                    	return '*' + headline + '*\n' + orders.filter(function(order) {
+                    createText = function(orders) {
+                    	return orders.filter(function(order) {
                             return 0 < order.quantity;
                         }).map(function(order) {
                             return '• ' + order.title + ': *' + order.quantity + '* (' + order.unit + ')';
@@ -199,6 +202,11 @@
                     };
                 actualQuery.equalTo('date',today.format('YYYYMMDD'));
                 previousQuery.equalTo('date',today.clone().subtract(1,'days').format('YYYYMMDD'));
+                for (key in data.Order) {
+                    if (data.Order.hasOwnProperty(key)) {
+                        orders[key] = [];
+                    }
+                }
 
                 console.log('starting createInventoryOrder');
 
@@ -220,48 +228,18 @@
                                 }
                                 dataQuantity = quantityToNumber(entry.quantities[entry.quantities.length - 1]);
                                 inventoryQuantity = quantityToNumber(undefined === inventory || null === inventory ? '0' : inventory.get('quantity'));
-                                
-                                switch (entry.source) {
-                                
-                                case 'richel':
-	                                orderRichel.push({
-	                                    section: key,
-	                                    key: entry.id,
-	                                    title: data.Inventory[key].name + ' - ' + entry.name,
-	                                    quantity: dataQuantity - inventoryQuantity,
-	                                    unit: entry.unit
-	                                });
-	                                break;
-                                case 'pwc':                                
-	                                orderPwc.push({
-	                                    section: key,
-	                                    key: entry.id,
-	                                    title: data.Inventory[key].name + ' - ' + entry.name,
-	                                    quantity: dataQuantity - inventoryQuantity,
-	                                    unit: entry.unit
-	                                });
-	                                break;
-                                case 'others':
-	                                orderOthers.push({
-	                                    section: key,
-	                                    key: entry.id,
-	                                    title: data.Inventory[key].name + ' - ' + entry.name,
-	                                    quantity: dataQuantity - inventoryQuantity,
-	                                    unit: entry.unit
-	                                });
-	                                break;
-                                case 'vokue':
-	                                orderVokue.push({
-	                                    section: key,
-	                                    key: entry.id,
-	                                    title: data.Inventory[key].name + ' - ' + entry.name,
-	                                    quantity: dataQuantity - inventoryQuantity,
-	                                    unit: entry.unit
-	                                });
-	                                break;	                                
-	                            default:
-	                            	console.log('inventory: not richel, not pwc, not others');
-	                            	break;
+
+                                if (orders.hasOwnProperty(entry.source)) {
+                                    orders[entry.source].push({
+                                        section: key,
+                                        key: entry.id,
+                                        title: data.Inventory[key].name + ' - ' + entry.name,
+                                        quantity: dataQuantity - inventoryQuantity,
+                                        unit: entry.unit
+                                    });
+                                }
+                                else {
+                                    console.log('Unknown source: ' + entry.source);
                                 }
                             }
                         }
@@ -274,6 +252,46 @@
                         inventory.save();
                     }
                     status.message('Copied entries that only existed on the previous day over to the current day.');
+
+                    slackText  = '';
+                    for (key in orders) {
+                        if (orders.hasOwnProperty(key)) {
+                            if (0 < slackText.length) {
+                                slackText += '\n\n';
+                            }
+                            text = createText(orders[key]);
+                            slackText += '*' + data.Order[key].slack.heading + '*\n' + text;
+                            mandrill.sendEmail({
+                                message: {
+                                    text: data.Order[key].email.intro + text + data.Order[key].email.extro,
+                                    subject: data.Order[key].email.subject,
+                                    from_email: 'zobangels@gmail.com',
+                                    from_name: 'ZOBAngels',
+                                    to: [
+                                        {
+                                            email: data.Order[key].email.to.email,
+                                            name: data.Order[key].email.to.name
+                                        }
+                                    ],
+                                    bcc: [
+                                        {
+                                            email: 'zobangels@gmail.com',
+                                            name: 'ZOBAngels'
+                                        }
+                                    ]
+                                },
+                                async: true
+                            }, {
+                                success: function() {
+                                    console.log('Successfully send email to ' + key);
+                                },
+                                error: function() {
+                                    console.log('Error sending email to ' + key);
+                                }
+                            });
+                        }
+                    }
+
                     Parse.Cloud.httpRequest({
                         method: 'POST',
                         url: 'https://hooks.slack.com/services/' + config.slack.team + '/' +  config.slack.hook+ '/' + config.slack.key,
@@ -282,7 +300,7 @@
                         },
                         body: {
                             channel: config.slack.channel.order,
-                            text: createText(orderRichel, 'Richel') + '\n\n' + createText(orderVokue, 'Vokü') + '\n\n' + createText(orderPwc, 'PWC') + '\n\n' + createText(orderOthers, 'Sonstiges'),
+                            text: slackText,
                             username : "Der Lager Engel",
                             icon_emoji: ":angel:"
                         }

@@ -20,6 +20,64 @@
     'use strict';
 
     return {
+        Order: {
+            richel: {
+                email: {
+                    to: {
+                        email: 'anika.baumgart@gmail.com',
+                        name: 'RichelOrga'
+                    },
+                    subject: 'Bestellung',
+                    intro: 'Liebe RichelOrga,\n\nunten findet ihr die Bestellung für die ZOB Angels.\n\n',
+                    extro: '\n\nLiebe Grüße\nDie ZOBAngels'
+                },
+                slack: {
+                    heading: 'Richel'
+                }
+            },
+            pwc: {
+                email: {
+                    to: {
+                        email: 'anika.baumgart@gmail.com',
+                        name: 'PWC'
+                    },
+                    subject: 'Bestellung',
+                    intro: 'Liebe PWC,\n\nunten findet ihr die Bestellung für die ZOB Angels.\n\n',
+                    extro: '\n\nLiebe Grüße\nDie ZOBAngels'
+                },
+                slack: {
+                    heading: 'PWC'
+                }
+            },
+            vokue: {
+                email: {
+                    to: {
+                        email: 'anika.baumgart@gmail.com',
+                        name: 'Vokü'
+                    },
+                    subject: 'Bestellung',
+                    intro: 'Liebe VoKü,\n\nunten findet ihr die Bestellung für die ZOB Angels.\n\n',
+                    extro: '\n\nLiebe Grüße\nDie ZOBAngels'
+                },
+                slack: {
+                    heading: 'Vokü'
+                }
+            },
+            others: {
+                email: {
+                    to: {
+                        email: 'anika.baumgart@gmail.com',
+                        name: 'Anika Baumgart'
+                    },
+                    subject: 'Bestellung',
+                    intro: 'Liebe Anika,\n\nunten findest die Bestellung für die ZOB Angels.\n\n',
+                    extro: '\n\nLiebe Grüße\nDie ZOBAngels'
+                },
+                slack: {
+                    heading: 'Sonstiges'
+                }
+            }
+        },
         Inventory: {
             man: {
                 name: 'Männer',

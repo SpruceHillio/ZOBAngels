@@ -195,6 +195,10 @@ module.exports = function(grunt) {
             {
               pattern: /__SLACK_CHANNEL_MISSINGANGELS__/g,
               replacement: '<%= config.slack.channel.missingAngel %>'
+            },
+            {
+              pattern: /__MANDRILL_API_KEY___/g,
+              replacement: '<%= config.mandrill.api.key %>'
             }
           ]
         }
