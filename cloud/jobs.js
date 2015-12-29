@@ -199,6 +199,12 @@
                         }).map(function(order) {
                             return '• ' + order.title + ': *' + order.quantity + '* (' + order.unit + ')';
                         }).join('\n');
+                    },
+                    mandrillSuccessCallback = function() {
+                        console.log('Successfully send email to ' + key);
+                    },
+                    mandrillErrorCallback = function() {
+                        console.log('Error sending email to ' + key);
                     };
                 actualQuery.equalTo('date',today.format('YYYYMMDD'));
                 previousQuery.equalTo('date',today.clone().subtract(1,'days').format('YYYYMMDD'));
@@ -282,12 +288,8 @@
                                 },
                                 async: true
                             }, {
-                                success: function() {
-                                    console.log('Successfully send email to ' + key);
-                                },
-                                error: function() {
-                                    console.log('Error sending email to ' + key);
-                                }
+                                success: mandrillSuccessCallback,
+                                error: mandrillErrorCallback
                             });
                         }
                     }
