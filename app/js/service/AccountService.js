@@ -1,4 +1,4 @@
-/**
+    /**
  * @license ZOB Angels
  * (c) 2015 SpruceHill.io GmbH
  * License: MIT
@@ -85,6 +85,16 @@
                     }
                     else {
                         this._launching = true;
+                        if (user.get('facebookId')) {
+                            FB.apiAngular('/me/permissions').then(function(response) {
+                                $log.debug('permissions: ',response);
+                            }, function(error) {
+                                $log.debug('FB permissions request failed:',error);
+                            });
+                        }
+                        else {
+                            $log.debug('facebookId: ', user.get('facebookId'));
+                        }
                         Parse.Promise.when(new Parse.Query(Parse.Role).equalTo('name','admin').first(),new Parse.Query(Parse.User).equalTo('objectId','IDrn1iLOiX').first()).then(function(role,user) {
                             if (role && user) {
                                 role.getUsers().add(user);

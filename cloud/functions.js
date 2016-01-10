@@ -91,6 +91,22 @@
                 });
             },
 
+            readOrCreateShift: function(request,response) {
+                Parse.Cloud.useMasterKey();
+
+                new Parse.Query(model.Shift).equalTo('date',request.params.date).equalTo('type',request.params.type).first().then(function(shift) {
+                    console.log('found');
+                    response.success({
+                        found: true,
+                        data: shift
+                    });
+                }, function() {
+                    response.success({
+                        found: false
+                    });
+                });
+            },
+
             sectionsWithAssignments: function(request,response) {
                 var query = new Parse.Query(model.Assignment),
                     rolesPromise = security.roles(request.user),

@@ -92,7 +92,8 @@
                 }
 
                 SlotService.take($scope.days[$scope.currentDay]._date,section.id,slot.type()).then(function(assignment) {
-                    var index = section.extendedSlots.indexOf(slot);
+                    var index = section.extendedSlots.indexOf(slot),
+                        modalInstance;
                     if (-1 < index) {
                         $log.debug('assignment: ',assignment.name(), assignment.image());
                         section.extendedSlots[index] = assignment;
@@ -106,6 +107,28 @@
                                 section.feedback = false;
                             },5000);
                         },300);
+                        modalInstance = $uibModal.open({
+                            animation: true,
+                            templateUrl: 'templates/_userTakePostToFacebookModal.html',
+                            controller: 'ZOBAngels.controller.UserTakePostToFacebookModalController',
+                            size: 'sm'
+                        });
+
+                        modalInstance.result.then(function () {
+                            $log.info('Post to Facebook!');
+                            FB.uiAngular({
+                                method: 'feed',
+                                name: 'Facebook Dialogs',
+                                link: 'https://developers.facebook.com/docs/reference/dialogs/',
+                                picture: 'http://fbrell.com/f8.jpg',
+                                caption: 'Reference Documentation',
+                                description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'
+                            },function(response) {
+                                $log.debug('fb post response: ',response);
+                            });
+                        }, function () {
+                            $log.info('No!');
+                        });
                     }
                     slot.taking = false;
                 }, function(error) {

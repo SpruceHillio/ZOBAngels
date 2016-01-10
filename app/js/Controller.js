@@ -18,6 +18,7 @@
         'ZOBAngels.controller.PageController',
         'ZOBAngels.controller.ProfileController',
         'ZOBAngels.controller.statistics',
-        'ZOBAngels.controller.UserReleaseConfirmModalController'
+        'ZOBAngels.controller.UserReleaseConfirmModalController',
+        'ZOBAngels.controller.UserTakePostToFacebookModalController'
     ]);
 })();

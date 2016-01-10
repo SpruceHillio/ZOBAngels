@@ -62,3 +62,7 @@ Parse.Cloud.define('initRoles',function(request,response) {
 Parse.Cloud.define('createInventoryOrder',function(request,response) {
     jobs.createInventoryOrder(request,response);
 });
+
+Parse.Cloud.define('readOrCreateShift',function(request,response) {
+    functions.readOrCreateShift(request,response);
+});

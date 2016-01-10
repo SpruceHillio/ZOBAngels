@@ -154,9 +154,24 @@
         }
     });
 
+    var Shift = Parse.Object.extend('Shift', {
+    },{
+        create: function(date,type) {
+            var shift = new Shift(),
+                acl = new Parse.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setRoleWriteAccess('admin',true);
+            shift.set('date',date);
+            shift.set('type',type);
+            shift.setACL(acl);
+            return shift;
+        }
+    });
+
     return {
         Assignment: Assignment,
         Inventory: Inventory,
-        AuditLog: AuditLog
+        AuditLog: AuditLog,
+        Shift: Shift
     };
 });
