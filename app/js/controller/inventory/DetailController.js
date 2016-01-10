@@ -14,8 +14,9 @@
         'ZOBAngels.service.AccountService',
         'ZOBAngels.service.InventoryService',
         '$stateParams',
+        '$timeout',
         '$log',
-        function($scope,NavigationService,AccountService,InventoryService,$stateParams,$log) {
+        function($scope,NavigationService,AccountService,InventoryService,$stateParams,$timeout,$log) {
 
             NavigationService.page(NavigationService.PAGE.INVENTORY);
 
@@ -25,11 +26,27 @@
 
             $scope.update = function(detail) {
                 detail.saving = true;
+                if (undefined !== detail.message) {
+                    detail.message.show = false;
+                }
                 InventoryService.save($stateParams.id,detail.id,detail.quantity).then(function() {
                     detail.today = true;
                     detail.saving = false;
+                    if (undefined !== detail.message) {
+                        detail.message = {};
+                    }
+                    //detail.message.type = 'alert-success';
+                    //detail.message.text = 'Eintrag wurde gespeichert.';
+                    //detail.message.show = true;
+                    //$timeout(functiom2000);
                 },function(error) {
                     detail.saving = false;
+                    if (undefined !== detail.message) {
+                        detail.message = {};
+                    }
+                    detail.message.type = 'alert-error';
+                    detail.message.text = 'Beim Speichern ist ein Fehler aufgetreten - bitte nochmals versuchen!';
+                    detail.message.show = true;
                 });
             };
 
