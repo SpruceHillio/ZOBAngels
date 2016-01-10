@@ -14,12 +14,16 @@
     <div class="col-lg-3 col-md-6 col-xs-12" ng-repeat="detail in section.entries">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <strong ng-bind="detail.name"></strong>
+                <strong ng-bind="detail.name"></strong> <span ng-show="detail.saving"><i class="fa fa-fw fa-spin fa-spinner"></i> Wird gespeichert ...</span>
             </div>
             <div class="panel-body">
-                <p>Einheit: <strong ng-bind="detail.unit"></strong></p>
-                <div class="btn-group btn-group-justified">
-                    <div class="btn btn-block" ng-class="{'btn-default' : !detail.today, 'btn-primary': detail.today}" ng-repeat="quantity in detail.quantities" ng-model="detail.quantity" uib-btn-radio="quantity" ng-bind="quantity" ng-disabled="detail.saving" ng-click="update(detail)"></div>
+                <div>
+                    <p>Einheit: <strong ng-bind="detail.unit"></strong></p>
+                    <div class="btn-group btn-group-justified">
+                        <div class="btn btn-block" ng-class="{'btn-default' : !detail.today, 'btn-primary': detail.today}" ng-repeat="quantity in detail.quantities" ng-model="detail.quantity" uib-btn-radio="quantity" ng-bind="quantity" ng-disabled="detail.saving" ng-click="update(detail)"></div>
+                    </div>
+                </div>
+                <div ng-show="detail.message.show" class="alert" ng-class="detail.message.type" ng-bind="detail.message.text">
                 </div>
             </div>
         </div>
