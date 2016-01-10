@@ -869,13 +869,6 @@
                         quantities: ['0','1','2','3','4','5+']
                     },
                     {
-                        id: 'zewa',
-                        name: 'Zewa',
-                        source: 'others',
-                        unit: 'Rolle',
-                        quantities: ['0','1','2','3+']
-                    },
-                    {
                         id: 'plate_flat',
                         name: 'Teller',
                         source: 'vokue',
@@ -959,6 +952,68 @@
                         unit: 'Packung',
                         quantities: ['0','1/2','1','1 1/2','2+']
                     }                     
+                ]
+            },
+            cleaning: {
+                name: 'Reinigung & Hygiene',
+                icon: 'fa-flask',
+                entries: [
+                    {
+                        id: 'dish_liquid',
+                        name: 'Pril',
+                        source: 'other',
+                        unit: 'Flasche',
+                        quantities: ['0','1+']
+                    },
+                    {
+                        id: 'all_purpose_cleaner',
+                        name: 'Sagrotan Allzweckreiniger',
+                        source: 'other',
+                        unit: 'Flasche',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
+                        id: 'vinegar_essence',
+                        name: 'SURIG- Essig-Essenz',
+                        source: 'other',
+                        unit: 'Flasche',
+                        quantities: ['0','2','4','6+']
+                    },
+                    {
+                        id: 'citric_acid',
+                        name: 'HEITMANN  Citronensäure flüssig',
+                        source: 'other',
+                        unit: 'Flasche',
+                        quantities: ['0','2','4','6+']
+                    },
+                    {
+                        id: 'glass_cleaner',
+                        name: 'Sidolin-Glasreiniger',
+                        source: 'other',
+                        unit: 'Flasche',
+                        quantities: ['0','1','2+']
+                    },
+                    {
+                        id: 'sterillum',
+                        name: 'Sterillum',
+                        source: 'other',
+                        unit: 'Flasche',
+                        quantities: ['0','5','10','15+']
+                    },
+                    {
+                        id: 'kitchen_roll',
+                        name: 'ZEWA wisch&fort',
+                        source: 'other',
+                        unit: 'Rolle',
+                        quantities: ['0','6','12','18','24+']
+                    },
+                    {
+                        id: 'disinfection_area_spraying',
+                        name: 'Sagrotan-Desinfektions-Reiniger zum Sprühen',
+                        source: 'other',
+                        unit: 'Flasche',
+                        quantities: ['0','3','6','9','12+']
+                    }
                 ]
             }
         }
