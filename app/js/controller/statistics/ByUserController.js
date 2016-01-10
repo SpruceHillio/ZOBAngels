@@ -9,10 +9,11 @@
     angular.module('ZOBAngels.controller.statistics.ByUserController',[
     ]).controller('ZOBAngels.controller.statistics.ByUserController',[
         '$scope',
+        '$q',
         '$state',
         '$sce',
         '$log',
-        function($scope,$state,$sce,$log) {
+        function($scope,$q,$state,$sce,$log) {
 
             $scope.days = [];
 
@@ -43,13 +44,40 @@
                 max = Number.NEGATIVE_INFINITY,
                 data = {},
                 now = new Date().getTime(),
-                oneWeek = 8 * 24 * 60 * 60 * 1000;
-            query.greaterThanOrEqualTo('date',moment('20151109','YYYYMMDD').valueOf());
-            query.lessThanOrEqualTo('date',new Date().getTime() + (24 * 60 * 60 * 1000));
-            query.include('user');
-            query.limit(1000);
-            query.find().then(function(results) {
+                oneWeek = 8 * 24 * 60 * 60 * 1000,
+                findAll = function(results, offset) {
+                    var defer = $q.defer();
+                    if (undefined === results || null === results) {
+                        results = [];
+                        offset = 0;
+                    }
+                    new Parse.Query(window.ZOBAngels.model.Assignment)
+                        .greaterThanOrEqualTo('date',moment('20151109','YYYYMMDD').valueOf())
+                        .lessThanOrEqualTo('date',new Date().getTime() + (24 * 60 * 60 * 1000))
+                        .include('user')
+                        .skip(offset)
+                        .limit(1000)
+                        .find()
+                        .then(function(queryResults) {
+                            Array.prototype.push.apply(results,queryResults);
+                            if (1000 === queryResults.length) {
+                                findAll(results,offset + 1000).then(function(results) {
+                                    defer.resolve(results);
+                                },function(error) {
+                                    defer.reject(error);
+                                });
+                            }
+                            else {
+                                defer.resolve(results);
+                            }
+                        }, function(error) {
+                            defer.reject(error);
+                        });
+                    return defer.promise;
+                };
+            findAll().then(function(results) {
                 len = results.length;
+                console.log('results.length: ',results.length);
                 for (i=0; i<len; i+=1) {
                     current = results[i];
                     entry = mapByDay[''+current.get('date')];
@@ -120,6 +148,12 @@
                 Array.prototype.push.apply($scope.days,listByDay);
                 Array.prototype.push.apply($scope.users,listByUser);
             });
+            //query.greaterThanOrEqualTo('date',moment('20151109','YYYYMMDD').valueOf());
+            //query.lessThanOrEqualTo('date',new Date().getTime() + (24 * 60 * 60 * 1000));
+            //query.include('user');
+            //query.limit(10000);
+            //query.find().then(function(results) {
+            //});
 
             $scope.slot = function(date,section) {
                 var sectionString;
