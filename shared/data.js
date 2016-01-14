@@ -43,7 +43,13 @@
                     },
                     subject: 'Bestellung',
                     intro: 'Liebe PWC,\n\nunten findet ihr die Bestellung für die ZOB Angels.\n\n',
-                    extro: '\n\nLiebe Grüße\nDie ZOBAngels'
+                    extro: '\n\nLiebe Grüße\nDie ZOBAngels',
+                    days: [
+                        '1','2','3','4','5'
+                    ],
+                    day: {
+                        '5' : '\n\nBitte zusätzlich zu den oben genannten Sachen noch das Folgende der Bestellungen hinzufügen:\n• Wasser: 10 (Kiste)\n• Bananen: 5 (Kiste)'
+                    }
                 },
                 slack: {
                     heading: 'PWC'
@@ -70,7 +76,7 @@
                         name: 'Anika Baumgart'
                     },
                     subject: 'Bestellung',
-                    intro: 'Liebe Anika,\n\nunten findest die Bestellung für die ZOB Angels.\n\n',
+                    intro: 'Liebe Anika,\n\nunten findest du die Bestellung für die ZOB Angels.\n\n',
                     extro: '\n\nLiebe Grüße\nDie ZOBAngels'
                 },
                 slack: {
@@ -163,14 +169,14 @@
                     {
                         id: 'caps',
                         name: 'Mützen',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Kiste',
                         quantities: ['0', '1/2', '1+']
                     },
                     {
                         id: 'gloves',
                         name: 'Handschuhe',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Kiste',
                         quantities: ['0', '1/2', '1+']
                     },
@@ -225,42 +231,42 @@
                     {
                         id: 'shoe_36',
                         name: 'Schuhe (36)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'shoe_37',
                         name: 'Schuhe (37)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'shoe_38',
                         name: 'Schuhe (38)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'shoe_39',
                         name: 'Schuhe (39)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'shoe_40',
                         name: 'Schuhe (40)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'shoe_41',
                         name: 'Schuhe (41)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2+']
                     },
@@ -274,14 +280,14 @@
                     {
                         id: 'caps',
                         name: 'Mützen',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Kiste',
                         quantities: ['0', '1/2', '1+']
                     },
                     {
                         id: 'gloves',
                         name: 'Handschuhe',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Kiste',
                         quantities: ['0', '1/2', '1+']
                     },
@@ -305,6 +311,48 @@
                 name: 'Kinder',
                 icon: 'fa-child',
                 entries: [
+                    {
+                        id: 'trouser_98',
+                        name: 'Hose (98)',
+                        source: 'richel',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
+                        id: 'trouser_104',
+                        name: 'Hose (104)',
+                        source: 'richel',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
+                        id: 'trouser_110',
+                        name: 'Hose (110)',
+                        source: 'richel',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
+                        id: 'trouser_116',
+                        name: 'Hose (116)',
+                        source: 'richel',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
+                        id: 'trouser_122',
+                        name: 'Hose (122)',
+                        source: 'richel',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
+                        id: 'trouser_128',
+                        name: 'Hose (128)',
+                        source: 'richel',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3+']
+                    },
                     {
                         id: 'trouser_134',
                         name: 'Hose (134)',
@@ -740,7 +788,7 @@
                     {
                         id: 'bread',
                         name: 'Brot',
-                        source: 'vokue',
+                        source: 'others',
                         unit: 'Kiste',
                         quantities: ['0','1/2','1','1 1/2','2+']
                     },
@@ -918,20 +966,6 @@
                         quantities: ['0','1/4','1/2+']
                     },
                     {
-                        id: 'germicide',
-                        name: 'Desinfektionsmittel Fläche',
-                        source: 'others',
-                        unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
-                    },
-                    {
-                        id: 'germicide_hands',
-                        name: 'Desinfektionsmittel Hände',
-                        source: 'others',
-                        unit: 'Stück',
-                        quantities: ['0','1','2','3','4','5+']
-                    },
-                    {
                         id: 'disposable_gloves_s',
                         name: 'Einweghandschuhe (S)',
                         source: 'pwc',
@@ -951,7 +985,14 @@
                         source: 'pwc',
                         unit: 'Packung',
                         quantities: ['0','1/2','1','1 1/2','2+']
-                    }                     
+                    },
+                    {
+                        id: 'duck_tape',
+                        name: 'Textilklebeband',
+                        source: 'others',
+                        unit: 'Rolle',
+                        quantities: ['0','1','2','3+']
+                    }
                 ]
             },
             cleaning: {
@@ -961,58 +1002,58 @@
                     {
                         id: 'dish_liquid',
                         name: 'Pril',
-                        source: 'other',
+                        source: 'others',
                         unit: 'Flasche',
                         quantities: ['0','1+']
                     },
                     {
                         id: 'all_purpose_cleaner',
                         name: 'Sagrotan Allzweckreiniger',
-                        source: 'other',
+                        source: 'others',
                         unit: 'Flasche',
                         quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'vinegar_essence',
                         name: 'SURIG- Essig-Essenz',
-                        source: 'other',
+                        source: 'others',
                         unit: 'Flasche',
-                        quantities: ['0','2','4','6+']
+                        quantities: ['0','1','2','3','4+']
                     },
                     {
                         id: 'citric_acid',
                         name: 'HEITMANN  Citronensäure flüssig',
-                        source: 'other',
+                        source: 'others',
                         unit: 'Flasche',
-                        quantities: ['0','2','4','6+']
+                        quantities: ['0','1','2','3','4+']
                     },
                     {
                         id: 'glass_cleaner',
                         name: 'Sidolin-Glasreiniger',
-                        source: 'other',
+                        source: 'others',
                         unit: 'Flasche',
                         quantities: ['0','1','2+']
                     },
                     {
                         id: 'sterillum',
                         name: 'Sterillum',
-                        source: 'other',
+                        source: 'others',
                         unit: 'Flasche',
-                        quantities: ['0','5','10','15+']
+                        quantities: ['0','3','6','9','12+']
                     },
                     {
                         id: 'kitchen_roll',
                         name: 'ZEWA wisch&fort',
-                        source: 'other',
+                        source: 'others',
                         unit: 'Rolle',
-                        quantities: ['0','6','12','18','24+']
+                        quantities: ['0','5','10','15','20+']
                     },
                     {
                         id: 'disinfection_area_spraying',
                         name: 'Sagrotan-Desinfektions-Reiniger zum Sprühen',
-                        source: 'other',
+                        source: 'others',
                         unit: 'Flasche',
-                        quantities: ['0','3','6','9','12+']
+                        quantities: ['0','2','4','6','8+']
                     }
                 ]
             }
