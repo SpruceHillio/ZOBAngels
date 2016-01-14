@@ -192,7 +192,7 @@
                                         {
                                             id: 'driver',
                                             title: 'Fahrer (17:30 - 19:00 uhr)',
-                                            description: 'Aufgabe: Töpfe vom vorherigen Tag am ZOB abholen, in der Vokü befüllen lassen und wieder zurück zum ZOB bringen',
+                                            description: 'Aufgabe: Töpfe vom vorherigen Tag am ZOB abholen, in die Vokü bringen und befüllen lassen. Beim Bäcker das Brot abholen und dann die vollen Töpfe wieder zurück zum ZOB bringen',
                                             slots: slots(currentDate,'driver',1,results),
                                             extendedSlots: extendedSlots(currentDate,'driver',[{
                                                 count: 1,
@@ -210,7 +210,7 @@
                                                 type: 'angel',
                                                 roles: ['angel']
                                             },{
-                                                count: AccountService.hasRole('archangel') ? 1 : 0,
+                                                count: AccountService.hasRole('archangel') ? 2 : 0,
                                                 type: 'archangel',
                                                 roles: ['archangel']
                                             },{
@@ -233,7 +233,7 @@
                                                 type: 'angel',
                                                 roles: ['angel']
                                             },{
-                                                count: AccountService.hasRole('archangel') ? 1 : 0,
+                                                count: AccountService.hasRole('archangel') ? 4 : 0,
                                                 type: 'archangel',
                                                 roles: ['archangel']
                                             },{
@@ -256,7 +256,7 @@
                                                 type: 'angel',
                                                 roles: ['angel']
                                             },{
-                                                count: AccountService.hasRole('archangel') ? 1 : 0,
+                                                count: AccountService.hasRole('archangel') ? 2 : 0,
                                                 type: 'archangel',
                                                 roles: ['archangel']
                                             },{
