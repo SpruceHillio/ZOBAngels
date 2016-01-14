@@ -357,9 +357,50 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
+            cwd: "dist/",
+            src: ['assets/css/app.css'],
+            dest: 'dist_parse/public/',
+            filter: 'isFile'
+          },
+          {
+            expand: true,
+            cwd: "dist/",
+            src: ['assets/js/app.js'],
+            dest: 'dist_parse/public/',
+            filter: 'isFile'
+          },
+          {
+            expand: true,
             cwd: 'tmp',
             src: ['.parse.*'],
             dest: 'dist_parse/',
+            filter: 'isFile'
+          },
+          {
+            expand: true,
+            src: ['assets/images/*'],
+            dest: 'dist_parse/public/',
+            filter: 'isFile'
+          },
+          {
+            expand: true,
+            cwd: '<%= config.assetsDir %>',
+            src: ['assets/images/*'],
+            dest: 'dist_parse/public/',
+            filter: 'isFile'
+          },
+          {
+            expand: true,
+            cwd: 'libs/bootstrap',
+            src: ['fonts/*'],
+            dest: 'dist_parse/public/assets',
+            filter: 'isFile'
+          },
+          {
+            expand: true,
+            cwd: 'libs/fontawesome',
+            src: ['fonts/*'],
+            dest: 'dist_parse/public/assets',
             filter: 'isFile'
           }
         ]
@@ -525,10 +566,18 @@ module.exports = function(grunt) {
     'aws_s3' ]);
   grunt.registerTask('package:parse', [
     'jshint',
+    'clean:parse',
     'string-replace:dist',
     'string-replace:parse',
+    'uglify:checklist-model',
+    'uglify:angular-permission',
+    'uglify:parse-angular',
+    'string-replace:dist',
+    'html2js:dist',
+    'concat:css',
     'concat:app',
-    'clean:parse',
+    'uglify:dist',
+    'concat:dist',
     'copy:parse',
     'clean:temp' ]);
 };
