@@ -20,7 +20,7 @@
                 <div>
                     <p>Einheit: <strong ng-bind="detail.unit"></strong></p>
                     <div class="btn-group btn-group-justified">
-                        <div class="btn btn-block" ng-class="{'btn-default' : !detail.today, 'btn-primary': detail.today}" ng-repeat="quantity in detail.quantities" ng-model="detail.quantity" uib-btn-radio="quantity" ng-bind="quantity" ng-disabled="detail.saving" ng-click="update(detail)"></div>
+                        <div class="btn btn-block" ng-class="{'btn-default' : !detail.today, 'btn-custom': detail.today}" ng-repeat="quantity in detail.quantities" ng-model="detail.quantity" uib-btn-radio="quantity" ng-bind="quantity" ng-disabled="detail.saving" ng-click="update(detail)"></div>
                     </div>
                 </div>
                 <div ng-show="detail.message.show" class="alert" ng-class="detail.message.type" ng-bind="detail.message.text">

@@ -420,7 +420,8 @@ module.exports = function(grunt) {
           'libs/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
           'libs/ng-tags-input/ng-tags-input.min.css',
           'libs/ng-tags-input/ng-tags-input.bootstrap.min.css',
-          'assets/css/app.css'
+          'assets/css/app.css',
+          '<%= config.assetsDir %>assets/css/app.css'
         ],
         dest: 'dist/assets/css/app.css',
         options: {
