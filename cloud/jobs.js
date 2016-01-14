@@ -173,6 +173,7 @@
                     orderOthers = [],
                     orders = {},
                     text,
+                    dayOfWeek = moment().utc().format('d'),
                     slackText,
                     findInResults = function(results,section,key) {
                         n = results.length;
@@ -226,7 +227,6 @@
                                 entry = data.Inventory[key].entries[i];
                                 inventory = findInResults(actualResults,key,entry.id);
                                 if (null === inventory) {
-                                    console.log('no value for today: ' + key + '::' + entry.id);
                                     inventory = findInResults(previousResults,key,entry.id);
                                     if (undefined !== inventory && null !== inventory) {
                                         yesterdayOnly.push(inventory);
@@ -267,30 +267,35 @@
                             }
                             text = createText(orders[key]);
                             slackText += '*' + data.Order[key].slack.heading + '*\n' + text;
-                            mandrill.sendEmail({
-                                message: {
-                                    text: data.Order[key].email.intro + text + data.Order[key].email.extro,
-                                    subject: data.Order[key].email.subject,
-                                    from_email: 'zobangels@gmail.com',
-                                    from_name: 'ZOBAngels',
-                                    to: [
-                                        {
-                                            email: data.Order[key].email.to.email,
-                                            name: data.Order[key].email.to.name
-                                        }
-                                    ],
-                                    bcc: [
-                                        {
-                                            email: 'zobangels@gmail.com',
-                                            name: 'ZOBAngels'
-                                        }
-                                    ]
-                                },
-                                async: true
-                            }, {
-                                success: mandrillSuccessCallback,
-                                error: mandrillErrorCallback
-                            });
+                            if (undefined === data.Order[key].email.days || 0 === data.Order[key].email.days.indexOf('ALL') || -1 < data.Order[key].email.days.indexOf(dayOfWeek)) {
+                                mandrill.sendEmail({
+                                    message: {
+                                        text: data.Order[key].email.intro + text.replace(/\*/g,'') + (undefined !== data.Order[key].email.day && undefined !== data.Order[key].email.day[dayOfWeek] ? data.Order[key].email.day[dayOfWeek] : '') + data.Order[key].email.extro,
+                                        subject: data.Order[key].email.subject,
+                                        from_email: 'zobangels@gmail.com',
+                                        from_name: 'ZOBAngels',
+                                        to: [
+                                            {
+                                                email: data.Order[key].email.to.email,
+                                                name: data.Order[key].email.to.name
+                                            }
+                                        ],
+                                        bcc: [
+                                            {
+                                                email: 'zobangels@gmail.com',
+                                                name: 'ZOBAngels'
+                                            }
+                                        ]
+                                    },
+                                    async: true
+                                }, {
+                                    success: mandrillSuccessCallback,
+                                    error: mandrillErrorCallback
+                                });
+                            }
+                            else {
+                                console.log('Not sending email due to dayOfWeek: ' + dayOfWeek + ' and days: ' + data.Order[key].email.days);
+                            }
                         }
                     }
 
