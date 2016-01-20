@@ -3,6 +3,7 @@
  * (c) 2015 SpruceHill.io GmbH
  * License: MIT
  */
+require('cloud/express');
 var mandrill = require('mandrill'),
     config = require('cloud/config'),
     texts = require('cloud/texts'),

@@ -11,11 +11,12 @@ module.exports = function(grunt) {
 
   var configFile = 'config.' + (process.env.NODE_ENV || 'dev') + '.json';
 
+  var config = grunt.file.readJSON(configFile);
   console.log('configFile: ',configFile);
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    config: grunt.file.readJSON(configFile),
+    config: config,
 
     bower: {
       install: {
@@ -72,6 +73,10 @@ module.exports = function(grunt) {
         ],
         options: {
           replacements: [
+            {
+              pattern: /'__SHIFTS__'/g,
+              replacement: grunt.file.read(config.assetsDir + 'data/shifts.json')
+            },
             {
               pattern: /'__FEATURES__'/g,
               replacement: '<%= config.features %>'
@@ -344,15 +349,12 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
-            src: ['public/*'],
-            dest: 'dist_parse/',
-            filter: 'isFile'
-          },
-          {
-            expand: true,
             cwd: "tmp/",
             src: ['index.html'],
-            dest: 'dist_parse/public/',
+            dest: 'dist_parse/cloud/views/',
+            rename: function(dest,src) {
+              return dest + src.replace('.html','.ejs');
+            },
             filter: 'isFile'
           },
           {
