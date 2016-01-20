@@ -627,6 +627,13 @@
                         quantities: ['0','1','2','3+']
                     },
                     {
+                        id: 'tshirts',
+                        name: 'T-Shirts',
+                        source: 'others',
+                        unit: 'Kiste',
+                        quantities: ['0','1/2','1+']
+                    },
+                    {
                         id: 'socks',
                         name: 'Socken',
                         source: 'richel',
