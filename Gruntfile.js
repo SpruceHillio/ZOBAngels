@@ -69,6 +69,12 @@ module.exports = function(grunt) {
             cwd: 'public',
             src: 'index.html',
             dest: 'tmp/'
+          },
+          {
+            expand: true,
+            cwd: 'public',
+            src: 'pp.html',
+            dest: 'tmp/'
           }
         ],
         options: {
@@ -140,6 +146,10 @@ module.exports = function(grunt) {
             {
               pattern: /__FACEBOOK_APP_ACCESSTOKEN__/g,
               replacement: '<%= config.facebook.app.accessToken %>'
+            },
+            {
+              pattern: /__FACEBOOK_APP_SECRET__/g,
+              replacement: '<%= config.facebook.app.secret %>'
             },
             {
               pattern: /__FACEBOOK_PINNED_POST__/g,
@@ -350,7 +360,7 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: "tmp/",
-            src: ['index.html'],
+            src: ['index.html','pp.html'],
             dest: 'dist_parse/cloud/views/',
             rename: function(dest,src) {
               return dest + src.replace('.html','.ejs');

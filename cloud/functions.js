@@ -19,6 +19,8 @@
 })(this,function() {
     return function(config,model,texts,helpers,security,moment) {
 
+        var crypto = require('crypto');
+
         return {
             _placeholder: function(type,roles) {
                 return {
@@ -74,7 +76,7 @@
             facebookPinnedPost: function(request,response) {
                 Parse.Cloud.httpRequest({
                     method: 'GET',
-                    url: 'https://graph.facebook.com/v2.5/__FACEBOOK_PINNED_POST__?access_token=__FACEBOOK_APP_ACCESSTOKEN__'
+                    url: 'https://graph.facebook.com/v2.5/__FACEBOOK_PINNED_POST__?access_token=__FACEBOOK_APP_ACCESSTOKEN__&appsecret_proof=' + crypto.createHmac('sha256', '__FACEBOOK_APP_SECRET__').update('__FACEBOOK_APP_ACCESSTOKEN__').digest('hex')
                 }).then(function(httpResponse) {
                     response.success(httpResponse.data);
                 }, function(httpResponse) {
