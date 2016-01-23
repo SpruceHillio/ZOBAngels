@@ -67,12 +67,10 @@
 <script type="text/javascript" src="assets/js/app.js"></script>
 <script type="text/javascript">
     var host = window.location.host,
-        pathname = window.location.pathname.split('/'),
-        bucket;
-    if (0 === host.indexOf('s3')) {
-//        bucket = pathname[1];
-        bucket = pathname.splice(1,1);
-        window.location.href = 'https://' + bucket + '.' + host + pathname.join('/') + window.location.hash;
+        protocol = window.location.protocol,
+        pathname = window.location.pathname;
+    if (0 === host.indexOf('s3') || 'https:' !== protocol) {
+        window.location.href = '__HOSTING_BASE__' + pathname;
     }
     else {
         (function(doc, script) {
