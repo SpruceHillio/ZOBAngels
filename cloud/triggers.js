@@ -42,6 +42,9 @@
             Assignment: {
                 beforeSave: {
                     checkForDuplicate: function(request,response) {
+                        if (30000000 < request.object.get('date')) {
+                            response.error('Old client version');
+                        }
                         var query = new Parse.Query(model.Assignment).
                             equalTo('user',request.object.get('user')).
                             equalTo('section',request.object.get('section')).
@@ -84,7 +87,7 @@
                                             title: "Anmeldung (" + texts.type[assignment.get('type')] + ")",
                                             fields: [
                                                 {
-                                                    title: texts[assignment.get('section')].title + ' am ' + moment(new Date(assignment.get('date'))).format('YYYY-MM-DD'),
+                                                    title: texts[assignment.get('section')].title + ' am ' + moment(assignment.get('date'),"YYYYMMDD").format('YYYY-MM-DD'),
                                                     value: name,
                                                     short: false
                                                 }
@@ -127,7 +130,7 @@
                                             title: "Abmeldung (" + texts.type[assignment.get('type')] + ")",
                                             fields: [
                                                 {
-                                                    title: texts[assignment.get('section')].title + ' am ' + moment(new Date(assignment.get('date'))).format('YYYY-MM-DD'),
+                                                    title: texts[assignment.get('section')].title + ' am ' + moment(assignment.get('date'),"YYYYMMDD").format('YYYY-MM-DD'),
                                                     value: name,
                                                     short: false
                                                 }

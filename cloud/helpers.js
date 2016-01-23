@@ -70,8 +70,9 @@
                     fields = {},
                     promise = new Parse.Promise();
 
-                query.greaterThanOrEqualTo('date',now);
-                query.lessThan('date',now + (24 * 60 * 60 * 1000));
+                //query.greaterThanOrEqualTo('date',now);
+                //query.lessThan('date',now + (24 * 60 * 60 * 1000));
+                query.equalTo('date',parseInt(moment().tz('Europe/Berlin').format('YYYYMMDD')));
                 query.find({
                     success: function(results) {
                         len = results.length;

@@ -15,83 +15,69 @@
         function($q,AccountService,$log) {
 
             var placeholder = function(type,roles) {
-                return {
-                    taken: function() {
-                        return false;
-                    },
-                    type: function() {
-                        return type;
-                    },
-                    roles: function() {
-                        return roles;
-                    },
-                    name: function() {
-                        if ('archangel' === type) {
-                            return 'Tagesengel';
+                    return {
+                        taken: function() {
+                            return false;
+                        },
+                        type: function() {
+                            return type;
+                        },
+                        roles: function() {
+                            return roles;
+                        },
+                        name: function() {
+                            if ('archangel' === type) {
+                                return 'Tagesengel';
+                            }
+                            else if('translator' === type) {
+                                return 'Übersetzerin / Übersetzer';
+                            }
+                            else if('medical' === type) {
+                                return 'Ärztin / Arzt';
+                            }
+                            else {
+                                return '';
+                            }
                         }
-                        else if('translator' === type) {
-                            return 'Übersetzerin / Übersetzer';
-                        }
-                        else if('medical' === type) {
-                            return 'Ärztin / Arzt';
-                        }
-                        else {
-                            return '';
-                        }
+                    };
+                },
+                _shiftsConfig = '__SHIFTS__',
+                shiftsConfig = function(dayOfWeek) {
+                    var shiftConfig = _shiftsConfig[dayOfWeek];
+                    if (undefined === shiftConfig || null === shiftConfig) {
+                        shiftConfig = _shiftsConfig.DEFAULT;
                     }
-                };
-            };
-
-            var slots = function(date,section,count,results) {
-                var result = [],
-                    i,
-                    len = results.length,
-                    current;
-                for (i=0; i<len; i+=1) {
-                    current = results[i];
-                    if (current.fits(date,section)) {
-                        result.push(current);
-                    }
-                }
-
-                if (count > result.length) {
-                    len = count - result.length;
+                    return shiftConfig;
+                },
+                extendedSlots = function(date,section,counts,results) {
+                    var result = [],
+                        i,j,
+                        len1,len = counts.length,
+                        current,
+                        taken = {};
                     for (i=0; i<len; i+=1) {
-                        result.push(placeholder());
+                        taken[counts[i].type] = 0;
                     }
-                }
-                return result;
-            };
-
-            var extendedSlots = function(date,section,counts,results) {
-                var result = [],
-                    i,j,
-                    len1,len = counts.length,
-                    current,
-                    taken = {};
-                for (i=0; i<len; i+=1) {
-                    taken[counts[i].type] = 0;
-                }
-                len = results.length;
-                for (i=0; i<len; i+=1) {
-                    current = results[i];
-                    if (current.fits(date,section)) {
-                        taken[current.type()] += 1;
-                        result.push(current);
-                    }
-                }
-
-                len = counts.length;
-                for (i=0; i<len; i+=1) {
-                    if (counts[i].count > taken[counts[i].type]) {
-                        len1 = counts[i].count - taken[counts[i].type];
-                        for (j=0; j<len1; j+=1) {
-                            result.push(placeholder(counts[i].type,counts[i].roles));
+                    len = results.length;
+                    for (i=0; i<len; i+=1) {
+                        current = results[i];
+                        if (current.fits(date,section)) {
+                            taken[current.type()] += 1;
+                            result.push(current);
                         }
                     }
-                }
-                return result;
-            };
+
+                    len = counts.length;
+                    for (i=0; i<len; i+=1) {
+                        if (counts[i].count > taken[counts[i].type]) {
+                            len1 = counts[i].count - taken[counts[i].type];
+                            for (j=0; j<len1; j+=1) {
+                                result.push(placeholder(counts[i].type,counts[i].roles));
+                            }
+                        }
+                    }
+                    return result;
+                };
 
             var SlotService = {
 
@@ -143,13 +129,32 @@
                         start = moment('20151109','YYYYMMDD').valueOf(),
                         today = moment(moment().format('YYYYMMDD'),'YYYYMMDD').valueOf(),
                         currentDate,
+                        date,
                         currentResult,
+                        config,
                         i,j,
                         len = this._config.days.length,
                         day,
                         id = '',
                         self = this,
-                        skip;
+                        skip,
+                        countMapper = function(count) {
+                            return {
+                                count: AccountService.hasAnyRole(count.roles) ? count.count : 0,
+                                type: count.type,
+                                roles: count.roles
+                            };
+                        },
+                        shiftMapper = function(date,results) {
+                            return function(shiftConfig) {
+                                return {
+                                    id: shiftConfig.id,
+                                    title: shiftConfig.title,
+                                    description: shiftConfig.description,
+                                    extendedSlots: extendedSlots(date,shiftConfig.id,shiftConfig._counts.map(countMapper),results)
+                                };
+                            };
+                        };
                     if (!this._config) {
                         this._initQueue.push({
                             defer: defer,
@@ -162,7 +167,7 @@
                         id = Parse.User.current().get('facebookId');
                     }
 
-                    query.greaterThanOrEqualTo('date',start);
+                    query.greaterThanOrEqualTo('date',parseInt(moment(new Date(start)).format('YYYYMMDD')));
                     query.include('user');
                     query.limit(1000);
                     query.find()
@@ -170,6 +175,7 @@
                         function(results) {
                             for (i=0; i<self._config.timespan; i+=1) {
                                 currentDate = start + i * 86400000;
+                                date = parseInt(moment(new Date(currentDate)).format('YYYYMMDD'));
                                 skip = true;
                                 day = moment(new Date(currentDate)).format('d');
                                 for (j=0; j<len; j+=1) {
@@ -185,16 +191,19 @@
                                 if (skip) {
                                     continue;
                                 }
+                                config = shiftsConfig(day);
                                 currentResult = {
                                     date: moment(currentDate).format('dd, D. MMM'),
-                                    _date: currentDate,
+                                    //_date: currentDate,
+                                    _date: date,
+                                    sections: config.map(shiftMapper(date,results))/*,
                                     sections: [
                                         {
                                             id: 'driver',
                                             title: 'Fahrer (17:30 - 19:00 uhr)',
                                             description: 'Aufgabe: Töpfe vom vorherigen Tag am ZOB abholen, in die Vokü bringen und befüllen lassen. Beim Bäcker das Brot abholen und dann die vollen Töpfe wieder zurück zum ZOB bringen',
-                                            slots: slots(currentDate,'driver',1,results),
-                                            extendedSlots: extendedSlots(currentDate,'driver',[{
+                                            //slots: slots(currentDate,'driver',1,results),
+                                            extendedSlots: extendedSlots(date,'driver',[{
                                                 count: 1,
                                                 type: 'angel',
                                                 roles: ['angel']
@@ -204,8 +213,8 @@
                                             id: 'one',
                                             title: '18-20 Uhr',
                                             description: 'Aufgabe: Kleider & Essensausgabe',
-                                            slots: slots(currentDate,'one',6,results),
-                                            extendedSlots: extendedSlots(currentDate,'one',[{
+                                            //slots: slots(currentDate,'one',6,results),
+                                            extendedSlots: extendedSlots(date,'one',[{
                                                 count: 6,
                                                 type: 'angel',
                                                 roles: ['angel']
@@ -227,8 +236,8 @@
                                             id: 'two',
                                             title: '20-22 Uhr',
                                             description: 'Aufgabe: Kleider & Essensausgabe',
-                                            slots: slots(currentDate,'two',6,results),
-                                            extendedSlots: extendedSlots(currentDate,'two',[{
+                                            //slots: slots(currentDate,'two',6,results),
+                                            extendedSlots: extendedSlots(date,'two',[{
                                                 count: 5,
                                                 type: 'angel',
                                                 roles: ['angel']
@@ -250,8 +259,8 @@
                                             id: 'three',
                                             title: '22-24 Uhr',
                                             description: 'Aufgabe: Kleider & Essensausgabe (evtl. auch über 24 Uhr hinaus)',
-                                            slots: slots(currentDate,'three',6,results),
-                                            extendedSlots: extendedSlots(currentDate,'three',[{
+                                            //slots: slots(currentDate,'three',6,results),
+                                            extendedSlots: extendedSlots(date,'three',[{
                                                 count: 6,
                                                 type: 'angel',
                                                 roles: ['angel']
@@ -269,10 +278,13 @@
                                                 roles: ['medical']
                                             }],results)
                                         }
-                                    ]
+                                    ]*/
                                 };
                                 result.push(currentResult);
                             }
+
+                            $log.debug('result: ',result);
+
                             defer.resolve(result);
                         },
                         function(error) {
