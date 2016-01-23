@@ -15,6 +15,9 @@ app.use(express.bodyParser());
 app.get('/*', function (req, res) {
     res.render('index');
 });
+app.post('/*', function (req, res) {
+    res.render('index');
+});
 
 // Attach the Express app to Cloud Code.
 app.listen();
