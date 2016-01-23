@@ -214,6 +214,14 @@ module.exports = function(grunt) {
             {
               pattern: /__MANDRILL_API_KEY___/g,
               replacement: '<%= config.mandrill.api.key %>'
+            },
+            {
+              pattern: /__MAILCHIMP_API_KEY__/g,
+              replacement: '<%= config.mailchimp.api.key %>'
+            },
+            {
+              pattern: /__MAILCHIMP_API_BASE__/g,
+              replacement: '<%= config.mailchimp.api.base %>'
             }
           ]
         }

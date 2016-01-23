@@ -201,6 +201,58 @@
                             return '• ' + order.title + ': *' + order.quantity + '* (' + order.unit + ')';
                         }).join('\n');
                     },
+                    mailchimpSuccessCallback = function(data,key) {
+                        return function(response) {
+                            var recipients = [];
+                            if (response.data.total) {
+                                recipients = response.data.data.map(function(member) {
+                                    return {
+                                        email: member.email
+                                    };
+                                });
+                            }
+                            if (undefined !== data.Order[key].email.to && null !== data.Order[key].email.to) {
+                                recipients.push({
+                                    email: data.Order[key].email.to.email,
+                                    name: data.Order[key].email.to.name
+                                });
+                            }
+                            if (0 < recipients.length) {
+                                mandrillSendEmail(recipients);
+                            }
+                        };
+                    },
+                    mailchimpErrorCallback = function(data,key) {
+                        return function(response) {
+                            if (undefined !== data.Order[key].email.to && null !== data.Order[key].email.to) {
+                                mandrillSendEmail([{
+                                    email: data.Order[key].email.to.email,
+                                    name: data.Order[key].email.to.name
+                                }]);
+                            }
+                        };
+                    },
+                    mandrillSendEmail = function(recipients) {
+                        mandrill.sendEmail({
+                            message: {
+                                text: data.Order[key].email.intro + text.replace(/\*/g,'') + (undefined !== data.Order[key].email.day && undefined !== data.Order[key].email.day[dayOfWeek] ? data.Order[key].email.day[dayOfWeek] : '') + data.Order[key].email.extro,
+                                subject: data.Order[key].email.subject,
+                                from_email: 'zobangels@gmail.com',
+                                from_name: 'ZOBAngels',
+                                to: recipients,
+                                bcc: [
+                                    {
+                                        email: 'zobangels@gmail.com',
+                                        name: 'ZOBAngels'
+                                    }
+                                ]
+                            },
+                            async: true
+                        }, {
+                            success: mandrillSuccessCallback,
+                            error: mandrillErrorCallback
+                        });
+                    },
                     mandrillSuccessCallback = function() {
                         console.log('Successfully send email to ' + key);
                     },
@@ -268,30 +320,48 @@
                             text = createText(orders[key]);
                             slackText += '*' + data.Order[key].slack.heading + '*\n' + text;
                             if (undefined === data.Order[key].email.days || 0 === data.Order[key].email.days.indexOf('ALL') || -1 < data.Order[key].email.days.indexOf(dayOfWeek)) {
-                                mandrill.sendEmail({
-                                    message: {
-                                        text: data.Order[key].email.intro + text.replace(/\*/g,'') + (undefined !== data.Order[key].email.day && undefined !== data.Order[key].email.day[dayOfWeek] ? data.Order[key].email.day[dayOfWeek] : '') + data.Order[key].email.extro,
-                                        subject: data.Order[key].email.subject,
-                                        from_email: 'zobangels@gmail.com',
-                                        from_name: 'ZOBAngels',
-                                        to: [
-                                            {
-                                                email: data.Order[key].email.to.email,
-                                                name: data.Order[key].email.to.name
-                                            }
-                                        ],
-                                        bcc: [
-                                            {
-                                                email: 'zobangels@gmail.com',
-                                                name: 'ZOBAngels'
-                                            }
-                                        ]
-                                    },
-                                    async: true
-                                }, {
-                                    success: mandrillSuccessCallback,
-                                    error: mandrillErrorCallback
-                                });
+                                if (undefined !== data.Order[key].email.mandrill.list && null !== data.Order[key].email.mandrill.list) {
+                                    Parse.Cloud.httpRequest({
+                                        method: 'POST',
+                                        url: '__MAILCHIMP_API_BASE__/lists/members.json',
+                                        body: JSON.stringify({
+                                            apikey: '__MAILCHIMP_API_KEY__',
+                                            id: data.Order[key].email.mailchimp.list
+                                        })
+                                    }).then(mailchimpSuccessCallback(data,key),mailchimpErrorCallback(data,key));
+                                }
+                                else {
+                                    if (undefined !== data.Order[key].email.to && null !== data.Order[key].email.to) {
+                                        mandrillSendEmail([{
+                                            email: data.Order[key].email.to.email,
+                                            name: data.Order[key].email.to.name
+                                        }]);
+                                    }
+                                }
+                                //mandrill.sendEmail({
+                                //    message: {
+                                //        text: data.Order[key].email.intro + text.replace(/\*/g,'') + (undefined !== data.Order[key].email.day && undefined !== data.Order[key].email.day[dayOfWeek] ? data.Order[key].email.day[dayOfWeek] : '') + data.Order[key].email.extro,
+                                //        subject: data.Order[key].email.subject,
+                                //        from_email: 'zobangels@gmail.com',
+                                //        from_name: 'ZOBAngels',
+                                //        to: [
+                                //            {
+                                //                email: data.Order[key].email.to.email,
+                                //                name: data.Order[key].email.to.name
+                                //            }
+                                //        ],
+                                //        bcc: [
+                                //            {
+                                //                email: 'zobangels@gmail.com',
+                                //                name: 'ZOBAngels'
+                                //            }
+                                //        ]
+                                //    },
+                                //    async: true
+                                //}, {
+                                //    success: mandrillSuccessCallback,
+                                //    error: mandrillErrorCallback
+                                //});
                             }
                             else {
                                 console.log('Not sending email due to dayOfWeek: ' + dayOfWeek + ' and days: ' + data.Order[key].email.days);

@@ -27,6 +27,9 @@
                         email: 'anika.baumgart@gmail.com',
                         name: 'RichelOrga'
                     },
+                    mailchimp: {
+                        list: 'fb406b820f'
+                    },
                     subject: 'Bestellung',
                     intro: 'Liebe RichelOrga,\n\nunten findet ihr die Bestellung für die ZOB Angels.\n\n',
                     extro: '\n\nLiebe Grüße\nDie ZOBAngels'
@@ -40,6 +43,9 @@
                     to: {
                         email: 'anika.baumgart@gmail.com',
                         name: 'PWC'
+                    },
+                    mailchimp: {
+                        list: '2c70d337f0'
                     },
                     subject: 'Bestellung',
                     intro: 'Liebe PWC,\n\nunten findet ihr die Bestellung für die ZOB Angels.\n\n',
@@ -60,6 +66,9 @@
                     to: {
                         email: 'anika.baumgart@gmail.com',
                         name: 'Vokü'
+                    },
+                    mailchimp: {
+                        list: '1000921c35'
                     },
                     subject: 'Bestellung',
                     intro: 'Liebe VoKü,\n\nunten findet ihr die Bestellung für die ZOB Angels.\n\n',
@@ -410,6 +419,48 @@
                         quantities: ['0','1','2','3+']
                     },
                     {
+                        id: 'pullover_98',
+                        name: 'Pullover (98)',
+                        source: 'richel',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
+                        id: 'pullover_104',
+                        name: 'Pullover (104)',
+                        source: 'richel',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
+                        id: 'pullover_110',
+                        name: 'Pullover (110)',
+                        source: 'richel',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
+                        id: 'pullover_116',
+                        name: 'Pullover (116)',
+                        source: 'richel',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
+                        id: 'pullover_122',
+                        name: 'Pullover (122)',
+                        source: 'richel',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
+                        id: 'pullover_128',
+                        name: 'Pullover (128)',
+                        source: 'richel',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
                         id: 'pullover_134',
                         name: 'Pullover (134)',
                         source: 'richel',
@@ -461,6 +512,48 @@
                     {
                         id: 'pullover_176',
                         name: 'Pullover (176)',
+                        source: 'richel',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
+                        id: 'jacket_98',
+                        name: 'Jacke (98)',
+                        source: 'richel',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
+                        id: 'jacket_104',
+                        name: 'Jacke (104)',
+                        source: 'richel',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
+                        id: 'jacket_110',
+                        name: 'Jacke (110)',
+                        source: 'richel',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
+                        id: 'jacket_116',
+                        name: 'Jacke (116)',
+                        source: 'richel',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
+                        id: 'jacket_122',
+                        name: 'Jacke (122)',
+                        source: 'richel',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
+                        id: 'jacket_128',
+                        name: 'Jacke (128)',
                         source: 'richel',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
@@ -627,6 +720,34 @@
                         quantities: ['0','1','2','3+']
                     },
                     {
+                        id: 'leggins_98',
+                        name: 'Strumpfhosen (98-104)',
+                        source: 'others',
+                        unit: 'Tasche',
+                        quantities: ['0','1/4','1/2','3/4','1+']
+                    },
+                    {
+                        id: 'leggins_110',
+                        name: 'Strumpfhosen (110-116)',
+                        source: 'others',
+                        unit: 'Tasche',
+                        quantities: ['0','1/4','1/2','3/4','1+']
+                    },
+                    {
+                        id: 'leggins_122',
+                        name: 'Strumpfhosen (122-128)',
+                        source: 'others',
+                        unit: 'Tasche',
+                        quantities: ['0','1/4','1/2','3/4','1+']
+                    },
+                    {
+                        id: 'leggins_140',
+                        name: 'Strumpfhosen (140-152)',
+                        source: 'others',
+                        unit: 'Tasche',
+                        quantities: ['0','1/4','1/2','3/4','1+']
+                    },
+                    {
                         id: 'tshirts',
                         name: 'T-Shirts',
                         source: 'others',
@@ -701,6 +822,27 @@
                         source: 'richel',
                         unit: 'Kiste',
                         quantities: ['0','1/4','1/2+']
+                    },
+                    {
+                        id: 'leggins_56',
+                        name: 'Strumpfhosen (56-62)',
+                        source: 'others',
+                        unit: 'Tasche',
+                        quantities: ['0','1/4','1/2','3/4','1+']
+                    },
+                    {
+                        id: 'leggins_68',
+                        name: 'Strumpfhosen (68-74)',
+                        source: 'others',
+                        unit: 'Tasche',
+                        quantities: ['0','1/4','1/2','3/4','1+']
+                    },
+                    {
+                        id: 'leggins_80',
+                        name: 'Strumpfhosen (80-92)',
+                        source: 'others',
+                        unit: 'Tasche',
+                        quantities: ['0','1/4','1/2','3/4','1+']
                     },
                     {
                         id: 'nappies_1',
