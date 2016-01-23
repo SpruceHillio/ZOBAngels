@@ -177,6 +177,17 @@
                     return this._hasRole(role);
                 },
 
+                hasAnyRole: function(roles) {
+                    var i,
+                        len = roles.length;
+                    for (i=0; i<len; i+=1) {
+                        if (this.hasRole(roles[i])) {
+                            return true;
+                        }
+                    }
+                    return false;
+                },
+
                 hasRolePromise: function(role) {
                     var defer = $q.defer();
                     if (!this._ready || this._launching) {
