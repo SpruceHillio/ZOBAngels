@@ -24,7 +24,8 @@
         config([
             '$stateProvider',
             '$urlRouterProvider',
-            function($stateProvider,$urlRouterProvider) {
+            '$locationProvider',
+            function($stateProvider,$urlRouterProvider,$locationProvider) {
                 $urlRouterProvider.otherwise(function($injector) {
                     $injector.get('$state').go('calendar');
                 });
@@ -144,6 +145,8 @@
                         }
                     }
                 });
+
+                $locationProvider.html5Mode(true);
             }
         ]).
     run([
