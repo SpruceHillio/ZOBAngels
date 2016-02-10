@@ -32,6 +32,24 @@ div.row div.slot img {
     border: 2px solid white;
 }
 
+div.panel.faq-entry .panel-heading {
+    cursor: pointer;
+}
+
+div.panel.faq-entry span.language, div.pull-right span.language {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+div.panel.faq-entry span.language:after, div.pull-right span.language:after {
+    content: ' ';
+}
+
+div.panel.faq-entry span.language.active, div.pull-right span.language.active {
+    font-weight: bold;
+    text-decoration: none;
+}
+
 div.row div.slot img.taken {
     border: 2px solid #363636;
 }
@@ -48,6 +66,7 @@ div.row div.slot span.feedback {
 div.row div.slot span.type {
     position: absolute;
     left: 15px;
+    /*left: 0;*/
     bottom: 0;
     padding-left: 2px;
     padding-right: 5px;
@@ -62,6 +81,7 @@ div.row div.slot span.type {
 div.row div.slot span.food {
     position: absolute;
     right: 15px;
+    /*right: 0;*/
     bottom: 0;
     padding-left: 5px;
     padding-right: 2px;
@@ -85,6 +105,10 @@ div.row div.slot span.type.taken {
 div.row div.slot img.feedback {
     opacity: 0.4;
     filter: alpha(opacity=40);
+}
+
+ul.dropdown-menu.language li a.active {
+    font-weight: bold;
 }
 
 #map {

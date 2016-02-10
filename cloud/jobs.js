@@ -167,10 +167,6 @@
                     yesterdayOnly = [],
                     dataQuantity,
                     inventoryQuantity,
-                    orderRichel = [],
-                    orderVokue = [],
-                    orderPwc = [],
-                    orderOthers = [],
                     orders = {},
                     text,
                     dayOfWeek = moment().utc().format('d'),
@@ -201,64 +197,86 @@
                             return '• ' + order.title + ': *' + order.quantity + '* (' + order.unit + ')';
                         }).join('\n');
                     },
-                    mailchimpSuccessCallback = function(data,key) {
+                    mailchimpSuccessCallback = function(data,key,text,dayOfWeek,promise) {
                         return function(response) {
                             var recipients = [];
                             if (response.data.total) {
                                 recipients = response.data.data.map(function(member) {
                                     return {
-                                        email: member.email
+                                        email: member.email,
+                                        type: 'bcc'
                                     };
                                 });
                             }
                             if (undefined !== data.Order[key].email.to && null !== data.Order[key].email.to) {
                                 recipients.push({
                                     email: data.Order[key].email.to.email,
-                                    name: data.Order[key].email.to.name
+                                    name: data.Order[key].email.to.name,
+                                    type: 'bcc'
                                 });
                             }
+
                             if (0 < recipients.length) {
-                                mandrillSendEmail(recipients);
+                                console.log('Sending email to #' + recipients.length + ' recipients for key: ' + key);
+                                mandrillSendEmail(recipients,data,key,text,dayOfWeek,promise);
+                            }
+                            else {
+                                console.log('No recipients for key: ' + key);
+                                promise.resolve();
                             }
                         };
                     },
-                    mailchimpErrorCallback = function(data,key) {
+                    mailchimpErrorCallback = function(data,key,text,dayOfWeek,promise) {
                         return function(response) {
+                            console.log('Got an error from the MailChimp callback: ' + response.text);
                             if (undefined !== data.Order[key].email.to && null !== data.Order[key].email.to) {
                                 mandrillSendEmail([{
                                     email: data.Order[key].email.to.email,
-                                    name: data.Order[key].email.to.name
-                                }]);
+                                    name: data.Order[key].email.to.name,
+                                    type: 'bcc'
+                                }],data,key,text,dayOfWeek,promise);
+                            }
+                            else {
+                                promise.resolve();
                             }
                         };
                     },
-                    mandrillSendEmail = function(recipients) {
+                    mandrillSendEmail = function(recipients,data,key,text,dayOfWeek,promise) {
+                        console.log('Sending email to #' + recipients.length + ' bcc ...');
+                        recipients.push({
+                            email: 'anika.baumgart@googlemail.com',
+                            name: 'Anika Baumgart',
+                            type: 'to'
+                        });
                         mandrill.sendEmail({
                             message: {
                                 text: data.Order[key].email.intro + text.replace(/\*/g,'') + (undefined !== data.Order[key].email.day && undefined !== data.Order[key].email.day[dayOfWeek] ? data.Order[key].email.day[dayOfWeek] : '') + data.Order[key].email.extro,
-                                subject: data.Order[key].email.subject,
-                                from_email: 'zobangels@gmail.com',
-                                from_name: 'ZOBAngels',
-                                to: recipients,
-                                bcc: [
-                                    {
-                                        email: 'zobangels@gmail.com',
-                                        name: 'ZOBAngels'
-                                    }
-                                ]
+                                subject: data.Order[key].email.subject.replace(/__DATE__/g,moment().tz('Europe/Berlin').format('YYYY-MM-DD')),
+                                from_email: 'anika.baumgart@googlemail.com',
+                                from_name: 'Anika Baumgart',
+                                to: recipients
                             },
                             async: true
                         }, {
-                            success: mandrillSuccessCallback,
-                            error: mandrillErrorCallback
+                            success: mandrillSuccessCallback(promise,key),
+                            error: mandrillErrorCallback(promise,key)
                         });
+                        return promise;
                     },
-                    mandrillSuccessCallback = function() {
-                        console.log('Successfully send email to ' + key);
+                    mandrillSuccessCallback = function(promise,key) {
+                        return function() {
+                            console.log('Successfully send email to ' + key);
+                            promise.resolve();
+                        };
                     },
-                    mandrillErrorCallback = function() {
-                        console.log('Error sending email to ' + key);
-                    };
+                    mandrillErrorCallback = function(promise,key) {
+                        return function() {
+                            console.log('Error sending email to ' + key);
+                            promise.reject();
+                        };
+                    },
+                    promises = [], promise,
+                    successCallback, errorCallback;
                 actualQuery.equalTo('date',today.format('YYYYMMDD'));
                 previousQuery.equalTo('date',today.clone().subtract(1,'days').format('YYYYMMDD'));
                 for (key in data.Order) {
@@ -303,6 +321,7 @@
                         }
                     }
                     status.message('Created the required stuff to order.');
+                    // We create entries for today for whatever entries have not been manually updated
                     m = yesterdayOnly.length;
                     for (i=0; i<m; i+=1) {
                         inventory = model.Inventory.clone(yesterdayOnly[i]);
@@ -314,13 +333,30 @@
                     slackText  = '';
                     for (key in orders) {
                         if (orders.hasOwnProperty(key)) {
+                            orders[key] = orders[key].filter(function(order) {
+                                return 0 < order.quantity;
+                            });
+                            if (0 === orders[key].length) {
+                                continue;
+                            }
                             if (0 < slackText.length) {
                                 slackText += '\n\n';
                             }
                             text = createText(orders[key]);
                             slackText += '*' + data.Order[key].slack.heading + '*\n' + text;
+                            // Check whether we want to send an email at all for that section based upon the current day
                             if (undefined === data.Order[key].email.days || 0 === data.Order[key].email.days.indexOf('ALL') || -1 < data.Order[key].email.days.indexOf(dayOfWeek)) {
-                                if (undefined !== data.Order[key].email.mandrill.list && null !== data.Order[key].email.mandrill.list) {
+                                // We need a promise here we can pass through the system in order for the job to only
+                                // finish after the emails have been sent
+                                promise = new Parse.Promise();
+                                promises.push(promise);
+                                // If we have a MailChimp list configured for that section, let's query it first for
+                                // the contacts on it
+                                if (undefined !== data.Order[key].email.mailchimp && null !== data.Order[key].email.mailchimp && undefined !== data.Order[key].email.mailchimp.list && null !== data.Order[key].email.mailchimp.list) {
+                                    // We need to assign it here in order to bind the correct key when it's called on
+                                    // the loop afterwards
+                                    successCallback = mailchimpSuccessCallback(data,key,text,dayOfWeek,promise);
+                                    errorCallback = mailchimpErrorCallback(data,key,text,dayOfWeek,promise);
                                     Parse.Cloud.httpRequest({
                                         method: 'POST',
                                         url: '__MAILCHIMP_API_BASE__/lists/members.json',
@@ -328,48 +364,34 @@
                                             apikey: '__MAILCHIMP_API_KEY__',
                                             id: data.Order[key].email.mailchimp.list
                                         })
-                                    }).then(mailchimpSuccessCallback(data,key),mailchimpErrorCallback(data,key));
+                                    }).then(successCallback,errorCallback);
                                 }
+                                // If we don't have a MailChimp list configured for that section just check whether we
+                                // have an email contact
                                 else {
                                     if (undefined !== data.Order[key].email.to && null !== data.Order[key].email.to) {
                                         mandrillSendEmail([{
                                             email: data.Order[key].email.to.email,
-                                            name: data.Order[key].email.to.name
-                                        }]);
+                                            name: data.Order[key].email.to.name,
+                                            type: 'bcc'
+                                        }],data,key,text,dayOfWeek,promise);
+                                    }
+                                    // If we don't have an email contact, simply resolve the promise
+                                    else {
+                                        promise.resolve();
                                     }
                                 }
-                                //mandrill.sendEmail({
-                                //    message: {
-                                //        text: data.Order[key].email.intro + text.replace(/\*/g,'') + (undefined !== data.Order[key].email.day && undefined !== data.Order[key].email.day[dayOfWeek] ? data.Order[key].email.day[dayOfWeek] : '') + data.Order[key].email.extro,
-                                //        subject: data.Order[key].email.subject,
-                                //        from_email: 'zobangels@gmail.com',
-                                //        from_name: 'ZOBAngels',
-                                //        to: [
-                                //            {
-                                //                email: data.Order[key].email.to.email,
-                                //                name: data.Order[key].email.to.name
-                                //            }
-                                //        ],
-                                //        bcc: [
-                                //            {
-                                //                email: 'zobangels@gmail.com',
-                                //                name: 'ZOBAngels'
-                                //            }
-                                //        ]
-                                //    },
-                                //    async: true
-                                //}, {
-                                //    success: mandrillSuccessCallback,
-                                //    error: mandrillErrorCallback
-                                //});
                             }
                             else {
+                                // No need here to resolve any promises as we only create them when we might need to
+                                // send and email
                                 console.log('Not sending email due to dayOfWeek: ' + dayOfWeek + ' and days: ' + data.Order[key].email.days);
                             }
                         }
                     }
 
-                    Parse.Cloud.httpRequest({
+                    // Let's also push the promise for sending the Slack notification
+                    promises.push(Parse.Cloud.httpRequest({
                         method: 'POST',
                         url: 'https://hooks.slack.com/services/' + config.slack.team + '/' +  config.slack.hook+ '/' + config.slack.key,
                         headers: {
@@ -381,7 +403,10 @@
                             username : "Der Lager Engel",
                             icon_emoji: ":angel:"
                         }
-                    }).then(function() {
+                    }));
+
+                    // We're done with that job when all promises (sending emails and posting to Slack) have resolved
+                    Parse.Promise.when(promises).then(function() {
                         status.success('Successfully posted order');
                     }, function(error) {
                         status.error('got an error: ' + error);

@@ -33,16 +33,31 @@
                 list: function() {
                     if (!this._list) {
                         this._list = [];
-                        var key;
+                        var key,
+                            successCallback = function(entry) {
+                                return function(count) {
+                                    entry.today = count;
+                                };
+                            },
+                            entry,
+                            today = moment.utc();
+                        if (today.hour() < 10) {
+                            today = today.subtract(1,'days');
+                        }
+                        today = today.format('YYYYMMDD');
                         for (key in this._data) {
                             if (this._data.hasOwnProperty(key)) {
-                                this._list.push({
+                                entry = {
                                     id: key,
                                     name: this._data[key].name,
-                                    icon: this._data[key].icon/*,
-                                    unit: this._data[key].unit,
-                                    quantities: this._data[key].quantities*/
-                                });
+                                    icon: this._data[key].icon,
+                                    today: '-',
+                                    overall: this._data[key].entries.length/*,
+                                     unit: this._data[key].unit,
+                                     quantities: this._data[key].quantities*/
+                                };
+                                this._list.push(entry);
+                                new Parse.Query('Inventory').equalTo('section',key).equalTo('date',today).count().then(successCallback(entry));
                             }
                         }
                     }
@@ -102,7 +117,8 @@
 
                 save: function(section, id, quantity) {
                     var date = moment().utc(),
-                        defer = $q.defer();
+                        defer = $q.defer(),
+                        self = this;
 
                     if (date.hour() < 10) {
                         date.subtract(1,'days');
@@ -127,6 +143,7 @@
                             .then(
                             function(inventory) {
                                 $log.debug('created');
+                                self._list = null;
                                 defer.resolve();
                             },
                             function(inventory,error) {

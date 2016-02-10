@@ -11,10 +11,11 @@
     ]).controller('ZOBAngels.controller.NavigationController',[
         '$scope',
         '$location',
+        '$translate',
         'ZOBAngels.service.NavigationService',
         'ZOBAngels.service.AccountService',
         '$log',
-        function($scope,$location,NavigationService,AccountService,$log) {
+        function($scope,$location,$translate,NavigationService,AccountService,$log) {
             $scope.user = {};
 
             $scope.NavigationService = NavigationService;
@@ -59,6 +60,14 @@
 
             $scope.admin = function() {
                 NavigationService.page(NavigationService.PAGE.ADMIN);
+            };
+
+            $scope.activeLanguage = function(lang) {
+                return $translate.use() === lang;
+            };
+
+            $scope.changeLanguage = function(lang) {
+                $translate.use(lang);
             };
 
             $scope.ready = function() {

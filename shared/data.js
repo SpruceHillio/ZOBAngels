@@ -30,7 +30,7 @@
                     mailchimp: {
                         list: 'fb406b820f'
                     },
-                    subject: 'Bestellung',
+                    subject: 'Bestellung ZOB __DATE__',
                     intro: 'Liebe RichelOrga,\n\nunten findet ihr die Bestellung für die ZOB Angels.\n\n',
                     extro: '\n\nLiebe Grüße\nDie ZOBAngels'
                 },
@@ -47,7 +47,7 @@
                     mailchimp: {
                         list: '2c70d337f0'
                     },
-                    subject: 'Bestellung',
+                    subject: 'Bestellung ZOB __DATE__',
                     intro: 'Liebe PWC,\n\nunten findet ihr die Bestellung für die ZOB Angels.\n\n',
                     extro: '\n\nLiebe Grüße\nDie ZOBAngels',
                     days: [
@@ -70,7 +70,7 @@
                     mailchimp: {
                         list: '1000921c35'
                     },
-                    subject: 'Bestellung',
+                    subject: 'Bestellung ZOB __DATE__',
                     intro: 'Liebe VoKü,\n\nunten findet ihr die Bestellung für die ZOB Angels.\n\n',
                     extro: '\n\nLiebe Grüße\nDie ZOBAngels'
                 },
@@ -80,10 +80,6 @@
             },
             others: {
                 email: {
-                    to: {
-                        email: 'anika.baumgart@gmail.com',
-                        name: 'Anika Baumgart'
-                    },
                     subject: 'Bestellung',
                     intro: 'Liebe Anika,\n\nunten findest du die Bestellung für die ZOB Angels.\n\n',
                     extro: '\n\nLiebe Grüße\nDie ZOBAngels'
@@ -218,7 +214,7 @@
                     },
                     {
                         id: 'jacket',
-                        name: 'Pullover',
+                        name: 'Jacke',
                         source: 'richel',
                         unit: 'Stück',
                         quantities: ['0','2','4','6','8','10+']
@@ -310,7 +306,7 @@
                     {
                         id: 'hygiene',
                         name: 'Hygieneartikel',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Kiste',
                         quantities: ['0','1/2','1+']
                     }
@@ -393,28 +389,28 @@
                     {
                         id: 'trouser_158',
                         name: 'Hose (158)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'trouser_164',
                         name: 'Hose (164)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'trouser_170',
                         name: 'Hose (170)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'trouser_176',
                         name: 'Hose (176)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
@@ -491,28 +487,28 @@
                     {
                         id: 'pullover_158',
                         name: 'Pullover (158)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'pullover_164',
                         name: 'Pullover (164)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'pullover_170',
                         name: 'Pullover (170)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'pullover_176',
                         name: 'Pullover (176)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
@@ -589,42 +585,42 @@
                     {
                         id: 'jacket_158',
                         name: 'Jacke (158)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'jacket_164',
                         name: 'Jacke (164)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'jacket_170',
                         name: 'Jacke (170)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'jacket_176',
                         name: 'Jacke (176)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'shoe_21',
                         name: 'Schuhe (21)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
                     {
                         id: 'shoe_22',
                         name: 'Schuhe (22)',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
@@ -889,7 +885,7 @@
                     {
                         id: 'changingmat',
                         name: 'Wickelunterlagen',
-                        source: 'richel',
+                        source: 'others',
                         unit: 'Kiste',
                         quantities: ['0','1/4','1/2+']
                     },
@@ -925,7 +921,7 @@
                         name: 'Obst',
                         source: 'vokue',
                         unit: 'Kiste',
-                        quantities: ['0','1','2','3+']
+                        quantities: ['0','1','2+']
                     },
                     {
                         id: 'banana',
@@ -935,11 +931,11 @@
                         quantities: ['0','1/2','1+']
                     },
                     {
-                        id: 'bread',
-                        name: 'Brot',
+                        id: 'nuts',
+                        name: 'Nüsse',
                         source: 'others',
-                        unit: 'Kiste',
-                        quantities: ['0','1/2','1','1 1/2','2+']
+                        unit: 'Packing',
+                        quantities: ['0','3','6','9','12+']
                     },
                     {
                         id: 'instant_soup',
@@ -1196,13 +1192,6 @@
                         source: 'others',
                         unit: 'Rolle',
                         quantities: ['0','5','10','15','20+']
-                    },
-                    {
-                        id: 'disinfection_area_spraying',
-                        name: 'Sagrotan-Desinfektions-Reiniger zum Sprühen',
-                        source: 'others',
-                        unit: 'Flasche',
-                        quantities: ['0','2','4','6','8+']
                     }
                 ]
             }

@@ -154,9 +154,57 @@
         }
     });
 
+    var FaqEntry = Parse.Object.extend('FaqEntry', {
+        addLanguage: function(language, question,answer) {
+            var languages = this.get('languages');
+            if (undefined === languages || null === languages) {
+                languages = {};
+            }
+            languages[language] = {
+                question: question,
+                answer: answer
+            };
+            this.set('languages',languages);
+            return this;
+        },
+
+        updateLanguage: function(language, question, answer) {
+            var languages = this.get('languages');
+            if (undefined === languages || null === languages) {
+                languages = {};
+            }
+            languages[language] = {
+                question: question,
+                answer: answer
+            };
+            this.set('languages',languages);
+            return this;
+        },
+
+        question: function(language) {
+            var languages = this.get('languages');
+            return languages[language].question;
+        },
+
+        answer: function(language) {
+            var languages = this.get('languages');
+            return languages[language].answer;
+        }
+    }, {
+        create: function() {
+            var faqEntry = new FaqEntry(),
+                acl = new Parse.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setRoleWriteAccess('orga',true);
+            faqEntry.setACL(acl);
+            return faqEntry;
+        }
+    });
+
     return {
         Assignment: Assignment,
         Inventory: Inventory,
-        AuditLog: AuditLog
+        AuditLog: AuditLog,
+        FaqEntry: FaqEntry
     };
 });

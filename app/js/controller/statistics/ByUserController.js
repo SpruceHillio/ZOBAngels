@@ -52,8 +52,8 @@
                         offset = 0;
                     }
                     new Parse.Query(window.ZOBAngels.model.Assignment)
-                        .greaterThanOrEqualTo('date',moment('20151109','YYYYMMDD').valueOf())
-                        .lessThanOrEqualTo('date',new Date().getTime() + (24 * 60 * 60 * 1000))
+                        .greaterThanOrEqualTo('date',20151109)
+                        .lessThanOrEqualTo('date',parseInt(moment().utc().add(1,'days').format('YYYYMMDD')))
                         .include('user')
                         .skip(offset)
                         .limit(1000)
@@ -84,7 +84,7 @@
                     if (!entry) {
                         entry = {
                             date: current.get('date'),
-                            dateFormat: moment(current.get('date')).format('dd, D. MMM'),
+                            dateFormat: moment(current.get('date'),'YYYYMMDD').format('dd, D. MMM'),
                             one: [],
                             two: [],
                             three: []
@@ -191,7 +191,7 @@
                             sectionString = 'Fahrer';
                             break;
                     }
-                    return moment(assignment.get('date')).format("YYYY-MM-DD") + ' (' + sectionString + ')';
+                    return moment(assignment.get('date'),'YYYYMMDD').format("YYYY-MM-DD") + ' (' + sectionString + ')';
                 }).join(', ');
             };
 

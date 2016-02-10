@@ -11,7 +11,10 @@ app.set('views', 'cloud/views');
 app.set('view engine', 'ejs');
 app.use(express.bodyParser());
 
-// Render index for all request paths
+// Render privacy policy page
+app.get('/pp.html', function (req, res) {
+    res.render('pp');
+});
 app.get('/*', function (req, res) {
     res.render('index');
 });

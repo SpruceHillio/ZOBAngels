@@ -4,8 +4,8 @@
             <div class="col-lg-12 col-xs-12">
                 <div class="alert alert-info alert-dismissible" role="alert" ng-click="howtoDetail = !howtoDetail" style="cursor: pointer;">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong>So funktioniert's: </strong> <span ng-show="!howtoDetail">(Bitte klicken)</span>
-                    <span ng-show="howtoDetail">
+                    <strong translate="calendar.howto.title">So funktioniert's: </strong> <span ng-show="!howtoDetail" translate="calendar.howto.cta">(Bitte klicken)</span>
+                    <span ng-show="howtoDetail" translate="calendar.howto.text">
                         <br />
                         Klicke ein leeres Icon an, daraufhin erscheint dort Dein Bild mit einem Haken drüber - das war's auch schon und Deine Anmeldung ist gespeichert. Du kannst dann das Fenster also einfach wieder schließen.
                         <br /><br />
@@ -17,7 +17,7 @@
         <div class="row" ng-show="!hasFoodSetting" has-feature="f_profile_food">
             <div class="col-lg-12 col-xs-12">
                 <div class="alert alert-warning alert-dismissible" role="alert">
-                    <strong>Wichtig:</strong> Bitte gib in Deinem <a ui-sref="profile">Profil</a> noch an, ob Du eine gültige Hygienebelehrung hast.
+                    <strong translate="calendar.hint.food.title">Wichtig:</strong> <span translate="calendar.hint.food.text.part1">Bitte gib in Deinem</span> <a ui-sref="profile" translate="calendar.hint.food.link.profile">Profil</a> <span translate="calendar.hint.food.text.part2">noch an, ob Du eine gültige Hygienebelehrung hast.</span>
                 </div>
             </div>
         </div>
@@ -45,16 +45,18 @@
                 <div class="panel-body section">
                     <div class="row">
                         <div class="col-lg-3 col-xs-4 slot" ng-class="slot.type()" ng-repeat="slot in section.extendedSlots">
-                            <img class="img img-responsive img-rounded button taken" title="{{slot.name()}}" ng-src="{{slot.image()}}"  ng-show="slot.taken() && !slot.mine()" uib-popover-template="'templates/_angelPopover.html'" popover-title="{{slot.popoverTitle()}}" />
-                            <img class="img img-responsive img-rounded button taken" ng-class="{'feedback': slot.feedback, 'disabled': !disabled(slot,section), 'enabled': disabled(slot,section)}" ng-src="{{slot.image()}}" ng-show="slot.taken() && slot.mine()" ng-click="release(section,slot)" />
-                            <img class="img img-responsive img-rounded button" ng-class="{'disabled': disabled(slot,section), 'enabled': !disabled(slot,section)}" src="__HOSTING_BASE__assets/images/default.png" ng-show="!slot.taken()" ng-click="take(section,slot)" ng-disabled="disabled(slot,section)" title="{{slot.name()}}" />
-                            <span class="feedback" ng-show="slot.feedback"><i class="fa fa-check fa-3x"></i></span>
+                            <!--<div style="position: relative; display: inline-block;">-->
+                                <img class="img img-responsive img-rounded button taken" title="{{slot.name()}}" ng-src="{{slot.image()}}"  ng-show="slot.taken() && !slot.mine()" uib-popover-template="'templates/_angelPopover.html'" popover-title="{{slot.popoverTitle()}}" />
+                                <img class="img img-responsive img-rounded button taken" ng-class="{'feedback': slot.feedback, 'disabled': !disabled(slot,section), 'enabled': disabled(slot,section)}" ng-src="{{slot.image()}}" ng-show="slot.taken() && slot.mine()" ng-click="release(section,slot)" />
+                                <img class="img img-responsive img-rounded button" ng-class="{'disabled': disabled(slot,section), 'enabled': !disabled(slot,section)}" src="__HOSTING_BASE__assets/images/default.png" ng-show="!slot.taken()" ng-click="take(section,slot)" ng-disabled="disabled(slot,section)" title="{{slot.name()}}" />
+                                <span class="feedback" ng-show="slot.feedback"><i class="fa fa-check fa-3x"></i></span>
                             <span class="type" ng-class="{'taken' : slot.taken()}" ng-show="'angel' !== slot.type()">
                                 <i class="fa fa-fw" ng-class="{'fa-star' : 'archangel' === slot.type(), 'fa-comment-o' : 'translator' === slot.type(), 'fa-medkit' : 'medical' === slot.type()}"></i>
                             </span>
                             <span class="food" ng-show="slot.get('user').get('food')">
                                 <i class="fa fa-fw fa-cutlery" title="Hygienebelehrung vorhanden"></i>
                             </span>
+                            <!--</div>-->
                         </div>
                     </div>
                 </div>
@@ -66,7 +68,7 @@
         <div class="panel panel-default" ng-show="hasRole('archangel')">
             <div class="panel-body">
                 <button class="btn btn-default btn-block" angel-list-print data-sections="days[currentDay].sections" data-date="days[currentDay].date">
-                    Liste drucken
+                    <span translate="calendar.print">Liste drucken</span>
                 </button>
             </div>
         </div>

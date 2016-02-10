@@ -36,6 +36,12 @@
                                 console.log('error adding admin tole to ' + request.object.get('name') + error);
                             });
                         }
+                        else {
+                            console.log('not matched');
+                            console.log([request.object.get('facebookId')]);
+                            console.log(adminFacebookIds);
+                            console.log(adminFacebookIds.indexOf(request.object.get('facebookId')));
+                        }
                     }
                 }
             },

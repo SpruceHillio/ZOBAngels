@@ -11,12 +11,18 @@
     ]).controller('ZOBAngels.controller.LoginController',[
         '$scope',
         '$location',
+        '$state',
         'ZOBAngels.service.NavigationService',
         'ZOBAngels.service.AccountService',
         '$log',
-        function($scope,$location,NavigationService,AccountService,$log) {
+        function($scope,$location,$state,NavigationService,AccountService,$log) {
 
             NavigationService.page(NavigationService.PAGE.LOGIN);
+
+            AccountService.isLoggedInPromise().then(function() {
+                $log.debug('redirecting to calendar');
+                $state.go('calendar');
+            });
 
             $scope.logginIn = false;
 

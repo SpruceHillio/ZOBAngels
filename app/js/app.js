@@ -15,6 +15,7 @@
         'checklist-model',
         'parse-angular',
         'ParseServices',
+        'pascalprecht.translate',
         'templates-dist',
         'FacebookPatch',
         'ZOBAngels.controller',
@@ -25,7 +26,8 @@
             '$stateProvider',
             '$urlRouterProvider',
             '$locationProvider',
-            function($stateProvider,$urlRouterProvider,$locationProvider) {
+            '$translateProvider',
+            function($stateProvider,$urlRouterProvider,$locationProvider,$translateProvider) {
                 $urlRouterProvider.otherwise(function($injector) {
                     $injector.get('$state').go('calendar');
                 });
@@ -146,7 +148,17 @@
                     }
                 });
 
-                $locationProvider.html5Mode(true);
+                $locationProvider.html5Mode('__HTML5_MODE__');
+
+                $translateProvider
+                    .translations('de','__I18N_DE__')
+                    .translations('en','__I18N_EN__')
+                    .determinePreferredLanguage()
+                    .fallbackLanguage('de')
+                    .registerAvailableLanguageKeys(['en', 'de'], {
+                        'en_*': 'en',
+                        'de_*': 'de'
+                    });
             }
         ]).
     run([

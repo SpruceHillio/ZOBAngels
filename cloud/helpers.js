@@ -35,7 +35,7 @@
                         },
                         one: {
                             angel : {
-                                required: 6,
+                                required: 5,
                                 users: []
                             },
                             archangel: {
@@ -45,7 +45,7 @@
                         },
                         two: {
                             angel : {
-                                required: 6,
+                                required: 4,
                                 users: []
                             },
                             archangel: {
@@ -55,7 +55,7 @@
                         },
                         three: {
                             angel : {
-                                required: 6,
+                                required: 4,
                                 users: []
                             },
                             archangel: {

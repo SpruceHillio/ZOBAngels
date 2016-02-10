@@ -1,0 +1,52 @@
+<div class="row" has-role="admin">
+    <div class="col-lg-12">
+        <div class="panel panel-default faq-entry">
+            <div class="panel-heading" ng-click="addOpen = !addOpen">
+                Neuen Eintrag hinzufügen <i class="fa fa-fw pull-right" ng-class="{'fa-chevron-down': addOpen, 'fa-chevron-right': !addOpen}"></i>
+            </div>
+            <div class="panel-body" ng-show="addOpen">
+                <div class="row">
+                    <div class="col-lg-6" ng-repeat="language in languages">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <input class="form-control" type="text" ng-model="newFaqEntry[language].question" placeholder="Frage">
+                            </div>
+                            <div class="panel-body">
+                                <textarea class="form-control" ng-model="newFaqEntry[language].answer" placeholder="Antwort"></textarea>
+                            </div>
+                            <div class="panel-footer" ng-bind="language">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer" ng-show="addOpen">
+                <div class="btn btn-primary" ng-click="create()" ng-disabled="addButtonDisabled()">Hinzufügen</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="pull-right">
+    <span class="language" ng-class="{'active' : lang === language}" ng-repeat="language in languages" ng-click="changeLanguage(language)" ng-bind="language"></span>
+</div>
+<div class="row" ng-repeat="faqEntry in faqEntries">
+    <div class="col-lg-4 col-lg-offset-4 col-xs-12">
+        <div class="panel panel-default faq-entry">
+            <div class="panel-heading" ng-click="faqEntry.open = faqEntry.edit || !faqEntry.open">
+                <span ng-bind="faqEntry.question(lang)" ng-show="!faqEntry.edit"></span> <i class="fa fa-fw pull-right" ng-class="{'fa-chevron-down': faqEntry.open, 'fa-chevron-right': !faqEntry.open}" ng-show="!faqEntry.edit"></i>
+                <input type="text" class="form-control" ng-model="faqEntry._languages[faqEntry._language].question" ng-show="faqEntry.edit" />
+            </div>
+            <div class="panel-body" ng-show="faqEntry.open">
+                <span ng-bind="faqEntry.answer(lang)" ng-show="!faqEntry.edit"></span>
+                <textarea class="form-control" ng-model="faqEntry._languages[faqEntry._language].answer" ng-show="faqEntry.edit"></textarea>
+            </div>
+            <div class="panel-footer" has-role="admin" ng-show="faqEntry.open">
+                <div class="btn btn-primary" ng-click="edit(faqEntry)" ng-show="!faqEntry.edit"><i class="fa fa-fw fa-edit"></i></div>
+                <div class="btn btn-default" ng-click="cancel(faqEntry)" ng-show="faqEntry.edit" ng-disabled="faqEntry.saving"><i class="fa fa-fw fa-times"></i></div>
+                <div class="btn btn-success" ng-click="save(faqEntry)" ng-show="faqEntry.edit" ng-disabled="faqEntry.saving"><i class="fa fa-fw fa-check"></i></div>
+                <span ng-show="faqEntry.edit">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="language" ng-class="{'active' : language === faqEntry._language}" ng-repeat="language in languages" ng-click="faqEntry._language = language" ng-bind="language"></span></span>
+            </div>
+        </div>
+    </div>
+</div>

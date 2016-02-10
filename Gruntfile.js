@@ -80,6 +80,22 @@ module.exports = function(grunt) {
         options: {
           replacements: [
             {
+              pattern: /'__I18N_DE__'/g,
+              replacement: JSON.stringify(grunt.file.readJSON(config.i18nDir + 'de.json'))
+            },
+            {
+              pattern: /'__I18N_EN__'/g,
+              replacement: JSON.stringify(grunt.file.readJSON(config.i18nDir + 'en.json'))
+            },
+            {
+              pattern: /'__SSL__'/g,
+              replacement: '<%= config.ssl %>'
+            },
+            {
+              pattern: /'__HTML5_MODE__'/g,
+              replacement: '<%= config.html5mode %>'
+            },
+            {
               pattern: /'__SHIFTS__'/g,
               replacement: grunt.file.read(config.assetsDir + 'data/shifts.json')
             },
@@ -468,6 +484,7 @@ module.exports = function(grunt) {
           'libs/Chart.js/Chart.min.js',
           'libs/angular-chart.js/dist/angular-chart.min.js',
           'libs/ng-tags-input/ng-tags-input.min.js',
+          'libs/angular-translate/angular-translate.min.js',
           'tmp/checklist-model.min.js',
           'libs/parse/parse.min.js',
           'tmp/parse-angular.min.js',
@@ -487,15 +504,16 @@ module.exports = function(grunt) {
       server: {
         options: {
           hostname: '*',
-          port: 4040
+          port: 4040,
+          base: 'dist'
         }
       }
     },
 
     watch: {
       dev: {
-        files: [ configFile, 'Gruntfile.js', 'app/js/*.js', 'app/js/**/*.js', 'public/*.html', 'public/**/*.html', 'app/templates/*.html', 'app/templates/**/*.html', 'assets/css/*.css', '<%= config.assetsDir %>**/*' ],
-        tasks: [ 'jshint', 'uglify:checklist-model', 'uglify:angular-permission', 'uglify:parse-angular', 'string-replace:dist', 'html2js:dist', 'concat:css', 'concat:app', 'concat:dist', 'copy:dist', 'clean:temp' ],
+        files: [ configFile, 'Gruntfile.js', 'app/i18n/*.json', 'app/js/*.js', 'app/js/**/*.js', 'public/*.html', 'public/**/*.html', 'app/templates/*.html', 'app/templates/**/*.html', 'assets/css/*.css', '<%= config.assetsDir %>**/*' ],
+        tasks: [ 'jshint', 'uglify:checklist-model', 'uglify:angular-permission', 'uglify:parse-angular', 'string-replace:dist', 'html2js:dist', 'concat:css', 'concat:app', 'concat:dist', 'copy:dist'/*, 'clean:temp'*/ ],
         options: {
           atBegin: true
         }
@@ -508,7 +526,7 @@ module.exports = function(grunt) {
         }
       },
       min: {
-        files: [ configFile, 'Gruntfile.js', 'app/js/*.js', 'app/js/**/*.js', '*.html', '<%= config.assetsDir %>**/*' ],
+        files: [ configFile, 'Gruntfile.js', 'app/i18n/*.json', 'app/js/*.js', 'app/js/**/*.js', '*.html', '<%= config.assetsDir %>**/*' ],
         tasks: [ 'jshint', 'uglify:checklist-model', 'uglify:angular-permission', 'uglify:parse-angular', 'string-replace:dist', 'html2js:dist', 'concat:css', 'concat:app', 'uglify:dist', 'concat:dist', 'copy:dist', 'clean:temp' ],
         options: {
           atBegin: true

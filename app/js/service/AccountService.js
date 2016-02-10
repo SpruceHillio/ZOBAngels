@@ -21,6 +21,7 @@
                 _launching: false,
                 _ready: false,
                 _hasRolePromises: [],
+                _isLoggedInPromises: [],
 
                 _user: null,
                 _data: null,
@@ -39,32 +40,71 @@
                     var defer = $q.defer(),
                         self = this,
                         current,
-                        i,
-                        len,
+                        i,j,
+                        len,m,
+                        // Check whether a role is already contained on the array supplied
+                        containsRole = function(roles,role) {
+                            var i,len = roles.length;
+                            for (i=0; i<len; i+=1) {
+                                if (role.id === roles[i].id) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        },
+                        // Simple helper function used on map() later on
+                        roleToRoleName = function(role) {
+                            return role.getName();
+                        },
+                        // Query parent roles for a role - defined here as used on a loop further down
                         resolveRolesForRole = function(role) {
                             return new Parse.Query(Parse.Role).equalTo('roles',role).find().then(function(roles) {
                                 return Parse.Promise.as({
-                                    role: role,
-                                    roleName: role.getName(),
-                                    roles: roles,
-                                    allRoles: []
+                                    role: role,                 // The role object itself
+                                    roleName: role.getName(),   // Just for easier debugging
+                                    //roles: roles,
+                                    allRoles: [],               // All roles included in this role (will also hold itself)
+                                    allRoleNames: [],           // Same as above - just for debugging
+                                    parents: roles,             // The parent roles of this role as obtained by the query
+                                    children: []                // The child roles of this role
                                 });
                             });
                         },
-                        collectRoles = function(roleContainer) {
-                            if (0 === roleContainer.roles.length) {
-                                return [roleContainer.role];
+                        // Get all child roles for a role (recursively and breaking on loops)
+                        collectRoles = function(roleContainer,seen) {
+                            var roles,
+                                i,j,
+                                len,m,
+                                childRoles;
+                            // Initialize the seen array of not supplied
+                            seen = seen || [];
+                            // If the current role has already been seen during this recursive call, simply return
+                            if (containsRole(seen,roleContainer.role)) {
+                                return;
                             }
-                            else {
-                                return roleContainer.roles.filter(function(role) {
-                                    return roleContainer.role.getName() !== role.getName();
-                                }).map(function(role) {
-                                    return collectRoles(self._rolesById[role.id]);
-                                }).reduce(function(a,b) {
-                                    Array.prototype.push.apply(a,b);
-                                    return a;
-                                },[roleContainer.role]);
+                            // Otherwise add the role to the seen array
+                            seen.push(roleContainer.role);
+
+                            // Initialize the roles to return with the current role
+                            roles = [roleContainer.role];
+                            len = roleContainer.children.length;
+                            // Iterate over all child roles
+                            for (i=0; i<len; i+=1) {
+                                // If that role has not yet been seen check it.
+                                if (!containsRole(seen,roleContainer.children[i])) {
+                                    // Recurse and supply the current seen array
+                                    childRoles = collectRoles(self._rolesById[roleContainer.children[i].id],seen);
+                                    m = childRoles.length;
+                                    for (j=0; j<m; j+=1) {
+                                        // Add all roles from the recursive all unless they are already present
+                                        if(!containsRole(roles,childRoles[j])) {
+                                            roles.push(childRoles[j]);
+                                        }
+                                    }
+                                }
                             }
+
+                            return roles;
                         },
                         handleUserSet = function() {
                             AccountService._ready = true;
@@ -78,6 +118,15 @@
                                     AccountService._hasRolePromises[i].defer.reject();
                                 }
                             }
+                            len = AccountService._isLoggedInPromises.length;
+                            for (i-0; i<len; i+=1) {
+                                if (AccountService.isLoggedIn()) {
+                                    AccountService._isLoggedInPromises[i].defer.resolve();
+                                }
+                                else {
+                                    AccountService._isLoggedInPromises[i].defer.reject();
+                                }
+                            }
                         };
                     if (undefined === user || null === user) {
                         handleUserSet();
@@ -85,32 +134,41 @@
                     }
                     else {
                         this._launching = true;
-                        Parse.Promise.when(new Parse.Query(Parse.Role).equalTo('name','admin').first(),new Parse.Query(Parse.User).equalTo('objectId','IDrn1iLOiX').first()).then(function(role,user) {
-                            if (role && user) {
-                                role.getUsers().add(user);
-                                role.save();
-                            }
-                        });
 
-                        new Parse.Query(Parse.User).equalTo('username',user.get('username')).first().then(function(user) {
-                            return new Parse.Query(Parse.Role).find();
-                        })
+                        new Parse.Query(Parse.User).equalTo('username',user.get('username')).first()
+                            .then(function(user) {
+                                // Fetch all available roles
+                                return new Parse.Query(Parse.Role).find();
+                            })
                             .then(function(roles) {
-                                return Parse.Promise.when(roles.map(function(role) {
-                                    return resolveRolesForRole(role);
-                                }));
+                                // Fetch all included roles for each role
+                                return Parse.Promise.when(roles.map(resolveRolesForRole));
                             }).then(function() {
+                                // We need to use arguments as we will have a variable length of parameters
                                 len = arguments.length;
+                                // First make a role accessible by it's ID
                                 for (i=0; i<len; i+=1) {
                                     current = arguments[i];
                                     self._rolesById[current.role.id] = current;
                                 }
                                 for (i=0; i<len; i+=1) {
                                     current = arguments[i];
-                                    Array.prototype.push.apply(current.allRoles,collectRoles(current));
+                                    m = current.parents.length;
+                                    for (j=0; j<m; j+=1) {
+                                        self._rolesById[current.parents[j].id].children.push(current.role);
+                                    }
                                 }
+                                // Collect the roles that are included on a role like e.g. admin includes orga, medical
+                                // and translator, orga includes archangel, archangel includes angel and so on
+                                for (i=0; i<len; i+=1) {
+                                    current = arguments[i];
+                                    Array.prototype.push.apply(current.allRoles,collectRoles(current));
+                                    current.allRoleNames = current.allRoles.map(roleToRoleName);
+                                }
+                                // Fetch all roles that are directly assiged to the user
                                 return new Parse.Query(Parse.Role).equalTo('users',user).find();
                             }).then(function(roles) {
+                                // And finally get all transitive ones
                                 roles = roles.map(function(role) {
                                     var roles = [];
                                     Array.prototype.push.apply(roles,self._rolesById[role.id].allRoles);
@@ -132,18 +190,6 @@
                                 }
 
                                 handleUserSet();
-                                //self._ready = true;
-                                //self._launching = false;
-                                //len = self._hasRolePromises.length;
-                                //for (i=0; i<len; i+=1) {
-                                //    $log.debug('resolving');
-                                //    if (self._hasRole(AccountService._hasRolePromises[i].role)) {
-                                //        self._hasRolePromises[i].defer.resolve();
-                                //    }
-                                //    else {
-                                //        self._hasRolePromises[i].defer.reject();
-                                //    }
-                                //}
 
                                 defer.resolve(self._userContainer);
                                 $rootScope.$broadcast('login',{
@@ -334,6 +380,30 @@
                  */
                 isLoggedIn: function() {
                     return null !== this._user;
+                },
+
+                /**
+                 *
+                 * @returns {object} A promise
+                 */
+                isLoggedInPromise: function() {
+                    var defer = $q.defer();
+
+                    if (!this._ready || this._launching) {
+                        this._isLoggedInPromises.push({
+                            defer: defer
+                        });
+                    }
+                    else {
+                        if (this.isLoggedIn()) {
+                            defer.resolve();
+                        }
+                        else {
+                            defer.reject();
+                        }
+                    }
+
+                    return defer.promise;
                 },
 
                 /**

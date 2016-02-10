@@ -10,17 +10,17 @@
         </div>
         <div class="row" has-feature="f_profile_food">
             <div class="col-lg-12 col-xs-12">
-                <strong>Hygienebelehrung vorhanden?</strong>
+                <strong translate="profile.food.title">Hygienebelehrung vorhanden?</strong>
                 <br />
                 <div class="checkbox checkbox-success checkbox-circle">
                     <input id="food_yes" type="radio" ng-model="data.food" ng-value="true" ng-disabled="updating" />
-                    <label for="food_yes">
+                    <label for="food_yes" translate="profile.food.yes">
                         Ja
                     </label>
                 </div>
                 <div class="checkbox checkbox-success checkbox-circle">
                     <input id="food_no" type="radio" ng-model="data.food" ng-value="false   " ng-disabled="updating" />
-                    <label for="food_no">
+                    <label for="food_no" translate="profile.food.no">
                         Nein
                     </label>
                 </div>
@@ -28,13 +28,13 @@
         </div>
         <div class="row" has-all-roles="translator,f_translator">
             <div class="col-lg-12 col-xs-12">
-                <tags-input ng-model="data.languages" ng-disabled="updating" placeholder="Sprache hinzufügen"></tags-input>
+                <tags-input ng-model="data.languages" ng-disabled="updating" placeholder="{{'profile.translator.add' | translate}}"></tags-input>
             </div>
         </div>
         <div class="row" ng-show="saved">
             <div class="col-lg-12 col-xs-12">
                 <br />
-                <div class="alert alert-success" role="alert">Deine Änderungen wurden gespeichert.</div>
+                <div class="alert alert-success" role="alert" translate="profile.hint.saved">Deine Änderungen wurden gespeichert.</div>
             </div>
         </div>
     </div>
@@ -46,9 +46,9 @@
 </div>
 <div class="row">
     <div class="col-lg-2 col-xs-4 col-lg-offset-5 col-xs-offset-3">
-        <a class="btn btn-default btn-block" has-feature="f_calendar" ui-sref="calendar">Zurück zum Kalender</a>
+        <a class="btn btn-default btn-block" has-feature="f_calendar" ui-sref="calendar" translate="profile.button.calendar">Zurück zum Kalender</a>
     </div>
     <div class="col-lg-2 col-xs-4">
-        <div class="btn btn-default btn-block" ng-click="logout()">Abmelden</div>
+        <div class="btn btn-default btn-block" ng-click="logout()" translate="profile.button.logout">Abmelden</div>
     </div>
 </div>

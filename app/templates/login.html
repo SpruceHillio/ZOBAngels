@@ -1,11 +1,11 @@
 <div class="row" ng-show="logginIn">
     <div class="col-lg-6 col-lg-offset-3 col-xs-10 col-xs-offset-1">
-        <div class="alert alert-info"><i class="fa fa-fw fa-spin fa-spinner"></i> Du wirst angemeldet. Einen kleinen Augenblick Geduld.</div>
+        <div class="alert alert-info"><i class="fa fa-fw fa-spin fa-spinner"></i> <span translate="login.hint.logginin">Du wirst angemeldet. Einen kleinen Augenblick Geduld.</span></div>
     </div>
 </div>
 <div class="row" ng-show="!logginIn">
     <div class="col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
-        <div class="btn btn-primary btn-block" ng-click="login()" ng-disabled="!canLogin() || logginIn">Mit Facebook anmelden</div>
+        <div class="btn btn-primary btn-block" ng-click="login()" ng-disabled="!canLogin() || logginIn" translate="login.button.facebook">Mit Facebook anmelden</div>
     </div>
 </div>
 <div ng-if="nofb" ng-show="!logginIn">
@@ -13,7 +13,7 @@
         <br />
         <div class="col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
             <div class="form-group">
-                <p class="text-center">Oder hier</p>
+                <p class="text-center" translate="login.name.headline">Oder hier</p>
             </div>
         </div>
         <br />
@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
             <div class="form-group">
-                <input class="form-control" type="text" ng-model="user.name" placeholder="Dein Name" ng-disabled="logginIn" />
+                <input class="form-control" type="text" ng-model="user.name" placeholder="{{'login.placeholder.name' | translate}}" ng-disabled="logginIn" />
             </div>
         </div>
     </div>
@@ -41,7 +41,7 @@
     </div>
     <div class="row">
         <div class="col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
-            <div class="btn btn-default btn-block" ng-click="loginWithoutFacebook()" ng-disabled="!canLoginWithoutFacebook() || logginIn">Anmelden</div>
+            <div class="btn btn-default btn-block" ng-click="loginWithoutFacebook()" ng-disabled="!canLoginWithoutFacebook() || logginIn" translate="login.button.login">Anmelden</div>
         </div>
     </div>
 </div>
@@ -50,7 +50,7 @@
     <div class="col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <strong>Wichtiger Hinweis</strong>
+                <strong translate="login.hint.headline">Wichtiger Hinweis</strong>
             </div>
             <div class="panel-body">__LOGIN_NOTICE_TEXT__</div>
         </div>

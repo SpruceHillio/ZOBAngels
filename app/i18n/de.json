@@ -1,0 +1,74 @@
+{
+  "_general": {
+    "yes": "Ja",
+    "no": "Nein"
+  },
+  "navigation": {
+    "login": "Anmelden",
+    "calendar": "Kalender",
+    "about": "Über uns",
+    "donation": "Spenden",
+    "faq": "FAQ",
+    "admin": "Admin",
+    "statistics": "Statistiken",
+    "inventory": "Inventur",
+    "language": "Sprache",
+    "profile": "Profil"
+  },
+  "calendar": {
+    "howto": {
+      "title": "So funktioniert's: ",
+      "cta": "(Bitte klicken)",
+      "text": "<br \/>Klicke ein leeres Icon an, daraufhin erscheint dort Dein Bild mit einem Haken drüber - das war's auch schon und Deine Anmeldung ist gespeichert. Du kannst dann das Fenster also einfach wieder schließen.<br \/><br \/>Wir freuen uns auf Dich."
+    },
+    "hint": {
+      "food": {
+        "title": "Wichtig:",
+        "text": {
+          "part1": "Bitte gib in Deinem",
+          "part2": "noch an, ob Du eine gültige Hygienebelehrung hast."
+        },
+        "link": {
+          "profile": "@:navigation.profile"
+        }
+      }
+    },
+    "print": "Liste drucken"
+  },
+  "donation": {
+    "headline": "Der aktuelle Spendenaufruf"
+  },
+  "profile": {
+    "food": {
+      "title": "Hygienebelehrung vorhanden?",
+      "yes": "@:_general.yes",
+      "no": "@:_general.no"
+    },
+    "translator": {
+      "add": "Sprache hinzufügen"
+    },
+    "hint": {
+      "saved": "Deine Änderungen wurden gespeichert."
+    },
+    "button": {
+      "calendar": "Zurück zum Kalender",
+      "logout": "Abmelden"
+    }
+  },
+  "login": {
+    "hint": {
+      "logginin": "Du wirst angemeldet. Einen kleinen Augenblick Geduld.",
+      "headline": "Wichtiger Hinweis"
+    },
+    "name": {
+      "headline": "Oder hier"
+    },
+    "button": {
+      "facebook": "Mit Facebook anmelden",
+      "login": "Anmelden"
+    },
+    "placeholder": {
+      "name": "Dein Name"
+    }
+  }
+}
