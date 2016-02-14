@@ -201,10 +201,26 @@
         }
     });
 
+    var Config = Parse.Object.extend('Config',{
+    },{
+        create: function(key, value) {
+            var config = new Config(),
+                acl = new Parse.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setRoleReadAccess('admin',true);
+            acl.setRoleWriteAccess('admin',true);
+            config.set('key',key);
+            config.set('value',value);
+            config.setACL(acl);
+            return config;
+        }
+    });
+
     return {
         Assignment: Assignment,
         Inventory: Inventory,
         AuditLog: AuditLog,
-        FaqEntry: FaqEntry
+        FaqEntry: FaqEntry,
+        Config: Config
     };
 });

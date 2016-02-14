@@ -86,10 +86,120 @@
                 },
                 slack: {
                     heading: 'Sonstiges'
+                },
+                facebook: {
+                    group: '1153155701384037',
+                    accessToken: 'CAANm0gemqCIBABIf85PZAb7ZAdOcZCknQVasL1r0q5yFWdVQv8xZCjzRyZB8RjnQ3j06ztIkirFcuTmPuZCWil7sNqD5JaOQumyKxz5TfagtbbcBTYftiz2DNKwNZBMNWNekc3gfvjBM9CGaR8SlJ8TV7y3VcE24f0uXwUKvs98mqGh8ZAIKQWaVAn3J3937fbYZD',
+                    intro: 'SPENDEN, die am zob HEUTE benötigt werden:\n\n',
+                    extro: '\n\nIhr könnt die Spenden jeden Abend ab 18:00 an unserem Container abgeben.\n\nVielen lieben Dank an ALLE, die uns bisher mit Spenden unterstützt haben.\nEure Hilfsbereitschaft ist gigantisch!'
                 }
             }
         },
         Inventory: {
+            food: {
+                name: 'Essen & Trinken',
+                icon: 'fa-cutlery',
+                entries: [
+                    {
+                        id: 'chocolate_cookie',
+                        name: 'Kekse',
+                        source: 'vokue',
+                        unit: 'Kiste',
+                        quantities: ['0','1/2','1+']
+                    },
+                    {
+                        id: 'sweets',
+                        name: 'Süßigkeiten (ohne Kekse)',
+                        source: 'others',
+                        unit: 'Kiste',
+                        quantities: ['0','1/2','1+']
+                    },
+                    {
+                        id: 'fruit',
+                        name: 'Obst',
+                        source: 'vokue',
+                        unit: 'Kiste',
+                        quantities: ['0','1','2+']
+                    },
+                    {
+                        id: 'banana',
+                        name: 'Banane',
+                        source: 'pwc',
+                        unit: 'Kiste',
+                        quantities: ['0','1/2','1+']
+                    },
+                    {
+                        id: 'nuts',
+                        name: 'Nüsse',
+                        source: 'others',
+                        unit: 'Packing',
+                        quantities: ['0','3','6','9','12+']
+                    },
+                    {
+                        id: 'instant_soup',
+                        name: 'Fertigsuppe',
+                        source: 'others',
+                        unit: 'Kiste',
+                        quantities: ['0','1/2','1+']
+                    },
+                    {
+                        id: 'water_small',
+                        name: 'Wasser (klein)',
+                        source: 'pwc',
+                        unit: 'Kiste',
+                        quantities: ['0','1','2','3','4','5+']
+                    },
+                    {
+                        id: 'juice',
+                        name: 'Saft / Caprisonne',
+                        source: 'others',
+                        unit: 'Kiste',
+                        quantities: ['0','1/2','1+']
+                    },
+                    {
+                        id: 'savory',
+                        name: 'Salziges',
+                        source: 'others',
+                        unit: 'Kiste',
+                        quantities: ['0','1/2','1+']
+                    },
+                    {
+                        id: 'fruit_whatever',
+                        name: 'Fruchtquetschis',
+                        source: 'others',
+                        unit: 'Stück',
+                        quantities: ['0','5','10','15','20','25+']
+                    },
+                    {
+                        id: 'milk',
+                        name: 'Milch',
+                        source: 'pwc',
+                        unit: 'Liter',
+                        quantities: ['0','1','2','3','4','5+']
+                    },
+                    {
+                        id: 'sugar',
+                        name: 'Zucker',
+                        source: 'others',
+                        unit: 'Kilo',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
+                        id: 'salt',
+                        name: 'Salz',
+                        source: 'others',
+                        unit: 'Stück',
+                        quantities: ['0','1','2','3+']
+                    },
+                    {
+                        id: 'baby',
+                        name: 'Babynahrung',
+                        source: 'others',
+                        unit: 'Kiste',
+                        quantities: ['0','1/2','1+']
+                    }
+                ]
+            },
             man: {
                 name: 'Männer',
                 icon: 'fa-male',
@@ -905,121 +1015,10 @@
                     }
                 ]
             },
-            food: {
-                name: 'Essen & Trinken',
-                icon: 'fa-cutlery',
-                entries: [
-                    {
-                        id: 'chocolate_cookie',
-                        name: 'Kekse & Schokolade',
-                        source: 'vokue',
-                        unit: 'Kiste',
-                        quantities: ['0','1/2','1+']
-                    },
-                    {
-                        id: 'fruit',
-                        name: 'Obst',
-                        source: 'vokue',
-                        unit: 'Kiste',
-                        quantities: ['0','1','2+']
-                    },
-                    {
-                        id: 'banana',
-                        name: 'Banane',
-                        source: 'pwc',
-                        unit: 'Kiste',
-                        quantities: ['0','1/2','1+']
-                    },
-                    {
-                        id: 'nuts',
-                        name: 'Nüsse',
-                        source: 'others',
-                        unit: 'Packing',
-                        quantities: ['0','3','6','9','12+']
-                    },
-                    {
-                        id: 'instant_soup',
-                        name: 'Fertigsuppe',
-                        source: 'others',
-                        unit: 'Kiste',
-                        quantities: ['0','1/2','1+']
-                    },
-                    {
-                        id: 'water_small',
-                        name: 'Wasser (klein)',
-                        source: 'pwc',
-                        unit: 'Kiste',
-                        quantities: ['0','1','2','3','4','5+']
-                    },
-                    {
-                        id: 'juice',
-                        name: 'Saft / Caprisonne',
-                        source: 'others',
-                        unit: 'Kiste',
-                        quantities: ['0','1/2','1+']
-                    },
-                    {
-                        id: 'savory',
-                        name: 'Salziges',
-                        source: 'others',
-                        unit: 'Kiste',
-                        quantities: ['0','1/2','1+']
-                    },
-                    {
-                        id: 'fruit_whatever',
-                        name: 'Fruchtquetschis',
-                        source: 'others',
-                        unit: 'Stück',
-                        quantities: ['0','5','10','15','20','25+']
-                    },
-                    {
-                        id: 'milk',
-                        name: 'Milch',
-                        source: 'pwc',
-                        unit: 'Liter',
-                        quantities: ['0','1','2','3','4','5+']
-                    },
-                    {
-                        id: 'sugar',
-                        name: 'Zucker',
-                        source: 'others',
-                        unit: 'Kilo',
-                        quantities: ['0','1','2','3+']
-                    },
-                    {
-                        id: 'salt',
-                        name: 'Salz',
-                        source: 'others',
-                        unit: 'Stück',
-                        quantities: ['0','1','2','3+']
-                    },
-                    {
-                        id: 'baby',
-                        name: 'Babynahrung',
-                        source: 'others',
-                        unit: 'Kiste',
-                        quantities: ['0','1/2','1+']
-                    }
-                ]
-            },
             other: {
                 name: 'Sonstiges: Kleidercontainer',
                 icon: 'fa-archive',
                 entries: [
-                    {
-                        id: 'blanket',
-                        name: 'Decke',
-                        source: 'others',
-                        unit: 'Stück',
-                        quantities: ['0','5','10','15','20','25+']
-                    },
-                    {
-                        id: 'blanket_rescue',
-                        name: 'Rettungsdecke',
-                        source: 'others',
-                        unit: 'Kiste',
-                        quantities: ['0','1/4','1/2+']
-                    },
                     {
                         id: 'hygiene',
                         name: 'Hygieneartikel',
@@ -1070,7 +1069,7 @@
                     },
                     {
                         id: 'cup',
-                        name: 'Becher',
+                        name: 'Trinkbecher',
                         source: 'vokue',
                         unit: 'Stück',
                         quantities: ['0','50','100','150','200+']
@@ -1099,13 +1098,6 @@
                     {
                         id: 'baby_bottle',
                         name: 'Babyflasche',
-                        source: 'others',
-                        unit: 'Kiste',
-                        quantities: ['0','1/4','1/2+']
-                    },
-                    {
-                        id: 'bag_small',
-                        name: 'Proviantbeutel',
                         source: 'others',
                         unit: 'Kiste',
                         quantities: ['0','1/4','1/2+']
@@ -1156,21 +1148,21 @@
                         name: 'Sagrotan Allzweckreiniger',
                         source: 'others',
                         unit: 'Flasche',
-                        quantities: ['0','1','2','3+']
+                        quantities: ['0','1','2+']
                     },
                     {
                         id: 'vinegar_essence',
                         name: 'SURIG- Essig-Essenz',
                         source: 'others',
                         unit: 'Flasche',
-                        quantities: ['0','1','2','3','4+']
+                        quantities: ['0','1','2+']
                     },
                     {
                         id: 'citric_acid',
                         name: 'HEITMANN  Citronensäure flüssig',
                         source: 'others',
                         unit: 'Flasche',
-                        quantities: ['0','1','2','3','4+']
+                        quantities: ['0','1','2+']
                     },
                     {
                         id: 'glass_cleaner',
@@ -1184,14 +1176,14 @@
                         name: 'Sterillum',
                         source: 'others',
                         unit: 'Flasche',
-                        quantities: ['0','3','6','9','12+']
+                        quantities: ['0','2','4','6+']
                     },
                     {
                         id: 'kitchen_roll',
                         name: 'ZEWA wisch&fort',
                         source: 'others',
                         unit: 'Rolle',
-                        quantities: ['0','5','10','15','20+']
+                        quantities: ['0','3','6','9','12+']
                     }
                 ]
             }

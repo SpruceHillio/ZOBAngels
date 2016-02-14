@@ -171,6 +171,7 @@
                     text,
                     dayOfWeek = moment().utc().format('d'),
                     slackText,
+                    facebookText,
                     findInResults = function(results,section,key) {
                         n = results.length;
                         for (j=0; j<n; j+=1) {
@@ -195,6 +196,13 @@
                             return 0 < order.quantity;
                         }).map(function(order) {
                             return '• ' + order.title + ': *' + order.quantity + '* (' + order.unit + ')';
+                        }).join('\n');
+                    },
+                    createFacebookText = function(orders) {
+                        return orders.filter(function(order) {
+                            return 0 < order.quantity;
+                        }).map(function(order) {
+                            return '• ' + order.title;
                         }).join('\n');
                     },
                     mailchimpSuccessCallback = function(data,key,text,dayOfWeek,promise) {
@@ -275,6 +283,43 @@
                             promise.reject();
                         };
                     },
+                    facebookSuccessCallback = function(promise,key,accessToken) {
+                        return function(response) {
+                            new Parse.Query(model.Config).equalTo('key',key).first().then(function(config) {
+                                if (undefined !== config && null !== config) {
+                                    var postId = config.get('value');
+                                    config.set('value',response.data.id);
+                                    config.save().then(function() {
+                                        Parse.Cloud.httpRequest({
+                                            method: 'DELETE',
+                                            url: 'https://graph.facebook.com/v2.5/' + postId + '?access_token=' + accessToken
+                                        }).then(function(response) {
+                                            promise.resolve();
+                                        }, function(response) {
+                                            promise.resolve();
+                                        });
+                                    }, function() {
+                                        promise.resolve();
+                                    });
+                                }
+                                else {
+                                    model.Config.create(key,response.data.id).save().then(function() {
+                                        promise.resolve();
+                                    }, function() {
+                                        promise.resolve();
+                                    });
+                                }
+                            }, function() {
+                                promise.resolve();
+                            });
+                        };
+                    },
+                    facebookErrorCallback = function(promise) {
+                        return function(response) {
+                            console.log(response);
+                            promise.reject();
+                        };
+                    },
                     promises = [], promise,
                     successCallback, errorCallback;
                 actualQuery.equalTo('date',today.format('YYYYMMDD'));
@@ -331,6 +376,7 @@
                     status.message('Copied entries that only existed on the previous day over to the current day.');
 
                     slackText  = '';
+                    facebookText = '';
                     for (key in orders) {
                         if (orders.hasOwnProperty(key)) {
                             orders[key] = orders[key].filter(function(order) {
@@ -386,6 +432,27 @@
                                 // No need here to resolve any promises as we only create them when we might need to
                                 // send and email
                                 console.log('Not sending email due to dayOfWeek: ' + dayOfWeek + ' and days: ' + data.Order[key].email.days);
+                            }
+                            if (undefined !== data.Order[key].facebook && null !== data.Order[key].facebook && undefined !== data.Order[key].facebook.group && null !== data.Order[key].facebook.group && undefined !== data.Order[key].facebook.accessToken && null !== data.Order[key].facebook.accessToken) {
+                                facebookText = createFacebookText(orders[key]);
+                                if (0 < facebookText.length) {
+                                    promise = new Parse.Promise();
+                                    promises.push(promise);
+                                    if (undefined !== data.Order[key].facebook.intro && null !== data.Order[key].facebook.intro) {
+                                        facebookText = data.Order[key].facebook.intro + facebookText;
+                                    }
+                                    if (undefined !== data.Order[key].facebook.extro && null !== data.Order[key].facebook.extro) {
+                                        facebookText += data.Order[key].facebook.extro;
+                                    }
+                                    Parse.Cloud.httpRequest({
+                                        method: 'POST',
+                                        url: 'https://graph.facebook.com/v2.5/' + data.Order[key].facebook.group + '/feed',
+                                        body: {
+                                            message: facebookText,
+                                            access_token: data.Order[key].facebook.accessToken
+                                        }
+                                    }).then(facebookSuccessCallback(promise,'donation:facebook:post:id',data.Order[key].facebook.accessToken), facebookErrorCallback(promise));
+                                }
                             }
                         }
                     }
