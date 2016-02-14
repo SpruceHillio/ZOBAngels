@@ -66,7 +66,7 @@
                                     allRoles: [],               // All roles included in this role (will also hold itself)
                                     allRoleNames: [],           // Same as above - just for debugging
                                     parents: roles,             // The parent roles of this role as obtained by the query
-                                    children: []                // The child roles of this role
+                                    children: roles             // The child roles of this role
                                 });
                             });
                         },
@@ -150,13 +150,6 @@
                                 for (i=0; i<len; i+=1) {
                                     current = arguments[i];
                                     self._rolesById[current.role.id] = current;
-                                }
-                                for (i=0; i<len; i+=1) {
-                                    current = arguments[i];
-                                    m = current.parents.length;
-                                    for (j=0; j<m; j+=1) {
-                                        self._rolesById[current.parents[j].id].children.push(current.role);
-                                    }
                                 }
                                 // Collect the roles that are included on a role like e.g. admin includes orga, medical
                                 // and translator, orga includes archangel, archangel includes angel and so on
