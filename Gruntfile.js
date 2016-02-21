@@ -421,7 +421,7 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: '<%= config.assetsDir %>',
-            src: ['assets/images/*'],
+            src: ['assets/images/*','assets/files/*'],
             dest: 'dist_parse/public/',
             filter: 'isFile'
           },

@@ -88,7 +88,7 @@
                     heading: 'Sonstiges'
                 },
                 facebook: {
-                    group: '1153155701384037',
+                    group: '164076337265042',
                     accessToken: 'CAANm0gemqCIBABIf85PZAb7ZAdOcZCknQVasL1r0q5yFWdVQv8xZCjzRyZB8RjnQ3j06ztIkirFcuTmPuZCWil7sNqD5JaOQumyKxz5TfagtbbcBTYftiz2DNKwNZBMNWNekc3gfvjBM9CGaR8SlJ8TV7y3VcE24f0uXwUKvs98mqGh8ZAIKQWaVAn3J3937fbYZD',
                     intro: 'SPENDEN, die am zob HEUTE benötigt werden:\n\n',
                     extro: '\n\nIhr könnt die Spenden jeden Abend ab 18:00 an unserem Container abgeben.\n\nVielen lieben Dank an ALLE, die uns bisher mit Spenden unterstützt haben.\nEure Hilfsbereitschaft ist gigantisch!'
@@ -187,7 +187,7 @@
                     {
                         id: 'salt',
                         name: 'Salz',
-                        source: 'others',
+                        source: 'vokue',
                         unit: 'Stück',
                         quantities: ['0','1','2','3+']
                     },
@@ -1046,6 +1046,27 @@
                         source: 'others',
                         unit: 'Stück',
                         quantities: ['0','5','10','15','20','25+']
+                    },
+                    {
+                        id: 'pen',
+                        name: 'Stifte',
+                        source: 'others',
+                        unit: 'Packung',
+                        quantities: ['0','3','6','9','12+']
+                    },
+                    {
+                        id: 'sharpener',
+                        name: 'Spitzer',
+                        source: 'others',
+                        unit: 'Stück',
+                        quantities: ['0','3','6','9','12+']
+                    },
+                    {
+                        id: 'painting_book',
+                        name: 'Malblock / Malbuch',
+                        source: 'others',
+                        unit: 'Stück',
+                        quantities: ['0','3','6','9','12+']
                     }
                 ]
             },

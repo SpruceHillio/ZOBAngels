@@ -60,6 +60,11 @@
       "logginin": "Du wirst angemeldet. Einen kleinen Augenblick Geduld.",
       "headline": "Wichtiger Hinweis"
     },
+    "contract" : {
+      "headline" : "Hinweis",
+      "text" : "Für die Mithilfe als ZOB Angel gilt die unten verlinkte Freiwilligenvereinbarung.",
+      "link" : "Freiwilligenvereinbarung"
+    },
     "name": {
       "headline": "Oder hier"
     },
